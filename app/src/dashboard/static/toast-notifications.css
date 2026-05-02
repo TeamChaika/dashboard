@@ -1,0 +1,214 @@
+/**
+ * Toast Notifications Styles
+ * Современный дизайн уведомлений с анимациями
+ */
+
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 400px;
+    pointer-events: none;
+}
+
+.toast {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    transform: translateX(calc(100% + 40px));
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+    opacity: 0;
+    pointer-events: all;
+    min-width: 300px;
+    border-left: 4px solid;
+}
+
+.toast.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.toast.hide {
+    transform: translateX(calc(100% + 40px));
+    opacity: 0;
+}
+
+.toast-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+}
+
+.toast-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.toast-message {
+    color: #2d3748;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+.toast-close {
+    background: none;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    color: #718096;
+    transition: color 0.2s ease, transform 0.2s ease;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.toast-close:hover {
+    color: #2d3748;
+    background: rgba(0, 0, 0, 0.05);
+    transform: scale(1.1);
+}
+
+.toast-close i {
+    font-size: 20px;
+}
+
+/* Success Toast */
+.toast-success {
+    border-left-color: #48bb78;
+    background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+}
+
+.toast-success .toast-icon {
+    color: #48bb78;
+}
+
+/* Error Toast */
+.toast-error {
+    border-left-color: #f56565;
+    background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
+}
+
+.toast-error .toast-icon {
+    color: #f56565;
+}
+
+/* Warning Toast */
+.toast-warning {
+    border-left-color: #ed8936;
+    background: linear-gradient(135deg, #fffaf0 0%, #feebc8 100%);
+}
+
+.toast-warning .toast-icon {
+    color: #ed8936;
+}
+
+/* Info Toast */
+.toast-info {
+    border-left-color: #4299e1;
+    background: linear-gradient(135deg, #ebf8ff 0%, #bee3f8 100%);
+}
+
+.toast-info .toast-icon {
+    color: #4299e1;
+}
+
+/* Dark Theme Support */
+.bg-theme2 .toast {
+    background: rgba(30, 30, 40, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.bg-theme2 .toast-message {
+    color: #e2e8f0;
+}
+
+.bg-theme2 .toast-close {
+    color: #a0aec0;
+}
+
+.bg-theme2 .toast-close:hover {
+    color: #e2e8f0;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.bg-theme2 .toast-success {
+    background: linear-gradient(135deg, rgba(72, 187, 120, 0.2) 0%, rgba(72, 187, 120, 0.1) 100%);
+    border-left-color: #68d391;
+}
+
+.bg-theme2 .toast-success .toast-icon {
+    color: #68d391;
+}
+
+.bg-theme2 .toast-error {
+    background: linear-gradient(135deg, rgba(245, 101, 101, 0.2) 0%, rgba(245, 101, 101, 0.1) 100%);
+    border-left-color: #fc8181;
+}
+
+.bg-theme2 .toast-error .toast-icon {
+    color: #fc8181;
+}
+
+.bg-theme2 .toast-warning {
+    background: linear-gradient(135deg, rgba(237, 137, 54, 0.2) 0%, rgba(237, 137, 54, 0.1) 100%);
+    border-left-color: #f6ad55;
+}
+
+.bg-theme2 .toast-warning .toast-icon {
+    color: #f6ad55;
+}
+
+.bg-theme2 .toast-info {
+    background: linear-gradient(135deg, rgba(66, 153, 225, 0.2) 0%, rgba(66, 153, 225, 0.1) 100%);
+    border-left-color: #63b3ed;
+}
+
+.bg-theme2 .toast-info .toast-icon {
+    color: #63b3ed;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .toast-container {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+    }
+
+    .toast {
+        min-width: auto;
+    }
+
+    .toast-message {
+        font-size: 13px;
+    }
+}
+
+/* Animation для множественных toast'ов */
+.toast:nth-child(1) { animation-delay: 0ms; }
+.toast:nth-child(2) { animation-delay: 50ms; }
+.toast:nth-child(3) { animation-delay: 100ms; }
+.toast:nth-child(4) { animation-delay: 150ms; }
+.toast:nth-child(5) { animation-delay: 200ms; }
+
+/* Ограничение количества видимых toast'ов */
+.toast-container .toast:nth-child(n+6) {
+    display: none;
+}
+

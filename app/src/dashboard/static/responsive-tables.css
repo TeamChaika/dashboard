@@ -1,0 +1,26 @@
+/**
+ * Responsive Tables - Таблицы с единым дизайном для всех устройств
+ */
+
+/* Улучшенная читаемость для всех размеров */
+.responsive-table {
+    font-size: 0.95rem;
+}
+
+.responsive-table th {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+/* Анимации */
+.responsive-table tbody tr {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.responsive-table tbody tr:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+

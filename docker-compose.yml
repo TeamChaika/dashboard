@@ -1,0 +1,101 @@
+services:
+  # PostgreSQL база данных
+  # УДАЛЕНО: используется внешний PostgreSQL сервер
+  # Настройте DB_HOST, DB_PORT, DB_NAME, DB_USERNAME, DB_PASSWORD в .env файле
+
+  # Redis для кэширования и очередей
+  redis:
+    image: redis:7-alpine
+    container_name: iiko_redis
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - iiko_network
+
+  # Django Backend
+  backend:
+    build:
+      context: ./app/src/dashboard
+      dockerfile: Dockerfile
+    container_name: iiko_backend
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py collectstatic --noinput &&
+             gunicorn dashboard.wsgi:application --bind 0.0.0.0:8000 --workers 4 --threads 2"
+    ports:
+      - "${BACKEND_PORT:-8000}:8000"
+    environment:
+      - DEBUG=${DEBUG:-False}
+      - SECRET_KEY=${SECRET_KEY:-change-me-in-production}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS:-localhost,127.0.0.1}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      # Database (внешний PostgreSQL сервер)
+      - DB_NAME=${DB_NAME}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT:-5432}
+      # Redis
+      - REDIS_URL=${REDIS_URL:-redis://redis:6379/0}
+      # iiko API
+      - IIKO_API_SERVER=${IIKO_API_SERVER}
+      - IIKO_API_USERNAME=${IIKO_API_USERNAME}
+      - IIKO_API_PASSWORD=${IIKO_API_PASSWORD}
+      # Telegram Bot
+      - BOT_TOKEN=${BOT_TOKEN}
+      - APP_HOST=${APP_HOST:-http://localhost:8000}
+      - PUBLIC_URL=${PUBLIC_URL:-https://iiko.chaika.team}
+      # Static and Media
+      - STATIC_DIR=${STATIC_DIR:-/app/staticfiles}
+      - MEDIA_DIR=${MEDIA_DIR:-/app/media}
+      - DATA_DIR=${DATA_DIR:-/app/data}
+    volumes:
+      - ./app/src/dashboard:/app
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - iiko_network
+
+  # Telegram Bot
+  # УДАЛЕНО: бот запускается отдельно через docker-compose.bot.yml
+  # Для запуска бота используйте: docker compose -f docker-compose.bot.yml up -d
+
+  # Nginx reverse proxy
+  # УДАЛЕНО: используется Nginx Proxy Manager на отдельном контейнере
+  # См. docker-compose.npm.yml для настройки NPM
+  # 
+  # Если нужен локальный nginx для статики, раскомментируйте ниже:
+  # nginx:
+  #   image: nginx:alpine
+  #   container_name: iiko_nginx
+  #   ports:
+  #     - "8080:80"  # Изменен порт, чтобы не конфликтовать с NPM
+  #   volumes:
+  #     - static_volume:/var/www/static:ro
+  #     - media_volume:/var/www/media:ro
+  #   networks:
+  #     - iiko_network
+
+volumes:
+  # postgres_data:  # Удалено - используется внешний PostgreSQL
+  redis_data:
+  static_volume:
+  media_volume:
+
+networks:
+  iiko_network:
+    driver: bridge
+    name: iiko_network  # Явное имя для использования в других docker-compose файлах
+

@@ -1,0 +1,361 @@
+/**
+ * МОБИЛЬНЫЙ ДИЗАЙН ПОИСКА И ФИЛЬТРОВ
+ * Оптимизировано для мобильных устройств (95% трафика)
+ * Основано на структуре waybills/index.html
+ */
+
+/* ================================================
+   1. ОСНОВНОЙ КОНТЕЙНЕР СТРАНИЦЫ
+   ================================================ */
+
+/* ================================================
+   1a. КОНТЕЙНЕР КАРТОЧКИ
+   ================================================ */
+
+.card.radius-10 {
+  overflow: hidden !important;
+}
+
+.card-body.p-4 {
+  overflow-x: hidden !important;
+  max-width: 100% !important;
+}
+
+.card-title {
+  overflow: visible !important;
+  max-width: 100% !important;
+}
+
+/* ================================================
+   2. ХЛЕБНЫЕ КРОШКИ
+   ================================================ */
+
+/* ================================================
+   3. ЗАГОЛОВОК СТРАНИЦЫ
+   ================================================ */
+
+.card-title h5 {
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  color: #1e293b !important;
+  margin: 0 !important;
+}
+
+.card-title i {
+  margin-right: 10px !important;
+  color: #3b82f6 !important;
+  font-size: 26px !important;
+}
+
+/* ================================================
+   4. КАРТОЧКА ПОИСКА И ФИЛЬТРОВ
+   ================================================ */
+
+/* ================================================
+   5. ПОИСКОВАЯ ФОРМА
+   ================================================ */
+
+.input-group {
+  width: 100% !important;
+  margin-bottom: 0 !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+}
+
+.form-control {
+  padding: 14px 16px !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 12px 0 0 12px !important;
+  font-size: 16px !important;
+  background: #f8fafc !important;
+  height: auto !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.form-control:focus {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+}
+
+.btn-light {
+  background: #3b82f6 !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 0 12px 12px 0 !important;
+  padding: 14px 18px !important;
+  height: auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.btn-light:hover {
+  background: #2563eb !important;
+  color: white !important;
+}
+
+.btn-light i {
+  font-size: 18px !important;
+  margin: 0 !important;
+}
+
+/* ================================================
+   6. ФИЛЬТРЫ (ВКЛАДКИ)
+   ================================================ */
+
+.pagination {
+  display: flex !important;
+  list-style: none !important;
+  gap: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+
+.page-item {
+  display: flex !important;
+  flex: 1 !important;
+}
+
+.page-link {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 14px 12px !important;
+  white-space: nowrap !important;
+  border-radius: 0 !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  background: #f1f5f9 !important;
+  color: #64748b !important;
+  text-decoration: none !important;
+  border: none !important;
+  transition: all 0.2s ease !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+/* Первая вкладка */
+.page-item:first-child .page-link {
+  border-radius: 12px 0 0 12px !important;
+}
+
+/* Последняя вкладка */
+.page-item:last-child .page-link {
+  border-radius: 0 12px 12px 0 !important;
+}
+
+/* Единственная вкладка */
+.page-item:only-child .page-link {
+  border-radius: 12px !important;
+}
+
+.page-link:hover {
+  background: #3b82f6 !important;
+  color: white !important;
+  transform: translateY(-1px) !important;
+}
+
+.page-item.active .page-link {
+  background: #3b82f6 !important;
+  color: white !important;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3) !important;
+  border-radius: 0 !important;
+}
+
+.page-item.active:first-child .page-link {
+  border-radius: 12px 0 0 12px !important;
+}
+
+.page-item.active:last-child .page-link {
+  border-radius: 0 12px 12px 0 !important;
+}
+
+.page-item.active:only-child .page-link {
+  border-radius: 12px !important;
+}
+
+/* ================================================
+   7. РАЗДЕЛИТЕЛЬ
+   ================================================ */
+
+hr {
+  margin: 20px 0 !important;
+  border: none !important;
+  height: 1px !important;
+  background: #e2e8f0 !important;
+}
+
+/* ================================================
+   8. КОНТЕЙНЕР КАРТОЧЕК
+   ================================================ */
+
+.cards-container {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 16px !important;
+  padding: 0 !important;
+}
+
+/* ================================================
+   9. СОСТОЯНИЕ ПУСТОГО СПИСКА
+   ================================================ */
+
+.text-center.py-5 {
+  text-align: center !important;
+  padding: 40px 20px !important;
+}
+
+.text-center.py-5 i {
+  font-size: 64px !important;
+  color: #cbd5e1 !important;
+  margin-bottom: 16px !important;
+}
+
+.text-center.py-5 p {
+  color: #64748b !important;
+  font-size: 16px !important;
+  margin: 0 !important;
+}
+
+/* ================================================
+   10. ПАГИНАЦИЯ ВНИЗУ СТРАНИЦЫ
+   ================================================ */
+
+.d-flex.justify-content-center {
+  margin-top: 24px !important;
+}
+
+.d-flex.justify-content-center .pagination {
+  gap: 6px !important;
+}
+
+.d-flex.justify-content-center .page-link {
+  width: 44px !important;
+  height: 44px !important;
+  padding: 0 !important;
+  border-radius: 12px !important;
+  background: white !important;
+  color: #64748b !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+  min-width: 44px !important;
+}
+
+.d-flex.justify-content-center .page-link:hover {
+  background: #3b82f6 !important;
+  color: white !important;
+  border-color: #3b82f6 !important;
+}
+
+.d-flex.justify-content-center .page-item.active .page-link {
+  background: #3b82f6 !important;
+  color: white !important;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3) !important;
+}
+
+.d-flex.justify-content-center .page-item.disabled .page-link {
+  background: #f8fafc !important;
+  color: #cbd5e1 !important;
+  border-color: #f1f5f9 !important;
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+}
+
+/* ================================================
+   11. ТЕМНАЯ ТЕМА
+   ================================================ */
+
+.bg-theme2 .card-title h5 {
+  color: #f1f5f9 !important;
+}
+
+.bg-theme2 .form-control {
+  background: #334155 !important;
+  border-color: #475569 !important;
+  color: #f1f5f9 !important;
+}
+
+.bg-theme2 .form-control:focus {
+  border-color: #3b82f6 !important;
+  background: #475569 !important;
+}
+
+.bg-theme2 .btn-light {
+  background: #3b82f6 !important;
+}
+
+.bg-theme2 .page-link {
+  background: #334155 !important;
+  color: #cbd5e1 !important;
+  border-color: #475569 !important;
+}
+
+.bg-theme2 .page-link:hover {
+  background: #3b82f6 !important;
+  color: white !important;
+}
+
+.bg-theme2 .page-item.active .page-link {
+  background: #3b82f6 !important;
+  color: white !important;
+}
+
+.bg-theme2 .d-flex.justify-content-center .page-link {
+  background: #334155 !important;
+  color: #cbd5e1 !important;
+  border-color: #475569 !important;
+}
+
+.bg-theme2 .d-flex.justify-content-center .page-link:hover {
+  background: #3b82f6 !important;
+  color: white !important;
+}
+
+.bg-theme2 .d-flex.justify-content-center .page-item.active .page-link {
+  background: #3b82f6 !important;
+  color: white !important;
+}
+
+/* ================================================
+   15. ПЛАВНАЯ ПРОКРУТКА
+   ================================================ */
+
+html {
+  scroll-behavior: smooth !important;
+}
+
+/* ================================================
+   16. АНИМАЦИИ ДЛЯ ИНТЕРАКТИВНОСТИ
+   ================================================ */
+
+.page-link {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.form-control {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.btn-light {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* ================================================
+   17. ФОКУС ДЛЯ ДОСТУПНОСТИ
+   ================================================ */
+
+.form-control:focus,
+.btn-light:focus,
+.page-link:focus {
+  outline: 2px solid #3b82f6 !important;
+  outline-offset: 2px !important;
+}

@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  # Nginx Proxy Manager
+  nginx-proxy-manager:
+    image: 'jc21/nginx-proxy-manager:latest'
+    container_name: npm
+    restart: unless-stopped
+    ports:
+      # Публичные порты для HTTP и HTTPS
+      # ВАЖНО для Synology: порты 80 и 443 заняты DSM, используем альтернативные
+      - '8080:80'    # HTTP (внешний:внутренний) - доступ: http://your-synology-ip:8080
+      - '8443:443'   # HTTPS (внешний:внутренний) - доступ: https://your-synology-ip:8443
+      # Порт веб-интерфейса управления
+      - '81:81'      # Admin Web Port - доступ: http://your-synology-ip:81
+    environment:
+      # Эти настройки можно оставить по умолчанию или настроить
+      DB_MYSQL_HOST: 'db'
+      DB_MYSQL_PORT: 3306
+      DB_MYSQL_USER: 'npm'
+      DB_MYSQL_PASSWORD: 'npm'
+      DB_MYSQL_NAME: 'npm'
+    volumes:
+      - npm_data:/data
+      - npm_letsencrypt:/etc/letsencrypt
+    networks:
+      - iiko_network  # Используем ту же сеть, что и Django контейнер
+    depends_on:
+      - db
+
+  # База данных для Nginx Proxy Manager (SQLite по умолчанию, но можно использовать MySQL)
+  db:
+    image: 'jc21/mariadb-aria:latest'
+    container_name: npm_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: 'npm'
+      MYSQL_DATABASE: 'npm'
+      MYSQL_USER: 'npm'
+      MYSQL_PASSWORD: 'npm'
+    volumes:
+      - npm_db_data:/var/lib/mysql
+    networks:
+      - iiko_network
+
+volumes:
+  npm_data:
+  npm_letsencrypt:
+  npm_db_data:
+
+networks:
+  iiko_network:
+    external: true  # Используем внешнюю сеть, созданную основным docker-compose.yml
+    name: iiko_network  # Явное имя сети
+

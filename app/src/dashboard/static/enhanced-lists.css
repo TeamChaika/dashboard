@@ -1,0 +1,417 @@
+/**
+ * Улучшенный дизайн списков списаний и накладных
+ * Оптимизировано для мобильных устройств (95% трафика)
+ * Material Design 3 принципы
+ */
+
+/* ================================================
+   1. ОБЩИЕ СТИЛИ ДЛЯ ТАБЛИЦ
+   ================================================ */
+
+.table {
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.table thead th {
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef) !important;
+  border: none !important;
+  padding: 16px 12px !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  color: #495057 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 10 !important;
+}
+
+.table tbody tr {
+  transition: all 0.3s ease !important;
+  border-bottom: 1px solid #e9ecef !important;
+}
+
+.table tbody tr:hover {
+  background: linear-gradient(135deg, #f8f9fa, #ffffff) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+.table tbody td {
+  padding: 16px 12px !important;
+  vertical-align: middle !important;
+  border: none !important;
+  font-size: 14px !important;
+}
+
+/* ================================================
+   2. СТИЛИ ДЛЯ СТРОК ДОКУМЕНТОВ
+   ================================================ */
+
+.table tbody tr[id^="waybill_row_"],
+.table tbody tr[id^="writeoff_row_"] {
+  background: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+}
+
+.table tbody tr[id^="waybill_row_"]:hover,
+.table tbody tr[id^="writeoff_row_"]:hover {
+  background: linear-gradient(135deg, #f8f9fa, #ffffff) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* ================================================
+   3. СТИЛИ ДЛЯ НОМЕРОВ ДОКУМЕНТОВ
+   ================================================ */
+
+.table tbody th[scope="row"] {
+  background: linear-gradient(135deg, #1976d2, #1565c0) !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  font-size: 16px !important;
+  border-radius: 6px !important;
+  padding: 12px 16px !important;
+  text-align: center !important;
+  min-width: 80px !important;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.3) !important;
+}
+
+/* ================================================
+   4. СТИЛИ ДЛЯ СТАТУСОВ
+   ================================================ */
+
+.status-badge {
+  display: inline-block !important;
+  padding: 8px 16px !important;
+  border-radius: 20px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+.status-created {
+  background: linear-gradient(135deg, #ff9800, #f57c00) !important;
+  color: #ffffff !important;
+}
+
+.status-sent {
+  background: linear-gradient(135deg, #4caf50, #388e3c) !important;
+  color: #ffffff !important;
+}
+
+.status-denied {
+  background: linear-gradient(135deg, #f44336, #d32f2f) !important;
+  color: #ffffff !important;
+}
+
+.status-cancelled {
+  background: linear-gradient(135deg, #9e9e9e, #757575) !important;
+  color: #ffffff !important;
+}
+
+/* ================================================
+   5. СТИЛИ ДЛЯ ДЕЙСТВИЙ
+   ================================================ */
+
+.order-actions {
+  display: flex !important;
+  gap: 8px !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.order-actions a {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50% !important;
+  text-decoration: none !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.order-actions a:hover {
+  transform: scale(1.1) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+}
+
+.order-actions a i {
+  font-size: 18px !important;
+  color: #ffffff !important;
+}
+
+/* Цвета для разных действий */
+.order-actions a[aria-label="Просмотреть"] {
+  background: linear-gradient(135deg, #2196f3, #1976d2) !important;
+}
+
+.order-actions a[aria-label="Просмотреть"]:hover {
+  background: linear-gradient(135deg, #1976d2, #1565c0) !important;
+}
+
+.order-actions a[id*="confirm"] {
+  background: linear-gradient(135deg, #4caf50, #388e3c) !important;
+}
+
+.order-actions a[id*="confirm"]:hover {
+  background: linear-gradient(135deg, #388e3c, #2e7d32) !important;
+}
+
+.order-actions a[id*="deny"],
+.order-actions a[id*="cancel"] {
+  background: linear-gradient(135deg, #f44336, #d32f2f) !important;
+}
+
+.order-actions a[id*="deny"]:hover,
+.order-actions a[id*="cancel"]:hover {
+  background: linear-gradient(135deg, #d32f2f, #c62828) !important;
+}
+
+.order-actions a[id*="edit"] {
+  background: linear-gradient(135deg, #ff9800, #f57c00) !important;
+}
+
+.order-actions a[id*="edit"]:hover {
+  background: linear-gradient(135deg, #f57c00, #ef6c00) !important;
+}
+
+.order-actions a[id*="copy"] {
+  background: linear-gradient(135deg, #9c27b0, #7b1fa2) !important;
+}
+
+.order-actions a[id*="copy"]:hover {
+  background: linear-gradient(135deg, #7b1fa2, #6a1b9a) !important;
+}
+
+/* ================================================
+   6. МОБИЛЬНАЯ ВЕРСИЯ (КАРТОЧКИ)
+   ================================================ */
+
+@media (max-width: 768px) {
+  .table-responsive {
+    border: none !important;
+  }
+  
+  .table,
+  .table thead,
+  .table tbody,
+  .table th,
+  .table td,
+  .table tr {
+    display: block !important;
+  }
+  
+  .table thead tr {
+    position: absolute !important;
+    top: -9999px !important;
+    left: -9999px !important;
+  }
+  
+  .table tbody tr {
+    background: #ffffff !important;
+    border: 1px solid #e9ecef !important;
+    border-radius: 12px !important;
+    margin-bottom: 16px !important;
+    padding: 20px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+    position: relative !important;
+  }
+  
+  .table tbody tr:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+  }
+  
+  .table tbody td {
+    border: none !important;
+    padding: 12px 0 !important;
+    position: relative !important;
+    padding-left: 50% !important;
+    text-align: left !important;
+  }
+  
+  .table tbody td:before {
+    content: attr(data-label) !important;
+    position: absolute !important;
+    left: 6px !important;
+    width: 45% !important;
+    padding-right: 10px !important;
+    white-space: nowrap !important;
+    font-weight: 600 !important;
+    color: #6c757d !important;
+    font-size: 12px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+  }
+  
+  .table tbody th[scope="row"] {
+    background: linear-gradient(135deg, #1976d2, #1565c0) !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    font-size: 18px !important;
+    border-radius: 8px !important;
+    padding: 16px !important;
+    text-align: center !important;
+    margin-bottom: 16px !important;
+    box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3) !important;
+    position: relative !important;
+    padding-left: 16px !important;
+  }
+  
+  .table tbody th[scope="row"]:before {
+    content: "Номер документа" !important;
+    position: absolute !important;
+    left: 16px !important;
+    top: -8px !important;
+    background: #1976d2 !important;
+    color: #ffffff !important;
+    padding: 4px 8px !important;
+    border-radius: 4px !important;
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+  }
+  
+  .order-actions {
+    justify-content: center !important;
+    margin-top: 16px !important;
+    padding-top: 16px !important;
+    border-top: 1px solid #e9ecef !important;
+  }
+  
+  .order-actions a {
+    width: 48px !important;
+    height: 48px !important;
+  }
+  
+  .order-actions a i {
+    font-size: 20px !important;
+  }
+}
+
+/* ================================================
+   7. СТИЛИ ДЛЯ ПАГИНАЦИИ
+   ================================================ */
+
+.pagination {
+  margin: 0 !important;
+  justify-content: center !important;
+}
+
+.pagination .page-item {
+  margin: 0 2px !important;
+}
+
+.pagination .page-link {
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 12px 16px !important;
+  margin: 0 2px !important;
+  background: #ffffff !important;
+  color: #6c757d !important;
+  font-weight: 500 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.3s ease !important;
+}
+
+.pagination .page-link:hover {
+  background: linear-gradient(135deg, #1976d2, #1565c0) !important;
+  color: #ffffff !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3) !important;
+}
+
+.pagination .page-item.active .page-link {
+  background: linear-gradient(135deg, #1976d2, #1565c0) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3) !important;
+}
+
+.pagination .page-item.disabled .page-link {
+  background: #f8f9fa !important;
+  color: #6c757d !important;
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+}
+
+/* ================================================
+   8. СТИЛИ ДЛЯ ПОИСКА И ФИЛЬТРОВ
+   ================================================ */
+
+.input-group {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+}
+
+.input-group .form-control {
+  border: none !important;
+  padding: 16px 20px !important;
+  font-size: 16px !important;
+  background: #ffffff !important;
+}
+
+.input-group .form-control:focus {
+  box-shadow: none !important;
+  background: #f8f9fa !important;
+}
+
+.input-group .btn {
+  border: none !important;
+  padding: 16px 20px !important;
+  background: linear-gradient(135deg, #1976d2, #1565c0) !important;
+  color: #ffffff !important;
+  font-size: 18px !important;
+}
+
+.input-group .btn:hover {
+  background: linear-gradient(135deg, #1565c0, #0d47a1) !important;
+}
+
+/* ================================================
+   9. АНИМАЦИИ И ПЕРЕХОДЫ
+   ================================================ */
+
+/* Анимации отключены для стабильности верстки */
+
+/* ================================================
+   10. ТЕМНАЯ ТЕМА
+   ================================================ */
+
+.bg-theme2 .table thead th {
+  background: linear-gradient(135deg, #2d3748, #4a5568) !important;
+  color: #e2e8f0 !important;
+}
+
+.bg-theme2 .table tbody tr {
+  background: #2d3748 !important;
+  border-color: #4a5568 !important;
+}
+
+.bg-theme2 .table tbody tr:hover {
+  background: linear-gradient(135deg, #4a5568, #2d3748) !important;
+}
+
+.bg-theme2 .table tbody td {
+  color: #e2e8f0 !important;
+}
+
+.bg-theme2 .table tbody td:before {
+  color: #a0aec0 !important;
+}
+
+.bg-theme2 .pagination .page-link {
+  background: #2d3748 !important;
+  color: #e2e8f0 !important;
+}
+
+.bg-theme2 .pagination .page-link:hover {
+  background: linear-gradient(135deg, #1976d2, #1565c0) !important;
+  color: #ffffff !important;
+}

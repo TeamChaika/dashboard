@@ -1,0 +1,199 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+    Редактировать накладную
+{% endblock title %}
+{% block css %}
+    <style>
+    .error_message {
+        padding: 0px 0px 0px 0px;
+        font-size: 0.9em;
+        color: #CD4022;
+    }
+
+    .success_message {
+        padding: 0px 0px 0px 0px;
+        text-align: center;
+        font-size: 0.9em;
+        color: #2ead14;
+    }
+
+    input[type="text"]::-webkit-calendar-picker-indicator,
+    input[type="email"]::-webkit-calendar-picker-indicator,
+    input[type="number"]::-webkit-calendar-picker-indicator, 
+    input[type="search"]::-webkit-calendar-picker-indicator {
+        display: none !important;
+    }
+
+    /* Waybill items layout */
+    .waybill-items {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .waybill-item {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .waybill-item-add {
+        margin-top: 0.5rem;
+    }
+
+    .waybill-item .input-group {
+        display: flex;
+        gap: 0.25rem;
+        width: 100%;
+    }
+
+    .waybill-item .input-group .form-control {
+        flex: 1;
+    }
+
+    .waybill-item .input-group .btn {
+        flex-shrink: 0;
+    }
+    </style>
+{% endblock css %}
+{% block content %}
+    <div class="page-wrapper">
+        <div class="page-content">
+            <!--breadcrumb-->
+            <div class="page-breadcrumb d-flex align-items-center mb-3">
+                <div class="breadcrumb-title pe-3 d-none d-sm-block">Панель управления</div>
+                <div class="ps-3">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0 p-0">
+                            <li class="breadcrumb-item">
+                                <a href="/" aria-label="Главная"><i class="bx bx-home-alt"></i></a>
+                            </li>
+                            <li class="breadcrumb-item d-none d-sm-inline">
+                                <a href="/waybills/">Накладные</a>
+                            </li>
+                            <li class="breadcrumb-item active d-sm-none" aria-current="page">
+                                <span class="text-truncate">Накладные</span>
+                            </li>
+                            <li class="breadcrumb-item active d-none d-sm-inline" aria-current="page">
+                                Редактирование накладной
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <!--end breadcrumb-->
+            {% if not have_store %}
+                <div class="card radius-10 mt-4">
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-center my-5">
+                            <div class="col-6 text-center">
+                                <h5>
+                                    Вы не подключены к складу.
+                                    <br>
+                                    Пожалуйста, обратитесь к администратору сайта.
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="card radius-10 mt-4">
+                    <div class="card-body p-4">
+                        <div class="card-title d-flex align-items-center">
+                            <div>
+                                <i class="bx bxs-spreadsheet me-1 font-22 text-white"></i>
+                            </div>
+                            <h5 class="mb-0 text-white">Редактирование накладной</h5>
+                        </div>
+                        <hr />
+                        <div class="d-flex justify-content-center">
+                            <form class="row col-12 g-2 justify-content-center" method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="id" value="{{ waybill_id }}"/>
+                                <div class="col-12">
+                                    <div class="waybill-items">
+                                        {% for item, amount in items %}
+                                        <div class="waybill-item">
+                                            <div class="input-group">
+                                                <input class="form-control"
+                                                       list="nomenclature"
+                                                       name="products_names[]"
+                                                       placeholder="Выберите..."
+                                                       autocomplete="off"
+                                                       value="{{ item }}"
+                                                       required>
+                                                <datalist id="nomenclature">
+                                                    <!-- Загружается через AJAX (nomenclature-cache.js) -->
+                                                </datalist>
+                                                <input type="number"
+                                                       class="form-control"
+                                                       name="products_counts[]"
+                                                       placeholder="Количество"
+                                                       min="0"
+                                                       step="0.001"
+                                                       autocomplete="off"
+                                                       value="{{ amount|stringformat:".2f" }}"
+                                                       required>
+                                                <button type="button" class="btn {% if forloop.counter == 1 %}btn-secondary{% else %}btn-danger minus{% endif %} d-flex align-items-center"{% if forloop.counter == 1 %} disabled aria-label="Удалить нельзя"{% else %} aria-label="Удалить позицию"{% endif %}>–</button>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                        <div class="waybill-item-add">
+                                            <button type="button" class="btn btn-success plus">
+                                                <i class='bx bx-plus'></i>
+                                                Добавить позицию
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if error_message %}
+                                    <div class="d-flex justify-content-center mb-3">
+                                        <div class="col-6 d-flex justify-content-center">
+                                            <div class="w-200 error_message text-center">{{ error_message }}</div>
+                                        </div>
+                                    </div>
+                                {% elif success_message %}
+                                    <div class="d-flex justify-content-center mb-3">
+                                        <div class="col-6 d-flex justify-content-center">
+                                            <div class="w-200 success_message text-center">{{ success_message }}</div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                <button class="btn btn-light mx-1 btn-block col-4" type="submit">Сохранить</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>{% endif %}
+            </div>
+            <!--end row-->
+        </div>
+    </div>
+{% endblock content %}
+{% block js %}
+    <script>
+    // Инициализация номенклатуры через AJAX
+    $(document).ready(async function() {
+        try {
+            await initNomenclature('nomenclature');
+        } catch (error) {
+            console.error('Ошибка загрузки номенклатуры:', error);
+            alert('Не удалось загрузить номенклатуру. Попробуйте обновить страницу.');
+        }
+    });
+    
+    // формируем новые поля
+    jQuery('.plus').click(function () {
+        jQuery('.waybill-item-add').before(
+            '<div class="waybill-item mb-3">' +
+            '<div class="input-group">' +
+            '<input class="form-control" list="nomenclature" name="products_names[]" placeholder="Выберите..." autocomplete="off" required>' +
+            '<input type="number" class="form-control" name="products_counts[]" placeholder="Количество" min="0" step="0.001" autocomplete="off" required>' +
+            '<button type="button" class="btn btn-danger minus d-flex align-items-center" aria-label="Удалить позицию">–</button>' +
+            '</div></div>'
+        );
+    });
+    // on - так как элемент динамически создан и обычный обработчик с ним не работает
+    jQuery(document).on('click', '.minus', function () {
+        jQuery(this).closest('.waybill-item').remove(); // удаление позиции
+    });
+    </script>
+{% endblock js %}

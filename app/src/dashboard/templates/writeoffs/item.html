@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+    Просмотр списания
+{% endblock title %}
+{% block css %}
+    <link href="{% static 'assets/plugins/datetimepicker/css/classic.css' %}" rel="stylesheet"/>
+    <link href="{% static 'assets/plugins/datetimepicker/css/classic.time.css' %}" rel="stylesheet"/>
+    <link href="{% static 'assets/plugins/datetimepicker/css/classic.date.css' %}" rel="stylesheet"/>
+    <link href="{% static 'assets/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.min.css' %}"
+          rel="stylesheet"/>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+    <style>
+		.stat {
+			font-size: 0.5rem;
+		  }
+	
+    </style>
+{% endblock css %}
+{% block content %}
+    <div class="page-wrapper">
+        <div class="page-content">
+            <!--breadcrumb-->
+            <div class="page-breadcrumb d-flex align-items-center mb-3">
+                <div class="breadcrumb-title pe-3 d-none d-sm-block">Панель управления</div>
+                <div class="ps-3">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0 p-0">
+                            <li class="breadcrumb-item">
+                                <a href="/" aria-label="Главная"><i class="bx bx-home-alt"></i></a>
+                            </li>
+                            <li class="breadcrumb-item d-none d-sm-inline">
+                                <a href="/writeoffs/">Списания</a>
+                            </li>
+                            <li class="breadcrumb-item active d-sm-none" aria-current="page">
+                                <span class="text-truncate">Списания</span>
+                            </li>
+                            <li class="breadcrumb-item active d-none d-sm-inline" aria-current="page">
+                                Просмотр списания #{{ writeoff.id }}
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <!--end breadcrumb-->
+            <div class="card radius-10 mt-4">
+                <div class="card-body p-4">
+                    <div class="card-title d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <i class="bx bxs-spreadsheet me-1 font-22 text-white"></i>
+                            <h5 class="mb-0 text-white">Просмотр списания</h5>
+                        </div>
+                        <div class="d-flex align-items-center order-actions gap-2">
+                        {% if writeoff.status == 'Created' and perms.authentication.is_disposer %}
+                            <button type="button"
+                                    class="btn btn-success"
+                                    id="confirmWriteoff"
+                                    aria-label="Подтвердить списание">
+                                <i class='bx bx-check'></i>
+                                <span class="d-none d-sm-inline ms-1">Подтвердить</span>
+                            </button>
+                            <button type="button"
+                                    class="btn btn-danger"
+                                    id="denyWriteoff"
+                                    aria-label="Отклонить списание">
+                                <i class='bx bx-x'></i>
+                                <span class="d-none d-sm-inline ms-1">Отклонить</span>
+                            </button>
+                        {% endif %}
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="d-flex justify-content-center">
+                        <form class="row col-12 g-2 justify-content-center">
+                            {% csrf_token %}
+                            <h6 class="m-0 mt-4 text-uppercase">Склад</h6>
+                            <div class="col">
+                                <input class="form-control" value="{{ writeoff.store.name }}" disabled />
+                            </div>
+                            <h6 class="m-0 mt-4 text-uppercase">Создано пользователем</h6>
+                            <div class="col">
+                                <input class="form-control" value="{% with name=writeoff.created_by.get_full_name%}{% if name %}{{ name }} [{{ writeoff.created_by.username }}]{% else %}{{ writeoff.created_by.username }}{% endif %}{% endwith %}" disabled />
+                            </div>
+                            {% if writeoff.processed_by %}<h6 class="m-0 mt-4 text-uppercase">{% if writeoff.status == 'Sent' %}
+                                Подтверждено пользователем{% else %}
+                                Отклонено пользователем{% endif %}</h6>
+                            <div class="col">
+                                <input class="form-control" value="{{ received_by }}" disabled />
+                            </div>
+                            {% endif %}{% if writeoff.comment %}<h6 class="m-0 mt-4 text-uppercase">Комментарий</h6>
+                            <div class="col">
+                                <input class="form-control"
+                                       value="{% if writeoff.comment %}{{ writeoff.comment }}{% endif %}"
+                                       disabled />
+                            </div>{% endif %}
+                            <h6 class="m-0 mt-4 text-uppercase">Статус</h6>
+                            <div class="col">
+                                <input class="form-control"
+                                       value="{% if writeoff.status == 'Created' %}В обработке{% elif writeoff.status == 'Cancelled' %}Отменено{% elif writeoff.status == 'Sent' %}Создано{% elif writeoff.status == 'Denied' %}Отклонено{% else %}{{ writeoff.status }}{% endif %}"
+                                       disabled />
+                            </div>
+                            <h6 class="m-0 mt-4 text-uppercase">Дата и время</h6>
+                            <div class="col mb-2">
+                                <input class="form-control" value="{{ created_at }}" disabled />
+                            </div>
+                            <hr/>
+                            <h6 class="m-0 text-uppercase">Товары</h6>
+                            <div class="col-12">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Наименование</th>
+                                            <th>Количество</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for name, amount in items %}
+                                            <tr>
+                                                <td>{{ name }}</td>
+                                                <td>{{ amount }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!--end row-->
+        </div>
+    </div>
+{% endblock content %}
+{% block js %}
+<script>
+    {% if perms.authentication.is_disposer %}
+    var csrfToken = "{{ csrf_token }}";
+    var writeoffId = {{ writeoff.id }};
+
+    function sendAction(action, $button, originalContent) {
+        // Показываем индикатор загрузки
+        $button.prop('disabled', true)
+               .attr('aria-busy', 'true')
+               .html('<i class="bx bx-loader-alt bx-spin"></i> <span class="d-none d-sm-inline ms-1">Обработка...</span>');
+        
+        $.ajax({
+            url: `/writeoffs/${writeoffId}/${action}`,
+            type: 'POST',
+            data: {
+                csrfmiddlewaretoken: csrfToken
+            },
+            success: function(response) {
+                showSuccess('Действие выполнено успешно');
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            },
+            error: function(xhr) {
+                // Восстанавливаем кнопку при ошибке
+                $button.prop('disabled', false)
+                       .attr('aria-busy', 'false')
+                       .html(originalContent);
+                
+                const errorMsg = xhr.responseJSON?.error || 
+                               xhr.responseJSON?.message || 
+                               xhr.responseText || 
+                               'Произошла ошибка';
+                
+                showError('Ошибка: ' + errorMsg);
+            }
+        });
+    }
+
+    $('#confirmWriteoff').on('click', function (e) {
+        e.preventDefault();
+        const $button = $(this);
+        const originalContent = $button.html();
+        sendAction("confirm", $button, originalContent);
+    });
+
+    $('#denyWriteoff').on('click', function (e) {
+        e.preventDefault();
+        const $button = $(this);
+        const originalContent = $button.html();
+        
+        if (confirm('Вы уверены, что хотите отклонить списание #' + writeoffId + '?\n\nЭто действие нельзя отменить.')) {
+            sendAction("deny", $button, originalContent);
+        }
+    });
+    {% endif %}
+</script>
+{% endblock js %}

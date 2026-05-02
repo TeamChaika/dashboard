@@ -1,0 +1,109 @@
+/**
+ * Form Autosave Indicator Styles
+ */
+
+.autosave-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+    color: #155724;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-right: 12px;
+    box-shadow: 0 2px 8px rgba(21, 87, 36, 0.15);
+    width: fit-content;
+    max-width: 250px;
+    white-space: nowrap;
+}
+
+.autosave-indicator.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.autosave-indicator i {
+    font-size: 1.2em;
+    color: #28a745;
+}
+
+/* Анимация при сохранении */
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.autosave-indicator.show {
+    animation: pulse 0.5s ease-in-out;
+}
+
+/* Dark mode */
+.bg-theme2 .autosave-indicator {
+    background: linear-gradient(135deg, rgba(40, 167, 69, 0.2) 0%, rgba(40, 167, 69, 0.15) 100%);
+    color: #6ce587;
+    box-shadow: 0 2px 12px rgba(40, 167, 69, 0.3);
+}
+
+.bg-theme2 .autosave-indicator i {
+    color: #6ce587;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .autosave-indicator {
+        font-size: 0.85rem;
+        padding: 6px 12px;
+    }
+    
+    .autosave-indicator span {
+        display: none;
+    }
+    
+    .autosave-indicator i {
+        margin: 0;
+    }
+}
+
+/* Позиционирование */
+.autosave-indicator {
+    position: relative;
+    z-index: 1;
+}
+
+/* Для мобильных - компактный индикатор */
+@media (max-width: 576px) {
+    .autosave-indicator {
+        position: fixed;
+        bottom: 80px;
+        right: 20px;
+        left: auto;
+        width: auto;
+        max-width: 48px;
+        height: 48px;
+        padding: 12px;
+        border-radius: 50%;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .autosave-indicator span {
+        display: none !important;
+    }
+    
+    .autosave-indicator i {
+        font-size: 24px;
+        margin: 0;
+    }
+}
+

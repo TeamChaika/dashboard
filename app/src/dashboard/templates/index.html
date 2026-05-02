@@ -1,0 +1,247 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+    Главная страница
+{% endblock title %}
+{% block content %}
+    <div class="page-wrapper">
+        <div class="page-content">
+            <!--breadcrumb-->
+            <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+                <div class="breadcrumb-title pe-3">Панель управления</div>
+                <div class="ps-3">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0 p-0">
+                            <li class="breadcrumb-item">
+                                <a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">Главная</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <!--end breadcrumb-->
+            
+            <!-- Кнопка синхронизации номенклатуры -->
+            <div class="row mb-3">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title mb-3">
+                                <i class="bx bx-refresh"></i> Синхронизация номенклатуры
+                            </h5>
+                            <p class="card-text text-muted mb-3">
+                                Обновить список товаров из iiko API. Синхронизация возможна не чаще одного раза в 10 минут.
+                            </p>
+                            <button 
+                                type="button" 
+                                id="syncNomenclatureBtn" 
+                                class="btn btn-primary"
+                                aria-label="Синхронизировать номенклатуру"
+                            >
+                                <i class="bx bx-refresh"></i> Синхронизировать номенклатуру
+                            </button>
+                            <div id="syncStatus" class="mt-3" style="display: none;">
+                                <small class="text-muted" id="syncStatusText"></small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end row-->
+        </div>
+    </div>
+{% endblock content %}
+{% block js %}
+<script>
+(function() {
+    'use strict';
+    
+    // Получаем CSRF токен из cookies
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    
+    const csrftoken = getCookie('csrftoken');
+    
+    const $syncBtn = $('#syncNomenclatureBtn');
+    const $syncStatus = $('#syncStatus');
+    const $syncStatusText = $('#syncStatusText');
+    
+    let countdownInterval = null;
+    
+    // Форматирование времени
+    function formatTime(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        if (minutes > 0) {
+            return `${minutes} мин ${secs} сек`;
+        }
+        return `${secs} сек`;
+    }
+    
+    // Обновление статуса с обратным отсчетом
+    function updateStatusWithCountdown(waitSeconds) {
+        let remaining = waitSeconds;
+        
+        function update() {
+            if (remaining <= 0) {
+                $syncStatus.hide();
+                $syncBtn.prop('disabled', false);
+                if (countdownInterval) {
+                    clearInterval(countdownInterval);
+                    countdownInterval = null;
+                }
+                return;
+            }
+            
+            $syncStatusText.text(
+                `Синхронизация будет доступна через ${formatTime(remaining)}`
+            );
+            remaining--;
+        }
+        
+        update();
+        if (countdownInterval) {
+            clearInterval(countdownInterval);
+        }
+        countdownInterval = setInterval(update, 1000);
+    }
+    
+    // Обработчик клика на кнопку
+    $syncBtn.on('click', function() {
+        const $button = $(this);
+        const originalHtml = $button.html();
+        
+        // Блокируем кнопку и показываем состояние загрузки
+        $button.prop('disabled', true)
+               .html('<i class="bx bx-loader-alt bx-spin"></i> Синхронизация...');
+        
+        // Скрываем статус
+        $syncStatus.hide();
+        if (countdownInterval) {
+            clearInterval(countdownInterval);
+            countdownInterval = null;
+        }
+        
+        // Отправляем запрос
+        $.ajax({
+            url: '/api/nomenclature/sync',
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrftoken
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    // Успешная синхронизация
+                    if (window.showSuccess) {
+                        window.showSuccess(
+                            `Номенклатура успешно синхронизирована. Синхронизировано товаров: ${response.count}`,
+                            5000
+                        );
+                    } else {
+                        alert(`Номенклатура успешно синхронизирована. Синхронизировано товаров: ${response.count}`);
+                    }
+                    
+                    // Обновляем клиентский кэш, если доступен
+                    if (window.nomenclatureCache && typeof window.nomenclatureCache.refresh === 'function') {
+                        window.nomenclatureCache.refresh().catch(function(err) {
+                            console.warn('Не удалось обновить клиентский кэш:', err);
+                        });
+                    }
+                    
+                    // Показываем обратный отсчет
+                    updateStatusWithCountdown(600); // 10 минут
+                    
+                } else {
+                    // Ошибка или ограничение по времени
+                    if (response.wait_seconds) {
+                        // Ограничение по времени
+                        if (window.showWarning) {
+                            window.showWarning(
+                                `${response.error}. Подождите ${formatTime(response.wait_seconds)}.`,
+                                5000
+                            );
+                        } else {
+                            alert(`${response.error}\nПодождите ${formatTime(response.wait_seconds)}.`);
+                        }
+                        
+                        updateStatusWithCountdown(response.wait_seconds);
+                    } else {
+                        // Другая ошибка
+                        if (window.showError) {
+                            window.showError(
+                                `Ошибка синхронизации: ${response.error}`,
+                                5000
+                            );
+                        } else {
+                            alert(`Ошибка синхронизации: ${response.error}`);
+                        }
+                        
+                        $button.prop('disabled', false)
+                               .html(originalHtml);
+                    }
+                }
+            },
+            error: function(xhr) {
+                // Обработка ошибок HTTP
+                let errorMsg = 'Произошла ошибка при синхронизации';
+                
+                if (xhr.responseJSON) {
+                    if (xhr.responseJSON.error) {
+                        errorMsg = xhr.responseJSON.error;
+                    } else if (xhr.responseJSON.message) {
+                        errorMsg = xhr.responseJSON.message;
+                    }
+                    
+                    // Если это ограничение по времени (429)
+                    if (xhr.status === 429 && xhr.responseJSON.wait_seconds) {
+                        if (window.showWarning) {
+                            window.showWarning(
+                                `${errorMsg}. Подождите ${formatTime(xhr.responseJSON.wait_seconds)}.`,
+                                5000
+                            );
+                        } else {
+                            alert(`${errorMsg}\nПодождите ${formatTime(xhr.responseJSON.wait_seconds)}.`);
+                        }
+                        
+                        updateStatusWithCountdown(xhr.responseJSON.wait_seconds);
+                        return;
+                    }
+                } else if (xhr.statusText) {
+                    errorMsg = `${errorMsg}: ${xhr.statusText}`;
+                }
+                
+                if (window.showError) {
+                    window.showError(errorMsg, 5000);
+                } else {
+                    alert(errorMsg);
+                }
+                
+                $button.prop('disabled', false)
+                       .html(originalHtml);
+            }
+        });
+    });
+    
+    // Очистка интервала при уходе со страницы
+    $(window).on('beforeunload', function() {
+        if (countdownInterval) {
+            clearInterval(countdownInterval);
+        }
+    });
+})();
+</script>
+{% endblock js %}

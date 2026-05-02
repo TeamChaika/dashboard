@@ -1,0 +1,652 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+    Панель накладных
+{% endblock title %}
+{% block css %}
+    <!-- Компактные формы -->
+    <link href="{% static 'compact-forms.css' %}" rel="stylesheet"/>
+    
+    <style>
+    .error_message {
+        padding: 0px 0px 0px 0px;
+        font-size: 0.9em;
+        color: #CD4022;
+    }
+
+    .success_message {
+        padding: 0px 0px 0px 0px;
+        text-align: center;
+        font-size: 0.9em;
+        color: #2ead14;
+    }
+
+    input[type="text"]::-webkit-calendar-picker-indicator,
+    input[type="email"]::-webkit-calendar-picker-indicator,
+    input[type="number"]::-webkit-calendar-picker-indicator, 
+    input[type="search"]::-webkit-calendar-picker-indicator {
+        display: none !important;
+    }
+
+    /* Валидация - не ломаем верстку */
+    .input-group .invalid-feedback {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        z-index: 10;
+        display: none;
+        width: 100%;
+        margin-top: 0.25rem;
+        font-size: 0.875rem;
+        color: #dc3545;
+        background: rgba(220, 53, 69, 0.1);
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.25rem;
+        white-space: normal;
+    }
+
+    .input-group .invalid-feedback.d-block {
+        display: block !important;
+    }
+
+    .input-group .form-control.is-invalid {
+        border-color: #dc3545;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23dc3545' viewBox='0 0 12 12'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right calc(0.375em + 0.1875rem) center;
+        background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+        padding-right: calc(1.5em + 0.75rem);
+    }
+
+    /* Позиционирование для input-group */
+    .input-group {
+        position: relative;
+        margin-bottom: 2.5rem;
+    }
+
+    /* Для обычных полей вне input-group */
+    .form-control.is-invalid ~ .invalid-feedback {
+        display: block;
+        margin-top: 0.25rem;
+        font-size: 0.875rem;
+    }
+
+    /* Dark mode */
+    .bg-theme2 .invalid-feedback {
+        color: #ff6b6b;
+        background: rgba(255, 107, 107, 0.15);
+    }
+
+    /* Waybill items layout */
+    .waybill-items {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .waybill-item {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .waybill-item-add {
+        margin-top: 0.5rem;
+    }
+
+    .waybill-item .input-group {
+        display: flex;
+        gap: 0.25rem;
+        width: 100%;
+    }
+
+    .waybill-item .input-group .form-control {
+        flex: 1;
+    }
+
+    .waybill-item .input-group .btn {
+        flex-shrink: 0;
+    }
+    </style>
+{% endblock css %}
+{% block content %}
+    <div class="page-wrapper">
+        <div class="page-content">
+            <!--breadcrumb-->
+            <div class="page-breadcrumb d-flex align-items-center mb-3">
+                <div class="breadcrumb-title pe-3 d-none d-sm-block">Панель управления</div>
+                <div class="ps-3">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0 p-0">
+                            <li class="breadcrumb-item">
+                                <a href="/" aria-label="Главная"><i class="bx bx-home-alt"></i></a>
+                            </li>
+                            <li class="breadcrumb-item d-none d-sm-inline">
+                                <a href="/waybills/">Накладные</a>
+                            </li>
+                            <li class="breadcrumb-item active d-sm-none" aria-current="page">
+                                <span class="text-truncate">Накладные</span>
+                            </li>
+                            <li class="breadcrumb-item active d-none d-sm-inline" aria-current="page">
+                                Создание накладной
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <!--end breadcrumb-->
+            {% if not have_store %}
+                <div class="card radius-10 mt-4">
+                    <div class="card-body p-2">
+                        <div class="d-flex justify-content-center my-5">
+                            <div class="col-6 text-center">
+                                <h5>
+                                    Вы не подключены к складу.
+                                    <br>
+                                    Пожалуйста, обратитесь к администратору сайта.
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="card radius-10 mt-4">
+                    <div class="card-body p-4">
+                        <div class="card-title d-flex align-items-center">
+                            <div>
+                                <i class="bx bxs-spreadsheet me-1 font-22 text-white"></i>
+                            </div>
+                            <h5 class="mb-0 text-white">Создание накладной</h5>
+                        </div>
+                        <hr />
+                        <div class="d-flex justify-content-center border border-1 p-2 pt-2 rounded form-compact">
+                            <form class="row col-12 g-2 justify-content-center" method="POST">
+                                {% csrf_token %}
+                                <h6 class="m-0 mt-4 text-uppercase">Склад</h6>
+                                <div class="col">
+                                    <input type="text"
+                                           class="form-control mb-3"
+                                           name="user_store_name"
+                                           list="user_stores"
+                                           placeholder="Выберите..."
+                                           required>
+                                    <datalist id="user_stores">
+                                        {% for store in user_stores %}<option value="{{ store }}">{% endfor %}
+                                    </datalist>
+                                </div>
+                                <h6 class="m-0 mt-2 text-uppercase">Контрагент</h6>
+                                <div class="col">
+                                    <input type="text"
+                                           class="form-control mb-3"
+                                           name="counteragent_store_name"
+                                           list="stores"
+                                           placeholder="Выберите..."
+                                           required>
+                                    <datalist id="stores">
+                                        {% for store in stores %}<option value="{{ store }}">{% endfor %}
+                                    </datalist>
+                                </div>
+                                <h6 class="m-0 mt-2 text-uppercase">Комментарий</h6>
+                                <div class="col">
+                                    <input class="form-control mb-3"
+                                           name="comment"
+                                           placeholder="Необязательное поле">
+                                </div>
+                                <hr />
+                                <h6 class="m-0 text-uppercase">Товары</h6>
+                                <div class="col-12">
+                                    <div class="waybill-items">
+                                        <div class="waybill-item">
+                                            <div class="input-group">
+                                                <input type="text"
+                                                       class="form-control"
+                                                       list="nomenclature"
+                                                       name="products_names[]"
+                                                       placeholder="Выберите..."
+                                                       autocomplete="off"
+                                                       required>
+                                                <datalist id="nomenclature">
+                                                    <!-- Загружается через AJAX (nomenclature-cache.js) -->
+                                                </datalist>
+                                                <input type="number"
+                                                       class="form-control"
+                                                       name="products_counts[]"
+                                                       placeholder="Количество"
+                                                       min="0"
+                                                       step="0.001"
+                                                       autocomplete="off"
+                                                       required>
+                                                <button type="button" class="btn btn-secondary d-flex align-items-center" disabled aria-label="Удалить нельзя">–</button>
+                                            </div>
+                                        </div>
+                                        <div class="waybill-item-add d-flex flex-wrap gap-2">
+                                            <button type="button" class="btn btn-success plus">
+                                                <i class='bx bx-plus'></i>
+                                                Добавить позицию
+                                            </button>
+                                            <button type="button" class="btn btn-outline-light ms-2 multiple-plus">
+                                                <i class="bx bx-plus"></i>
+                                                Добавить позиции
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if error_message %}
+                                    <div class="d-flex justify-content-center mb-3">
+                                        <div class="col-6 d-flex justify-content-center">
+                                            <div class="w-200 error_message text-center">{{ error_message }}</div>
+                                        </div>
+                                    </div>
+                                {% elif success_message %}
+                                    <div class="d-flex justify-content-center mb-3">
+                                        <div class="col-6 d-flex justify-content-center">
+                                            <div class="w-200 success_message text-center">{{ success_message }}</div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                <button class="btn btn-light btn-lg mx-1 btn-block col-9 col-sm-6 col-md-4 col-xl-3 mt-4 mt-md-0" type="submit">Отправить</button>
+                            </form>
+
+                            <!-- Модальное окно для массового добавления позиций -->
+                            <div class="modal fade" id="addItemsModal" tabindex="-1" aria-labelledby="addItemsModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="addItemsModalLabel">Добавить несколько позиций</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="mb-3">
+                                                <label for="addItemsCount" class="form-label">Сколько дополнительных строк с товарами добавить?</label>
+                                                <input type="number"
+                                                       class="form-control"
+                                                       id="addItemsCount"
+                                                       min="1"
+                                                       max="100"
+                                                       step="1"
+                                                       placeholder="Введите число от 1 до 100">
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                                            <button type="button" class="btn btn-success" id="addItemsConfirm">Добавить</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card radius-10 mt-4">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center">
+                            <div class="card-title d-flex align-items-center">
+                                <div>
+                                    <i class="bx bxs-spreadsheet me-1 font-22 text-white"></i>
+                                </div>
+                                <h5 class="mb-0 text-white">Входящие накладные</h5>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th scope="col">Номер</th>
+                                        <th scope="col">Склад</th>
+                                        <th scope="col">Контрагент</th>
+                                        <th scope="col">Дата и время</th>
+                                        <th scope="col">Действия</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if not input %}
+                                        <tr>
+                                            <td colspan="5" class="text-center">
+                                                На данный момент нет накладных, ожидающих
+                                                подтверждения.
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                    {% for waybill, date in input %}
+                                        <tr class="align-middle" id="waybill_row_{{ waybill.id }}">
+                                            <th scope="row">#{{ waybill.id }}</th>
+                                            <td>{{ waybill.store }}</td>
+                                            <td>{{ waybill.counteragent }}</td>
+                                            <td>{{ date }}</td>
+                                            <td>
+                                                <div class="d-flex order-actions">
+                                                    <a href="/waybills/{{ waybill.id }}" target="_blank" aria-label="Просмотреть накладную"><i class="bx bx-show-alt"></i></a>
+                                                    <a href="#" id="confirmWaybill_{{ waybill.id }}" class="ms-2" aria-label="Подтвердить"><i class='bx bx-check'></i></a>
+                                                    <a href="#" id="denyWaybill_{{ waybill.id }}" class="ms-2" aria-label="Отклонить"><i class='bx bx-x'></i></a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card radius-10 mt-4">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center">
+                            <div class="card-title d-flex align-items-center">
+                                <div>
+                                    <i class="bx bxs-spreadsheet me-1 font-22 text-white"></i>
+                                </div>
+                                <h5 class="mb-0 text-white">Отправленные накладные</h5>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th scope="col">Номер</th>
+                                        <th scope="col">Склад</th>
+                                        <th scope="col">Контрагент</th>
+                                        <th scope="col">Дата и время</th>
+                                        <th scope="col">Действия</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if not output %}
+                                        <tr>
+                                            <td colspan="5" class="text-center">
+                                                На данный момент нет накладных, ожидающих
+                                                подтверждения.
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                    {% for waybill, date in output %}
+                                        <tr class="align-middle" id="waybill_row_{{ waybill.id }}">
+                                            <th scope="row">#{{ waybill.id }}</th>
+                                            <td>{{ waybill.store }}</td>
+                                            <td>{{ waybill.counteragent }}</td>
+                                            <td>{{ date }}</td>
+                                            <td>
+                                                <div class="d-flex order-actions">
+                                                    <a href="/waybills/{{ waybill.id }}" target="_blank" aria-label="Просмотреть накладную"><i class="bx bx-show-alt"></i></a>
+                                                    <a href="/waybills/{{ waybill.id }}/edit" target="_blank" class="ms-2" aria-label="Редактировать"><i class='bx bx-edit'></i></a>
+                                                    <a href="#" id="cancelWaybill_{{ waybill.id }}" class="ms-2" aria-label="Отменить"><i class='bx bx-x'></i></a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            </div>
+            <!--end row-->
+        </div>
+    </div>
+{% endblock content %}
+{% block js %}
+    <!-- Form Autosave (только на этой странице) -->
+    <link href="{% static 'form-autosave.css' %}" rel="stylesheet"/>
+    <script src="{% static 'form-autosave.js' %}"></script>
+    
+    <script>
+    // Инициализация номенклатуры через AJAX
+    let nomenclatureList = [];
+    
+    $(document).ready(async function() {
+        try {
+            nomenclatureList = await initNomenclature('nomenclature');
+        } catch (error) {
+            console.error('Ошибка загрузки номенклатуры:', error);
+            showError('Не удалось загрузить номенклатуру. Попробуйте обновить страницу.');
+        }
+        
+        // Валидация формы перед отправкой
+        $('form').on('submit', function(e) {
+            // Очищаем предыдущие ошибки
+            $('.is-invalid').removeClass('is-invalid');
+            $('.invalid-feedback').remove();
+            
+            let hasError = false;
+            let firstErrorField = null;
+            
+            // Проверяем все поля товаров
+            $('input[name="products_names[]"]').each(function(index) {
+                const $nameInput = $(this);
+                const $amountInput = $('input[name="products_counts[]"]').eq(index);
+                const productName = $nameInput.val().trim();
+                const amount = $amountInput.val();
+                
+                // Проверка наименования
+                if (!productName) {
+                    hasError = true;
+                    $nameInput.addClass('is-invalid');
+                    $nameInput.after('<div class="invalid-feedback d-block">Выберите товар</div>');
+                    if (!firstErrorField) firstErrorField = $nameInput;
+                } else if (!nomenclatureList.includes(productName)) {
+                    hasError = true;
+                    $nameInput.addClass('is-invalid');
+                    $nameInput.after('<div class="invalid-feedback d-block">Товар не найден в номенклатуре. Выберите из списка.</div>');
+                    if (!firstErrorField) firstErrorField = $nameInput;
+                }
+                
+                // Проверка количества
+                if (!amount || parseFloat(amount) <= 0) {
+                    hasError = true;
+                    $amountInput.addClass('is-invalid');
+                    $amountInput.after('<div class="invalid-feedback d-block">Укажите количество > 0</div>');
+                    if (!firstErrorField) firstErrorField = $amountInput;
+                }
+            });
+            
+            // Проверка основных полей
+            const storeName = $('input[name="user_store_name"]').val().trim();
+            const counteragentName = $('input[name="counteragent_store_name"]').val().trim();
+            
+            if (!storeName) {
+                hasError = true;
+                $('input[name="user_store_name"]').addClass('is-invalid');
+                $('input[name="user_store_name"]').after('<div class="invalid-feedback d-block">Выберите склад</div>');
+            }
+            
+            if (!counteragentName) {
+                hasError = true;
+                $('input[name="counteragent_store_name"]').addClass('is-invalid');
+                $('input[name="counteragent_store_name"]').after('<div class="invalid-feedback d-block">Выберите контрагента</div>');
+            }
+            
+            if (hasError) {
+                e.preventDefault();
+                showWarning('Пожалуйста, исправьте ошибки в форме');
+                
+                // Прокручиваем к первой ошибке
+                if (firstErrorField) {
+                    $('html, body').animate({
+                        scrollTop: firstErrorField.offset().top - 100
+                    }, 500);
+                    firstErrorField.focus();
+                }
+                
+                return false;
+            }
+        });
+        
+        // Убираем ошибку при вводе
+        $(document).on('input change', 'input[name="products_names[]"], input[name="products_counts[]"]', function() {
+            $(this).removeClass('is-invalid');
+            $(this).next('.invalid-feedback').remove();
+        });
+    });
+    
+    // Helper для добавления новой строки товара
+    function addItemRow() {
+        jQuery('.waybill-item-add').before(
+            '<div class="waybill-item mb-3">' +
+            '<div class="input-group">' +
+            '<input type="text" class="form-control" list="nomenclature" name="products_names[]" placeholder="Выберите..." autocomplete="off" required>' +
+            '<input type="number" class="form-control" name="products_counts[]" placeholder="Количество" min="0" step="0.001" autocomplete="off" required>' +
+            '<button type="button" class="btn btn-danger minus d-flex align-items-center" aria-label="Удалить позицию">–</button>' +
+            '</div></div>'
+        );
+    }
+
+    // Добавление одной позиции
+    jQuery('.plus').click(function () {
+        addItemRow();
+    });
+
+    // Открытие модалки для добавления нескольких позиций
+    jQuery('.multiple-plus').click(function () {
+        var $countInput = jQuery('#addItemsCount');
+        $countInput.val('');
+        $countInput.removeClass('is-invalid');
+        $countInput.next('.invalid-feedback').remove();
+        jQuery('#addItemsModal').modal('show');
+    });
+
+    // Обработка кнопки "Добавить" в модалке
+    jQuery('#addItemsConfirm').click(function () {
+        var $countInput = jQuery('#addItemsCount');
+        var rawValue = $countInput.val();
+        var count = parseInt(rawValue, 10);
+
+        $countInput.removeClass('is-invalid');
+        $countInput.next('.invalid-feedback').remove();
+
+        if (isNaN(count) || count < 1 || count > 100) {
+            showWarning('Пожалуйста, укажите количество позиций от 1 до 100');
+            $countInput.addClass('is-invalid');
+            $countInput.after('<div class="invalid-feedback d-block">Количество должно быть от 1 до 100</div>');
+            return;
+        }
+
+        for (let i = 0; i < count; i++) {
+            addItemRow();
+        }
+
+        jQuery('#addItemsModal').modal('hide');
+    });
+
+    // on - так как элемент динамически создан и обычный обработчик с ним не работает
+    jQuery(document).on('click', '.minus', function () {
+        jQuery(this).closest('.waybill-item').remove(); // удаление позиции
+    });
+    </script>
+    <script>
+        var csrfToken = "{{ csrf_token }}";
+    
+        function sendAction(id, action, $button) {
+            // Показываем индикатор загрузки
+            const originalContent = $button.html();
+            $button.prop('disabled', true)
+                   .attr('aria-busy', 'true')
+                   .html('<i class="bx bx-loader-alt bx-spin"></i>');
+            
+            $.ajax({
+                url: `/waybills/${id}/${action}`,
+                type: 'POST',
+                data: {
+                    csrfmiddlewaretoken: csrfToken
+                },
+                success: function(response) {
+                    // Скрываем строку с анимацией
+                    $button.closest('tr').fadeOut(300, function() {
+                        $(this).remove();
+                        
+                        // Проверяем, остались ли строки
+                        const $tbody = $button.closest('tbody');
+                        if ($tbody.find('tr').length === 0) {
+                            $tbody.html('<tr><td colspan="5" class="text-center">На данный момент нет накладных, ожидающих подтверждения.</td></tr>');
+                        }
+                    });
+                    
+                    // Показываем уведомление
+                    const messages = {
+                        'confirm': 'Накладная успешно подтверждена',
+                        'deny': 'Накладная отклонена',
+                        'cancel': 'Накладная отменена'
+                    };
+                    showSuccess(messages[action] || 'Действие выполнено');
+                },
+                error: function(xhr) {
+                    // Восстанавливаем кнопку
+                    $button.prop('disabled', false)
+                           .attr('aria-busy', 'false')
+                           .html(originalContent);
+                    
+                    // Показываем ошибку
+                    const errorMsg = xhr.responseJSON?.error || 
+                                   xhr.responseJSON?.message || 
+                                   xhr.responseText || 
+                                   'Произошла ошибка';
+                    showError('Ошибка: ' + errorMsg);
+                }
+            });
+        }
+
+        $('[id^=cancelWaybill]').on('click', function (e) {
+            e.preventDefault();
+            const id = this.id.split('_')[1];
+            const $button = $(this);
+            
+            if (confirm('Вы уверены, что хотите отменить накладную #' + id + '?\n\nЭто действие нельзя отменить.')) {
+                sendAction(id, "cancel", $button);
+            }
+        });
+
+        $('[id^=confirmWaybill]').on('click', function (e) {
+            e.preventDefault();
+            const id = this.id.split('_')[1];
+            const $button = $(this);
+            sendAction(id, "confirm", $button);
+        });
+
+        $('[id^=denyWaybill]').on('click', function (e) {
+            e.preventDefault();
+            const id = this.id.split('_')[1];
+            const $button = $(this);
+            
+            if (confirm('Вы уверены, что хотите отклонить накладную #' + id + '?\n\nНакладная будет отклонена и не сможет быть подтверждена.')) {
+                sendAction(id, "deny", $button);
+            }
+        });
+        
+        // ===============================================
+        // 💾 АВТОСОХРАНЕНИЕ ЧЕРНОВИКОВ (УНИФИЦИРОВАНО)
+        // ===============================================
+        function initFormAutosave(formSelector, storageKey, options = {}) {
+            const isMobile = window.innerWidth <= 768;
+            const defaultOptions = {
+                saveDelay: isMobile ? 3000 : 2000,
+                autoSaveInterval: isMobile ? 45000 : 30000,
+                excludeFields: ['csrfmiddlewaretoken'],
+                onSave: function(draft) {
+                    console.log(`💾 Черновик сохранён (${storageKey})`);
+                },
+                onRestore: function(draft) {
+                    console.log(`📋 Черновик восстановлен (${storageKey})`);
+                    if (draft && Object.keys(draft).length > 0) {
+                        showInfo('Черновик восстановлен. Вы можете продолжить заполнение формы.');
+                    }
+                }
+            };
+            
+            const config = Object.assign({}, defaultOptions, options);
+            const initDelay = isMobile ? 1500 : 0;
+            
+            setTimeout(() => {
+                return new FormAutosave(formSelector, {
+                    storageKey: storageKey,
+                    ...config
+                });
+            }, initDelay);
+        }
+        
+        // Инициализация автосохранения для формы создания
+        const createForm = document.querySelector('form[method="post"]');
+        let waybillAutosave = null;
+        if (createForm) {
+            waybillAutosave = initFormAutosave('form[method="post"]', 'waybill_draft');
+        }
+    </script>
+{% endblock js %}

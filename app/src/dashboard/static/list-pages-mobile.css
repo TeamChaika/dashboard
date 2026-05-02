@@ -1,0 +1,441 @@
+/**
+ * List Pages Mobile Optimization
+ * Исправления для страниц списков накладных/списаний
+ */
+
+/* ================================================
+   1. HEADER - ЗАГОЛОВОК И ФИЛЬТРЫ
+   ================================================ */
+
+@media (max-width: 768px) {
+    /* Основной заголовок */
+    .card-title {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 16px !important;
+    }
+    
+    .card-title > div:first-child {
+        width: 100% !important;
+    }
+    
+    /* Контейнер с поиском и фильтрами */
+    .card-title .col-8,
+    .card-title .col-9 {
+        width: 100% !important;
+        flex-direction: column !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    /* Форма поиска */
+    .card-title form {
+        width: 100% !important;
+        margin: 0 0 12px 0 !important;
+    }
+    
+    .card-title .input-group {
+        width: 100% !important;
+    }
+    
+    /* Фильтры (pagination как tabs) */
+    .card-title .pagination {
+        width: 100% !important;
+        justify-content: flex-start !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 4px !important;
+        margin: 0 !important;
+    }
+    
+    .card-title .pagination::-webkit-scrollbar {
+        height: 2px;
+    }
+    
+    .card-title .pagination::-webkit-scrollbar-thumb {
+        background: rgba(102, 126, 234, 0.5);
+        border-radius: 4px;
+    }
+    
+    /* Кнопки фильтров */
+    .card-title .pagination .page-item {
+        flex-shrink: 0;
+    }
+    
+    .card-title .pagination .page-link {
+        white-space: nowrap;
+        padding: 8px 16px !important;
+        font-size: 14px !important;
+        border-radius: 12px !important;
+        background: rgba(255, 255, 255, 0.08) !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        color: rgba(255, 255, 255, 0.8) !important;
+        margin: 0 4px !important;
+    }
+    
+    .card-title .pagination .page-item.active .page-link {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        border-color: transparent !important;
+        color: white !important;
+        box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+    }
+    
+    /* Отступы */
+    .card-title .flex-grow-1,
+    .card-title .flex-shrink-1 {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+}
+
+/* ================================================
+   2. ТАБЛИЦА - ПРЕВРАЩАЕМ В КАРТОЧКИ
+   ================================================ */
+
+@media (max-width: 768px) {
+    /* Добавляем класс автоматически через JS */
+    .table-responsive table {
+        border: 0;
+    }
+    
+    /* Скрываем thead */
+    .table-responsive thead {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+    
+    /* Строки как карточки */
+    .table-responsive tbody {
+        display: block;
+    }
+    
+    .table-responsive tbody tr {
+        display: block;
+        margin-bottom: 20px;
+        border-radius: 16px;
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        padding: 16px;
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    /* Градиентная полоса сверху */
+    .table-responsive tbody tr::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    /* Номер документа - крупно вверху */
+    .table-responsive tbody tr th {
+        display: block;
+        text-align: center;
+        font-size: 24px !important;
+        font-weight: 700 !important;
+        padding: 12px 0 16px !important;
+        border: none !important;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    /* Ячейки - две колонки (label: value) */
+    .table-responsive tbody td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0 !important;
+        border: none !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+        text-align: right;
+    }
+    
+    .table-responsive tbody td:last-child {
+        border-bottom: none !important;
+        padding-top: 16px !important;
+    }
+    
+    /* Labels (data-label) */
+    .table-responsive tbody td::before {
+        content: attr(data-label);
+        float: left;
+        font-weight: 600;
+        text-align: left;
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    /* Действия - центрируем и увеличиваем */
+    .table-responsive tbody td .order-actions {
+        width: 100%;
+        justify-content: center !important;
+        gap: 16px !important;
+    }
+    
+    .table-responsive tbody td .order-actions a {
+        min-width: 44px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .table-responsive tbody td .order-actions a i {
+        font-size: 20px;
+    }
+    
+    .table-responsive tbody td .order-actions a:active {
+        transform: scale(0.95);
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    }
+    
+    /* Пустое состояние */
+    .table-responsive tbody tr td[colspan] {
+        display: block;
+        text-align: center;
+        padding: 40px 20px !important;
+        font-size: 16px;
+        color: rgba(255, 255, 255, 0.5);
+    }
+    
+    .table-responsive tbody tr td[colspan]::before {
+        content: '📦';
+        display: block;
+        font-size: 48px;
+        margin-bottom: 12px;
+    }
+}
+
+/* ================================================
+   3. ПАГИНАЦИЯ
+   ================================================ */
+
+@media (max-width: 768px) {
+    /* Компактная пагинация */
+    .d-flex.justify-content-center .pagination {
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+    }
+    
+    .d-flex.justify-content-center .pagination .page-item {
+        margin: 0 !important;
+    }
+    
+    .d-flex.justify-content-center .pagination .page-link {
+        min-width: 44px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px !important;
+        padding: 8px 12px !important;
+        font-size: 14px !important;
+        background: rgba(255, 255, 255, 0.08) !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        color: rgba(255, 255, 255, 0.8) !important;
+    }
+    
+    .d-flex.justify-content-center .pagination .page-item.active .page-link {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        border-color: transparent !important;
+        color: white !important;
+        box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+    }
+    
+    .d-flex.justify-content-center .pagination .page-item.disabled .page-link {
+        opacity: 0.3;
+        background: rgba(255, 255, 255, 0.03) !important;
+    }
+}
+
+/* ================================================
+   4. СТАТУСЫ - BADGES
+   ================================================ */
+
+@media (max-width: 768px) {
+    /* Делаем статусы красивыми badge */
+    .table-responsive tbody td:nth-child(4)::after,
+    .table-responsive tbody td:nth-child(3)::after {
+        /* Для разных таблиц статус в разных колонках */
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 600;
+        margin-left: 8px;
+    }
+}
+
+/* ================================================
+   5. BREADCRUMB - СКРЫВАЕМ НА МОБИЛЬНЫХ
+   ================================================ */
+
+@media (max-width: 576px) {
+    .page-breadcrumb {
+        display: none !important;
+    }
+}
+
+/* ================================================
+   6. АНИМАЦИИ
+   ================================================ */
+
+@media (max-width: 768px) {
+    .table-responsive tbody tr {
+        animation: slideInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    @keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .table-responsive tbody tr:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
+    }
+}
+
+/* ================================================
+   7. DARK MODE
+   ================================================ */
+
+@media (max-width: 768px) {
+    .bg-theme2 .table-responsive tbody tr {
+        background: linear-gradient(135deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.2) 100%);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .bg-theme2 .card-title .pagination .page-link {
+        background: rgba(0, 0, 0, 0.3) !important;
+        border-color: rgba(255, 255, 255, 0.1) !important;
+    }
+    
+    .bg-theme2 .d-flex.justify-content-center .pagination .page-link {
+        background: rgba(0, 0, 0, 0.3) !important;
+    }
+}
+
+/* ================================================
+   8. КОМПАКТНЫЙ РЕЖИМ ДЛЯ ОЧЕНЬ МАЛЕНЬКИХ ЭКРАНОВ
+   ================================================ */
+
+@media (max-width: 576px) {
+    .table-responsive tbody tr {
+        padding: 12px;
+        margin-bottom: 16px;
+        border-radius: 12px;
+    }
+    
+    .table-responsive tbody tr th {
+        font-size: 20px !important;
+        padding: 8px 0 12px !important;
+    }
+    
+    .table-responsive tbody td {
+        padding: 10px 0 !important;
+        font-size: 14px;
+    }
+    
+    .table-responsive tbody td::before {
+        font-size: 12px;
+    }
+    
+    .table-responsive tbody td .order-actions a {
+        min-width: 40px;
+        min-height: 40px;
+    }
+    
+    .table-responsive tbody td .order-actions a i {
+        font-size: 18px;
+    }
+}
+
+/* ================================================
+   9. ACCESSIBILITY
+   ================================================ */
+
+@media (max-width: 768px) {
+    /* Увеличиваем touch targets */
+    .table-responsive tbody td .order-actions a {
+        -webkit-tap-highlight-color: rgba(102, 126, 234, 0.3);
+    }
+    
+    /* Focus states */
+    .table-responsive tbody td .order-actions a:focus-visible {
+        outline: 3px solid rgba(102, 126, 234, 0.6);
+        outline-offset: 2px;
+    }
+}
+
+/* ================================================
+   10. LOADING STATE
+   ================================================ */
+
+@media (max-width: 768px) {
+    .table-responsive.loading tbody tr {
+        opacity: 0.6;
+        pointer-events: none;
+    }
+    
+    .table-responsive.loading tbody tr::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(90deg,
+            rgba(255, 255, 255, 0.05) 25%,
+            rgba(255, 255, 255, 0.15) 50%,
+            rgba(255, 255, 255, 0.05) 75%);
+        background-size: 200% 100%;
+        animation: shimmer 2s infinite;
+    }
+    
+    @keyframes shimmer {
+        0% {
+            background-position: -200% 0;
+        }
+        100% {
+            background-position: 200% 0;
+        }
+    }
+}
+
+/* ================================================
+   11. СПИСАНИЯ - КОРРЕКТИРОВКА ДЛЯ 5 КОЛОНОК
+   ================================================ */
+
+/* Списания работают через responsive-tables.js который добавляет data-label */
+/* Дополнительных правил не требуется - JS автоматически обработает */
+

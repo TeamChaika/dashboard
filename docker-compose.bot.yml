@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  # Telegram Bot - отдельный контейнер
+  bot:
+    build:
+      context: ./bot
+      dockerfile: Dockerfile
+    container_name: iiko_bot
+    environment:
+      # Telegram Bot
+      - BOT_TOKEN=${BOT_TOKEN}
+      - APP_HOST=${APP_HOST:-http://iiko_backend:8000}  # Имя контейнера Django или внешний URL
+      - PUBLIC_URL=${PUBLIC_URL:-https://iiko.chaika.team}
+      # Database (если бот использует БД напрямую)
+      - DB_NAME=${DB_NAME}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT:-5432}
+    volumes:
+      # Опционально: монтируем код для разработки
+      # Раскомментируйте следующую строку для разработки:
+      # - ./bot:/app
+      - bot_logs:/app/logs  # Логи бота
+    restart: unless-stopped
+    networks:
+      - iiko_network
+    # Healthcheck для мониторинга
+    healthcheck:
+      test: ["CMD", "python", "-c", "import sys; sys.exit(0)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  bot_logs:
+
+networks:
+  iiko_network:
+    external: true
+    name: iiko_network
+
