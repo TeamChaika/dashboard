@@ -246,95 +246,48 @@ def search_nomenclature_api(request):
         }, status=500)
 
 
+_SYNC_COOLDOWN = 600  # 10 минут
+
+
 @require_http_methods(['POST'])
 @login_required(login_url='/login')
 def sync_nomenclature_api(request):
-    """
-    API для синхронизации номенклатуры с iiko API.
-    
-    Ограничение: не чаще одного раза в 10 минут на пользователя.
-    
-    Response (успех):
-        {
-            "success": true,
-            "message": "Номенклатура успешно синхронизирована",
-            "count": 7119,
-            "timestamp": 1698765432.123
-        }
-    
-    Response (ограничение по времени):
-        {
-            "success": false,
-            "error": "Синхронизация возможна не чаще одного раза в 10 минут",
-            "wait_seconds": 450,
-            "wait_minutes": 7.5
-        }
-    
-    Response (ошибка):
-        {
-            "success": false,
-            "error": "Описание ошибки",
-            "timestamp": 1698765432.123
-        }
-    """
     user_id = request.user.id
-    cache_key = f'sync_nomenclature:{user_id}'
-    cache_ttl = 600  # 10 минут в секундах
-    
+    lock_key = f'sync_nomenclature_lock:{user_id}'
+    ts_key = f'sync_nomenclature_ts:{user_id}'
+
+    # cache.add() — атомарная операция: устанавливает ключ только если он не существует.
+    # Предотвращает race condition при одновременных запросах.
+    if not cache.add(lock_key, True, _SYNC_COOLDOWN):
+        last_ts = cache.get(ts_key, time.time())
+        remaining = max(0, _SYNC_COOLDOWN - (time.time() - last_ts))
+        logger.info(f"Sync rate-limited for user {user_id}, {remaining:.0f}s remaining")
+        return JsonResponse({
+            'success': False,
+            'error': 'Синхронизация возможна не чаще одного раза в 10 минут',
+            'wait_seconds': int(remaining),
+            'wait_minutes': round(remaining / 60, 1),
+        }, status=429)
+
     try:
-        # Проверяем ограничение по времени
-        last_sync_timestamp = cache.get(cache_key)
-        current_time = time.time()
-        
-        if last_sync_timestamp:
-            elapsed = current_time - last_sync_timestamp
-            remaining = cache_ttl - elapsed
-            
-            if remaining > 0:
-                wait_minutes = remaining / 60
-                logger.info(
-                    f"Попытка синхронизации номенклатуры для пользователя {user_id} "
-                    f"раньше 10 минут. Осталось: {remaining:.0f} секунд"
-                )
-                
-                return JsonResponse({
-                    'success': False,
-                    'error': 'Синхронизация возможна не чаще одного раза в 10 минут',
-                    'wait_seconds': int(remaining),
-                    'wait_minutes': round(wait_minutes, 1)
-                }, status=429)  # 429 Too Many Requests
-        
-        # Выполняем синхронизацию
         logger.info(f"Начало синхронизации номенклатуры для пользователя {user_id}")
-        
         nomenclature = iiko_api._request_nomenclature()
-        
-        # Получаем количество товаров
         count = len(nomenclature.get('name', {}))
-        
-        # Сохраняем время синхронизации в кэш
-        cache.set(cache_key, current_time, cache_ttl)
-        
-        logger.info(
-            f"Синхронизация номенклатуры успешно завершена для пользователя {user_id}. "
-            f"Синхронизировано товаров: {count}"
-        )
-        
+        now = time.time()
+        cache.set(ts_key, now, _SYNC_COOLDOWN + 10)
+        logger.info(f"Синхронизация завершена для пользователя {user_id}, товаров: {count}")
         return JsonResponse({
             'success': True,
             'message': 'Номенклатура успешно синхронизирована',
             'count': count,
-            'timestamp': current_time
+            'timestamp': now,
         })
-        
     except Exception as e:
-        logger.error(
-            f"Ошибка при синхронизации номенклатуры для пользователя {user_id}: {e}",
-            exc_info=True
-        )
-        
+        # При ошибке снимаем блокировку чтобы пользователь мог повторить сразу
+        cache.delete(lock_key)
+        logger.error(f"Ошибка синхронизации для пользователя {user_id}: {e}", exc_info=True)
         return JsonResponse({
             'success': False,
             'error': str(e),
-            'timestamp': time.time()
+            'timestamp': time.time(),
         }, status=500)
