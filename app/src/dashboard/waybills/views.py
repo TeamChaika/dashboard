@@ -138,7 +138,8 @@ class EditWaybillView(DocumentView):
 
     def fetch_waybill(self, request: HttpRequest, pk: int):
         self.waybill = get_object_or_404(
-            Waybill, id=pk, status='Created'
+            Waybill.objects.select_related('store', 'counteragent', 'created_by'),
+            id=pk, status='Created',
         )
         if self.waybill.store not in request.user.stores.all():
             raise PermissionDenied()
