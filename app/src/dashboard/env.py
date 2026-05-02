@@ -26,6 +26,7 @@ iiko_username = env.str('IIKO_API_USERNAME')
 iiko_password = env.str('IIKO_API_PASSWORD')
 
 bot_token = env.str('BOT_TOKEN')
+bot_secret = env.str('BOT_SECRET')
 app_host = env.str('APP_HOST')
 # Публичный URL для ссылок в уведомлениях (если не задан, используем APP_HOST)
 public_url = env.str('PUBLIC_URL', app_host)

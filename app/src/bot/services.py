@@ -1,18 +1,29 @@
+import hashlib
+import hmac
 import logging
+import time
 import requests
 
 from aiogram.types import CallbackQuery, Message, InlineKeyboardMarkup, InlineKeyboardButton
 
-from env import app_host, public_url
+from env import app_host, public_url, bot_secret
 
 logger = logging.getLogger(__name__)
 
 
+def _sign(user_id: int, timestamp: int) -> str:
+    message = f"{timestamp}:{user_id}".encode()
+    return hmac.new(bot_secret.encode(), message, hashlib.sha256).hexdigest()
+
+
 def send_request(url: str, user_id: int):
+    timestamp = int(time.time())
     headers = {
-        'Telegram-User': str(user_id)
+        'X-Telegram-User': str(user_id),
+        'X-Bot-Timestamp': str(timestamp),
+        'X-Bot-Signature': _sign(user_id, timestamp),
     }
-    logger.debug(f"Sending request to {url} with headers: {headers}")
+    logger.debug(f"Sending request to {url}, user_id={user_id}")
     response = requests.post(url, headers=headers)
     logger.debug(f"Request completed with status: {response.status_code}")
     return response
@@ -133,16 +144,23 @@ async def get_pending_documents(message: Message):
     except:
         pass
     
+    timestamp = int(time.time())
+    bot_headers = {
+        'X-Telegram-User': str(user_id),
+        'X-Bot-Timestamp': str(timestamp),
+        'X-Bot-Signature': _sign(user_id, timestamp),
+    }
+
     # Запрашиваем необработанные накладные
     waybills_response = requests.get(
         f'{app_host}/waybills/pending',
-        headers={'Telegram-User': str(user_id)}
+        headers=bot_headers,
     )
-    
+
     # Запрашиваем необработанные списания
     writeoffs_response = requests.get(
         f'{app_host}/writeoffs/pending',
-        headers={'Telegram-User': str(user_id)}
+        headers=bot_headers,
     )
     
     if waybills_response.status_code != 200 and writeoffs_response.status_code != 200:
