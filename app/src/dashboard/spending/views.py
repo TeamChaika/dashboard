@@ -25,31 +25,45 @@ class SpendingView(View):
         return render(request, 'spending/index.html', self.context)
 
     def post(self, request: HttpRequest):
-        name = request.POST.get('name')
-        amount = request.POST.get('amount')
-        category_id = request.POST.get('category')
-        agreed_id = request.POST.get('agreed')
+        name = request.POST.get('name', '').strip()
+        amount = request.POST.get('amount', '').strip()
+        category_id = request.POST.get('category', '').strip()
+        agreed_id = request.POST.get('agreed', '').strip()
+
         if not all([name, amount, category_id, agreed_id]):
-            self.context['error_message'] = \
-                'Пожалуйста, введите данные корректно!'
+            self.context['error_message'] = 'Пожалуйста, введите данные корректно!'
             return self.render(request)
-        if not amount.isdigit():
-            self.context['error_message'] = \
-                'Пожалуйста, введите данные корректно!'
+
+        if len(name) > 255:
+            self.context['error_message'] = 'Название слишком длинное (макс. 255 символов)!'
             return self.render(request)
-        category = get_object_or_404(Category, id=int(category_id))
-        agreed = get_object_or_404(Agreed, id=int(agreed_id))
-        spending = Spending(
+
+        try:
+            amount_int = int(amount)
+            if amount_int <= 0:
+                raise ValueError
+        except (TypeError, ValueError):
+            self.context['error_message'] = 'Сумма должна быть целым положительным числом!'
+            return self.render(request)
+
+        try:
+            category_id_int = int(category_id)
+            agreed_id_int = int(agreed_id)
+        except (TypeError, ValueError):
+            self.context['error_message'] = 'Пожалуйста, введите данные корректно!'
+            return self.render(request)
+
+        category = get_object_or_404(Category, id=category_id_int)
+        agreed = get_object_or_404(Agreed, id=agreed_id_int)
+        Spending(
             department=request.user.department,
             category=category,
             user=request.user,
             name=name,
-            amount=int(amount),
-            agreed=agreed
-        )
-        spending.save()
-        self.context['success_message'] = \
-            'Новая запись расходов успешно добавлена!'
+            amount=amount_int,
+            agreed=agreed,
+        ).save()
+        self.context['success_message'] = 'Новая запись расходов успешно добавлена!'
         return self.render(request)
 
     def get(self, request: HttpRequest):

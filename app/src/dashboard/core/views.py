@@ -58,9 +58,16 @@ class DocumentView(View):
     def create_items(self, request: HttpRequest, items: list[tuple]):
         created = []
         for name, amount in items:
-            if not name or len(name) == 0 or not amount or float(amount) == 0:
-                self.context['error_message'] = \
-                    'Пожалуйста, заполните поля корректно!'
+            if not name:
+                self.context['error_message'] = 'Пожалуйста, заполните поля корректно!'
+                return self.render(request)
+            try:
+                amount_val = float(amount)
+            except (TypeError, ValueError):
+                self.context['error_message'] = 'Пожалуйста, заполните поля корректно!'
+                return self.render(request)
+            if amount_val <= 0:
+                self.context['error_message'] = 'Количество должно быть больше нуля!'
                 return self.render(request)
             if name not in self.nomenclature['name']:
                 self.context['error_message'] = \
@@ -68,7 +75,7 @@ class DocumentView(View):
                 return self.render(request)
             created.append(self.item_model(
                 product_id=self.nomenclature['name'].get(name),
-                amount=float(amount)
+                amount=amount_val,
             ))
         return created
 
