@@ -258,6 +258,24 @@
         <script src="{% static 'responsive-tables.js' %}"></script>
         <script src="{% static 'mobile-fab.js' %}"></script>
         {% block js %}{% endblock js %}
+        <script>
+        // Блокировка кнопки отправки после сабмита (защита от двойной отправки).
+        // Используем setTimeout(0) чтобы JS-валидация успела вызвать preventDefault() раньше.
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('form').forEach(function (form) {
+                form.addEventListener('submit', function (e) {
+                    setTimeout(function () {
+                        if (e.defaultPrevented) return;
+                        var btn = form.querySelector('[type="submit"]');
+                        if (!btn || btn.disabled) return;
+                        btn.disabled = true;
+                        btn.dataset.originalHtml = btn.innerHTML;
+                        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>Отправка...';
+                    }, 0);
+                });
+            });
+        });
+        </script>
         
         <!-- Mobile FAB -->
         {% if user.is_authenticated %}
