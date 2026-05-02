@@ -1,0 +1,3548 @@
+/* ============================================================
+   main.css — consolidated styles
+   Sources: design-tokens, material-design-3, dashboard,
+            design-improvements, modern-cards, enhanced-lists,
+            compact-forms, form-autosave, responsive-tables,
+            toast-notifications, modal-viewer
+   ============================================================ */
+
+/* ---- design-tokens.css ---- */
+/**
+ * Design Tokens - Единая система дизайн-токенов
+ * Основа для всей дизайн-системы проекта
+ */
+
+/* ================================================
+   1. COLOR TOKENS (Material Design 3)
+   ================================================ */
+
+:root {
+  /* Primary Colors */
+  --md-primary: #6750A4;
+  --md-on-primary: #FFFFFF;
+  --md-primary-container: #EADDFF;
+  --md-on-primary-container: #21005D;
+  
+  /* Secondary Colors */
+  --md-secondary: #625B71;
+  --md-on-secondary: #FFFFFF;
+  --md-secondary-container: #E8DEF8;
+  --md-on-secondary-container: #1D192B;
+  
+  /* Surface Colors */
+  --md-surface: #FFFBFE;
+  --md-on-surface: #1C1B1F;
+  --md-surface-container: #F3EDF7;
+  --md-on-surface-container: #1C1B1F;
+  --md-surface-container-high: #ECE6F0;
+  --md-surface-container-highest: #E6E0E9;
+  
+  /* Error Colors */
+  --md-error: #BA1A1A;
+  --md-on-error: #FFFFFF;
+  --md-error-container: #FFDAD6;
+  --md-on-error-container: #410002;
+  
+  /* Success Colors */
+  --md-success: #006A6A;
+  --md-on-success: #FFFFFF;
+  --md-success-container: #6FF7F6;
+  --md-on-success-container: #002020;
+  
+  /* Warning Colors */
+  --md-warning: #7C2D12;
+  --md-on-warning: #FFFFFF;
+  --md-warning-container: #FFDAD6;
+  --md-on-warning-container: #2D1600;
+  
+  /* Outline Colors */
+  --md-outline: #79747E;
+  --md-outline-variant: #CAC4D0;
+  
+  /* Legacy aliases for backward compatibility */
+  --md-sys-color-primary: var(--md-primary);
+  --md-sys-color-on-primary: var(--md-on-primary);
+  --md-sys-color-primary-container: var(--md-primary-container);
+  --md-sys-color-on-primary-container: var(--md-on-primary-container);
+  --md-sys-color-secondary: var(--md-secondary);
+  --md-sys-color-on-secondary: var(--md-on-secondary);
+  --md-sys-color-secondary-container: var(--md-secondary-container);
+  --md-sys-color-on-secondary-container: var(--md-on-secondary-container);
+  --md-sys-color-surface: var(--md-surface);
+  --md-sys-color-on-surface: var(--md-on-surface);
+  --md-sys-color-surface-container: var(--md-surface-container);
+  --md-sys-color-on-surface-container: var(--md-on-surface-container);
+  --md-sys-color-surface-container-high: var(--md-surface-container-high);
+  --md-sys-color-surface-container-highest: var(--md-surface-container-highest);
+  --md-sys-color-error: var(--md-error);
+  --md-sys-color-on-error: var(--md-on-error);
+  --md-sys-color-error-container: var(--md-error-container);
+  --md-sys-color-on-error-container: var(--md-on-error-container);
+  --md-sys-color-success: var(--md-success);
+  --md-sys-color-on-success: var(--md-on-success);
+  --md-sys-color-success-container: var(--md-success-container);
+  --md-sys-color-on-success-container: var(--md-on-success-container);
+  --md-sys-color-warning: var(--md-warning);
+  --md-sys-color-on-warning: var(--md-on-warning);
+  --md-sys-color-warning-container: var(--md-warning-container);
+  --md-sys-color-on-warning-container: var(--md-on-warning-container);
+  --md-sys-color-outline: var(--md-outline);
+  --md-sys-color-outline-variant: var(--md-outline-variant);
+}
+
+/* Dark Theme Override */
+.bg-theme2 {
+  --md-primary: #D0BCFF;
+  --md-on-primary: #381E72;
+  --md-primary-container: #4F378B;
+  --md-on-primary-container: #EADDFF;
+  
+  --md-secondary: #CCC2DC;
+  --md-on-secondary: #332D41;
+  --md-secondary-container: #4A4458;
+  --md-on-secondary-container: #E8DEF8;
+  
+  --md-surface: #1C1B1F;
+  --md-on-surface: #E6E0E9;
+  --md-surface-container: #211F26;
+  --md-on-surface-container: #E6E0E9;
+  --md-surface-container-high: #2B2930;
+  --md-surface-container-highest: #36343B;
+  
+  --md-error: #FFB4AB;
+  --md-on-error: #690005;
+  --md-error-container: #93000A;
+  --md-on-error-container: #FFDAD6;
+  
+  --md-success: #4FD1C7;
+  --md-on-success: #003731;
+  --md-success-container: #005047;
+  --md-on-success-container: #6FF7F6;
+  
+  --md-warning: #FFB4AB;
+  --md-on-warning: #4C1A00;
+  --md-warning-container: #6B1A00;
+  --md-on-warning-container: #FFDAD6;
+  
+  --md-outline: #938F99;
+  --md-outline-variant: #49454F;
+  
+  /* Legacy aliases */
+  --md-sys-color-primary: var(--md-primary);
+  --md-sys-color-on-primary: var(--md-on-primary);
+  --md-sys-color-primary-container: var(--md-primary-container);
+  --md-sys-color-on-primary-container: var(--md-on-primary-container);
+  --md-sys-color-secondary: var(--md-secondary);
+  --md-sys-color-on-secondary: var(--md-on-secondary);
+  --md-sys-color-secondary-container: var(--md-secondary-container);
+  --md-sys-color-on-secondary-container: var(--md-on-secondary-container);
+  --md-sys-color-surface: var(--md-surface);
+  --md-sys-color-on-surface: var(--md-on-surface);
+  --md-sys-color-surface-container: var(--md-surface-container);
+  --md-sys-color-on-surface-container: var(--md-on-surface-container);
+  --md-sys-color-surface-container-high: var(--md-surface-container-high);
+  --md-sys-color-surface-container-highest: var(--md-surface-container-highest);
+  --md-sys-color-error: var(--md-error);
+  --md-sys-color-on-error: var(--md-on-error);
+  --md-sys-color-error-container: var(--md-error-container);
+  --md-sys-color-on-error-container: var(--md-on-error-container);
+  --md-sys-color-success: var(--md-success);
+  --md-sys-color-on-success: var(--md-on-success);
+  --md-sys-color-success-container: var(--md-success-container);
+  --md-sys-color-on-success-container: var(--md-on-success-container);
+  --md-sys-color-warning: var(--md-warning);
+  --md-sys-color-on-warning: var(--md-on-warning);
+  --md-sys-color-warning-container: var(--md-warning-container);
+  --md-sys-color-on-warning-container: var(--md-on-warning-container);
+  --md-sys-color-outline: var(--md-outline);
+  --md-sys-color-outline-variant: var(--md-outline-variant);
+}
+
+/* ================================================
+   2. SPACING TOKENS (8pt Grid)
+   ================================================ */
+
+:root {
+  --spacing-xs: 0.25rem;   /* 4px */
+  --spacing-sm: 0.5rem;    /* 8px */
+  --spacing-md: 1rem;      /* 16px */
+  --spacing-lg: 1.5rem;    /* 24px */
+  --spacing-xl: 2rem;      /* 32px */
+  --spacing-2xl: 3rem;     /* 48px */
+  --spacing-3xl: 4rem;     /* 64px */
+  --spacing-4xl: 6rem;     /* 96px */
+  
+  /* Component Spacing */
+  --spacing-card-padding: var(--spacing-lg);
+  --spacing-form-spacing: var(--spacing-md);
+  --spacing-section-spacing: var(--spacing-2xl);
+  --spacing-button-padding: var(--spacing-sm) var(--spacing-lg);
+  
+  /* Legacy aliases */
+  --md-sys-spacing-xs: var(--spacing-xs);
+  --md-sys-spacing-sm: var(--spacing-sm);
+  --md-sys-spacing-md: var(--spacing-md);
+  --md-sys-spacing-lg: var(--spacing-lg);
+  --md-sys-spacing-xl: var(--spacing-xl);
+  --md-sys-spacing-2xl: var(--spacing-2xl);
+  --md-sys-spacing-3xl: var(--spacing-3xl);
+  --md-sys-spacing-4xl: var(--spacing-4xl);
+  --md-sys-spacing-card-padding: var(--spacing-card-padding);
+  --md-sys-spacing-form-spacing: var(--spacing-form-spacing);
+  --md-sys-spacing-section-spacing: var(--spacing-section-spacing);
+  --md-sys-spacing-button-padding: var(--spacing-button-padding);
+}
+
+/* ================================================
+   3. TYPOGRAPHY TOKENS
+   ================================================ */
+
+:root {
+  --font-size-base: 1rem;
+  --font-size-sm: 0.875rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+  
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+}
+
+/* ================================================
+   4. BORDER RADIUS TOKENS
+   ================================================ */
+
+:root {
+  --radius-sm: 0.5rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.5rem;
+  --radius-xl: 2rem;
+  --radius-full: 9999px;
+}
+
+/* ================================================
+   5. SHADOW TOKENS
+   ================================================ */
+
+:root {
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.2), 0 4px 8px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 12px 40px rgba(0, 0, 0, 0.25), 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* ================================================
+   6. TRANSITION TOKENS
+   ================================================ */
+
+:root {
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  
+  /* Legacy aliases */
+  --md-sys-motion-duration-short3: var(--transition-fast);
+  --md-sys-motion-duration-medium2: var(--transition-base);
+  --md-sys-motion-easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ================================================
+   7. GLASSMORPHISM TOKENS (Optional)
+   ================================================ */
+
+:root {
+  --glass-bg: rgba(255, 255, 255, 0.08);
+  --glass-bg-hover: rgba(255, 255, 255, 0.12);
+  --glass-border: rgba(255, 255, 255, 0.18);
+  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  --glass-blur: 20px;
+}
+
+.bg-theme2 {
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-bg-hover: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+}
+
+/* ================================================
+   8. ACCESSIBILITY TOKENS
+   ================================================ */
+
+:root {
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
+  --focus-ring-color: var(--md-primary);
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --transition-fast: 0ms;
+    --transition-base: 0ms;
+    --transition-slow: 0ms;
+  }
+}
+
+
+/* ---- material-design-3.css ---- */
+/**
+ * Material Design 3 - Основа дизайн-системы
+ * 
+ * Этот файл содержит компоненты Material Design 3
+ * Использует токены из design-tokens.css
+ * 
+ * Порядок подключения:
+ * 1. design-tokens.css (токены)
+ * 2. material-design-3.css (компоненты)
+ * 3. modern-cards.css (специфичные компоненты)
+ * 4. design-improvements.css (опциональные эффекты)
+ */
+
+/* ================================================
+   ТОКЕНЫ ПЕРЕНЕСЕНЫ В design-tokens.css
+   Этот файл теперь содержит только компоненты
+   ================================================ */
+
+/* ================================================
+   1. MATERIAL DESIGN 3 COMPONENTS
+   ================================================ */
+
+/* Cards - Solid Background (по умолчанию) */
+.md3-card {
+  background: var(--md-surface-container);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-card-padding);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-base);
+  border: 1px solid var(--md-outline-variant);
+  color: var(--md-on-surface-container);
+}
+
+.md3-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+/* Glass Effect - Опциональный класс */
+.md3-card-glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+.md3-card-glass:hover {
+  background: var(--glass-bg-hover);
+}
+
+.md3-card-header {
+  color: var(--md-on-surface-container);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-normal);
+  margin-bottom: var(--spacing-md);
+}
+
+/* Buttons */
+.md3-btn {
+  border-radius: var(--radius-full);
+  padding: var(--spacing-button-padding);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-normal);
+  transition: all var(--transition-fast);
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  min-height: 40px;
+}
+
+.md3-btn-primary {
+  background: var(--md-primary);
+  color: var(--md-on-primary);
+}
+
+.md3-btn-primary:hover {
+  background: var(--md-primary-container);
+  color: var(--md-on-primary-container);
+  transform: scale(1.02);
+}
+
+.md3-btn-primary:active {
+  transform: scale(0.98);
+}
+
+.md3-btn-secondary {
+  background: var(--md-secondary);
+  color: var(--md-on-secondary);
+}
+
+.md3-btn-secondary:hover {
+  background: var(--md-secondary-container);
+  color: var(--md-on-secondary-container);
+}
+
+.md3-btn-outline {
+  background: transparent;
+  color: var(--md-primary);
+  border: 1px solid var(--md-outline);
+}
+
+.md3-btn-outline:hover {
+  background: var(--md-primary-container);
+  color: var(--md-on-primary-container);
+  border-color: var(--md-primary);
+}
+
+/* Forms */
+.md3-form-control {
+  background: var(--md-surface-container);
+  border: 1px solid var(--md-outline);
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-normal);
+  color: var(--md-on-surface-container);
+  transition: all var(--transition-fast);
+  width: 100%;
+}
+
+.md3-form-control:focus {
+  border-color: var(--md-primary);
+  box-shadow: 0 0 0 var(--focus-ring-width) var(--focus-ring-color);
+  outline: none;
+  background: var(--md-surface-container-high);
+}
+
+.md3-form-control:invalid {
+  border-color: var(--md-error);
+}
+
+.md3-form-control:invalid:focus {
+  box-shadow: 0 0 0 var(--focus-ring-width) var(--md-error-container);
+}
+
+.md3-form-label {
+  color: var(--md-on-surface-container);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+  margin-bottom: var(--spacing-xs);
+  display: block;
+}
+
+/* Tables */
+.md3-table {
+  background: var(--md-surface-container);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.md3-table th {
+  background: var(--md-surface-container-high);
+  color: var(--md-on-surface-container);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-normal);
+  padding: var(--spacing-md);
+  text-align: left;
+}
+
+.md3-table td {
+  color: var(--md-on-surface-container);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+  padding: var(--spacing-md);
+  border-bottom: 1px solid var(--md-outline-variant);
+}
+
+.md3-table tr:hover {
+  background: var(--md-surface-container-high);
+}
+
+/* Navigation */
+.md3-nav-link {
+  color: var(--md-on-surface-container);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.md3-nav-link:hover {
+  background: var(--md-primary-container);
+  color: var(--md-on-primary-container);
+}
+
+.md3-nav-link.active {
+  background: var(--md-primary);
+  color: var(--md-on-primary);
+}
+
+/* Typography */
+.md3-headline-large {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-tight);
+  color: var(--md-on-surface-container);
+  margin-bottom: var(--spacing-md);
+}
+
+.md3-headline-medium {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-tight);
+  color: var(--md-on-surface-container);
+  margin-bottom: var(--spacing-sm);
+}
+
+.md3-title-large {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+  color: var(--md-on-surface-container);
+  margin-bottom: var(--spacing-sm);
+}
+
+.md3-body-large {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+  color: var(--md-on-surface-container);
+}
+
+.md3-body-medium {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+  color: var(--md-on-surface-container);
+}
+
+/* ================================================
+   6. ACCESSIBILITY IMPROVEMENTS
+   ================================================ */
+
+/* Focus States */
+.md3-btn:focus-visible,
+.md3-form-control:focus-visible,
+.md3-nav-link:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  :root {
+    --md-outline: #000000;
+    --md-outline-variant: #000000;
+  }
+}
+
+/* Reduced Motion - обрабатывается в design-tokens.css через CSS переменные */
+
+/* ================================================
+   7. MOBILE OPTIMIZATIONS
+   ================================================ */
+
+@media (max-width: 768px) {
+  .md3-btn {
+    min-height: 48px; /* Touch target minimum */
+    min-width: 48px;
+  }
+  
+  .md3-form-control {
+    min-height: 48px;
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+  
+  .md3-card {
+    padding: var(--spacing-md);
+  }
+  
+  .md3-table th,
+  .md3-table td {
+    padding: var(--spacing-sm);
+  }
+}
+
+/* ================================================
+   8. UTILITY CLASSES
+   ================================================ */
+
+.md3-spacing-xs { margin: var(--spacing-xs); }
+.md3-spacing-sm { margin: var(--spacing-sm); }
+.md3-spacing-md { margin: var(--spacing-md); }
+.md3-spacing-lg { margin: var(--spacing-lg); }
+.md3-spacing-xl { margin: var(--spacing-xl); }
+
+.md3-padding-xs { padding: var(--spacing-xs); }
+.md3-padding-sm { padding: var(--spacing-sm); }
+.md3-padding-md { padding: var(--spacing-md); }
+.md3-padding-lg { padding: var(--spacing-lg); }
+.md3-padding-xl { padding: var(--spacing-xl); }
+
+.md3-text-center { text-align: center; }
+.md3-text-left { text-align: left; }
+.md3-text-right { text-align: right; }
+
+.md3-flex { display: flex; }
+.md3-flex-column { flex-direction: column; }
+.md3-flex-center { justify-content: center; align-items: center; }
+.md3-flex-between { justify-content: space-between; }
+.md3-flex-gap-sm { gap: var(--md-sys-spacing-sm); }
+.md3-flex-gap-md { gap: var(--md-sys-spacing-md); }
+.md3-flex-gap-lg { gap: var(--md-sys-spacing-lg); }
+
+/* ================================================
+   9. BACKWARD COMPATIBILITY
+   ================================================ */
+
+/* Плавный переход от старых стилей к новым */
+.card {
+  transition: all var(--transition-base);
+}
+
+.btn {
+  transition: all var(--transition-fast);
+}
+
+.form-control {
+  transition: all var(--transition-fast);
+}
+
+/* ================================================
+   10. DEBUG MODE (для тестирования)
+   ================================================ */
+
+.md3-debug {
+  outline: 2px dashed var(--md-primary);
+  outline-offset: 2px;
+}
+
+.md3-debug * {
+  outline: 1px dashed var(--md-secondary);
+  outline-offset: 1px;
+}
+
+
+/* ---- dashboard.css ---- */
+body {
+  font-size: .875rem;
+}
+
+.feather {
+  width: 16px;
+  height: 16px;
+  vertical-align: text-bottom;
+}
+
+/*
+ * Sidebar
+ */
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  /* rtl:raw:
+  right: 0;
+  */
+  bottom: 0;
+  /* rtl:remove */
+  left: 0;
+  z-index: 100; /* Behind the navbar */
+  padding: 48px 0 0; /* Height of navbar */
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+}
+
+@media (max-width: 767.98px) {
+  .sidebar {
+    top: 5rem;
+  }
+}
+
+.sidebar-sticky {
+  position: relative;
+  top: 0;
+  height: calc(100vh - 48px);
+  padding-top: .5rem;
+  overflow-x: hidden;
+  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+}
+
+.sidebar .nav-link {
+  font-weight: 500;
+  color: #333;
+}
+
+.sidebar .nav-link .feather {
+  margin-right: 4px;
+  color: #727272;
+}
+
+.sidebar .nav-link.active {
+  color: #2470dc;
+}
+
+.sidebar .nav-link:hover .feather,
+.sidebar .nav-link.active .feather {
+  color: inherit;
+}
+
+.sidebar-heading {
+  font-size: .75rem;
+  text-transform: uppercase;
+}
+
+/*
+ * Navbar
+ */
+
+.navbar-brand {
+  padding-top: .75rem;
+  padding-bottom: .75rem;
+  font-size: 1rem;
+  background-color: rgba(0, 0, 0, .25);
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
+}
+
+.navbar .navbar-toggler {
+  top: .25rem;
+  right: 1rem;
+}
+
+.navbar .form-control {
+  padding: .75rem 1rem;
+  border-width: 0;
+  border-radius: 0;
+}
+
+.form-control-dark {
+  color: #fff;
+  background-color: rgba(255, 255, 255, .1);
+  border-color: rgba(255, 255, 255, .1);
+}
+
+.form-control-dark:focus {
+  border-color: transparent;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
+}
+
+/* ============================================================
+   Status badges (waybills / writeoffs)
+   ============================================================ */
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .02em;
+  white-space: nowrap;
+}
+
+.status-badge::before {
+  content: '';
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: .7;
+  flex-shrink: 0;
+}
+
+.status-created {
+  color: #0958d9;
+  background-color: #e6f0ff;
+}
+
+.status-sent {
+  color: #389e0d;
+  background-color: #e6f4ea;
+}
+
+.status-denied {
+  color: #c41d1d;
+  background-color: #fff1f0;
+}
+
+.status-cancelled {
+  color: #595959;
+  background-color: #f5f5f5;
+}
+
+/* Dark-mode overrides */
+[data-bs-theme="dark"] .status-created  { background-color: #111d2c; color: #69b1ff; }
+[data-bs-theme="dark"] .status-sent     { background-color: #0d2b0d; color: #73d13d; }
+[data-bs-theme="dark"] .status-denied   { background-color: #2a0000; color: #ff7875; }
+[data-bs-theme="dark"] .status-cancelled{ background-color: #1f1f1f; color: #a6a6a6; }
+
+/* ---- design-improvements.css ---- */
+/**
+ * Design Improvements - Опциональные декоративные эффекты
+ * Glassmorphism, плавные анимации, градиенты
+ * Использует токены из design-tokens.css
+ */
+
+/* ================================================
+   1. ГЛОБАЛЬНЫЕ УЛУЧШЕНИЯ
+   ================================================ */
+
+:root {
+    --primary-gradient: linear-gradient(135deg, var(--md-primary) 0%, var(--md-secondary) 100%);
+    --success-gradient: linear-gradient(135deg, var(--md-success) 0%, #38ef7d 100%);
+    --danger-gradient: linear-gradient(135deg, var(--md-error) 0%, #ff6a00 100%);
+    --warning-gradient: linear-gradient(135deg, var(--md-warning) 0%, #f5576c 100%);
+    --info-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+/* Плавный скролл */
+html {
+    scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+}
+
+/* ================================================
+   2. GLASSMORPHISM - ОПЦИОНАЛЬНЫЙ КЛАСС
+   ================================================ */
+
+/* Glass эффект применяется только к элементам с классом .glass-effect */
+.glass-effect {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+}
+
+.glass-effect:hover {
+    background: var(--glass-bg-hover);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Опциональный glass эффект для карточек */
+.card.glass-effect {
+    border-radius: var(--radius-lg);
+    transition: all var(--transition-base);
+}
+
+.card.glass-effect:hover {
+    box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.5);
+    transform: translateY(-5px);
+}
+
+.card-header.glass-effect {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+    border-bottom: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    padding: var(--spacing-lg);
+}
+
+.card-body.glass-effect {
+    padding: var(--spacing-2xl);
+}
+
+/* ================================================
+   3. КНОПКИ С ГРАДИЕНТАМИ (опционально)
+   ================================================ */
+
+.btn-gradient {
+    position: relative;
+    overflow: hidden;
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: 0.5px;
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-gradient::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s;
+}
+
+.btn-gradient:hover::before {
+    left: 100%;
+}
+
+.btn-gradient:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.btn-gradient:active {
+    transform: translateY(0);
+}
+
+.btn-gradient-primary {
+    background: var(--primary-gradient);
+    color: var(--md-on-primary);
+}
+
+.btn-gradient-success {
+    background: var(--success-gradient);
+    color: var(--md-on-success);
+}
+
+.btn-gradient-danger {
+    background: var(--danger-gradient);
+    color: var(--md-on-error);
+}
+
+.btn-gradient-warning {
+    background: var(--warning-gradient);
+    color: var(--md-on-warning);
+}
+
+.btn-gradient-info {
+    background: var(--info-gradient);
+    color: white;
+}
+
+/* Пульсация ТОЛЬКО для важных уведомлений (опциональный класс) */
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 4px 15px rgba(103, 80, 164, 0.4);
+    }
+    50% {
+        box-shadow: 0 4px 25px rgba(103, 80, 164, 0.7);
+    }
+}
+
+.btn-primary.urgent {
+    animation: pulse 2s infinite;
+}
+
+/* ================================================
+   4. ФОРМЫ С УЛУЧШЕННОЙ КОНТРАСТНОСТЬЮ
+   ================================================ */
+
+.form-control,
+.form-select {
+    background: var(--md-surface-container);
+    border: 1px solid var(--md-outline);
+    border-radius: var(--radius-sm);
+    color: var(--md-on-surface-container);
+    padding: var(--spacing-md) var(--spacing-lg);
+    transition: all var(--transition-base);
+    font-size: var(--font-size-base);
+}
+
+.form-control:focus,
+.form-select:focus {
+    background: var(--md-surface-container-high);
+    border-color: var(--md-primary);
+    box-shadow: 0 0 0 var(--focus-ring-width) var(--focus-ring-color);
+    outline: none;
+}
+
+.form-control::placeholder {
+    color: var(--md-outline);
+    opacity: 0.7;
+}
+
+/* Улучшенная контрастность для темной темы */
+.bg-theme2 .form-control,
+.bg-theme2 .form-select {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--md-on-surface-container);
+}
+
+.bg-theme2 .form-control:focus,
+.bg-theme2 .form-select:focus {
+    background: rgba(255, 255, 255, 0.18);
+    border-color: var(--md-primary);
+    box-shadow: 0 0 0 3px rgba(103, 80, 164, 0.2);
+}
+
+.bg-theme2 .form-control::placeholder {
+    color: var(--md-outline);
+    opacity: 0.8;
+}
+
+/* Плавающий label эффект */
+.form-floating > label {
+    padding: 1rem 0.75rem;
+    transition: all var(--transition-base);
+    color: var(--md-outline);
+}
+
+.form-floating > .form-control:focus ~ label,
+.form-floating > .form-control:not(:placeholder-shown) ~ label {
+    opacity: 1;
+    transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+    color: var(--md-primary);
+    font-weight: var(--font-weight-semibold);
+}
+
+/* ================================================
+   5. SIDEBAR С ЭФФЕКТОМ СТЕКЛА (опционально)
+   ================================================ */
+
+.sidebar-wrapper.glass-effect {
+    background: linear-gradient(180deg, rgba(20, 20, 30, 0.95) 0%, rgba(10, 10, 20, 0.98) 100%);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 4px 0 30px rgba(0, 0, 0, 0.3);
+}
+
+.sidebar-header.glass-effect {
+    background: linear-gradient(135deg, rgba(103, 80, 164, 0.2) 0%, rgba(98, 91, 113, 0.2) 100%);
+    padding: var(--spacing-2xl);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo-text {
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-3xl);
+    letter-spacing: 1px;
+}
+
+/* ================================================
+   6. МЕНЮ С HOVER ЭФФЕКТАМИ
+   ================================================ */
+
+.metismenu a {
+    border-radius: var(--radius-md);
+    margin: var(--spacing-xs) var(--spacing-sm);
+    padding: var(--spacing-md);
+    transition: all var(--transition-base);
+    position: relative;
+    overflow: hidden;
+}
+
+.metismenu a::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 3px;
+    background: var(--primary-gradient);
+    transform: scaleY(0);
+    transition: transform var(--transition-base);
+}
+
+.metismenu a:hover {
+    background: var(--md-primary-container);
+    transform: translateX(var(--spacing-sm));
+    padding-left: var(--spacing-2xl);
+}
+
+.metismenu a:hover::before {
+    transform: scaleY(1);
+}
+
+.metismenu .mm-active > a {
+    background: var(--md-primary-container);
+    border-left: 3px solid var(--md-primary);
+}
+
+/* ================================================
+   7. HEADER С ГРАДИЕНТОМ
+   ================================================ */
+
+.topbar.glass-effect {
+    background: linear-gradient(90deg, rgba(20, 20, 30, 0.95) 0%, rgba(30, 30, 40, 0.95) 100%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* ================================================
+   8. ТАБЛИЦЫ
+   ================================================ */
+
+.table.glass-effect {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.table.glass-effect thead {
+    background: linear-gradient(135deg, rgba(103, 80, 164, 0.3) 0%, rgba(98, 91, 113, 0.3) 100%);
+}
+
+.table.glass-effect thead th {
+    border: none;
+    padding: var(--spacing-md);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: var(--font-size-sm);
+    color: var(--md-on-surface-container);
+}
+
+.table.glass-effect tbody tr {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all var(--transition-base);
+}
+
+.table.glass-effect tbody tr:hover {
+    background: var(--md-primary-container);
+    transform: scale(1.01);
+}
+
+.table.glass-effect tbody td {
+    padding: var(--spacing-md);
+    vertical-align: middle;
+}
+
+/* ================================================
+   9. BADGES С ГРАДИЕНТАМИ
+   ================================================ */
+
+.badge-gradient {
+    border-radius: var(--radius-full);
+    padding: var(--spacing-xs) var(--spacing-md);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: 0.5px;
+    font-size: var(--font-size-sm);
+    text-transform: uppercase;
+    box-shadow: var(--shadow-sm);
+}
+
+.badge-gradient-success {
+    background: var(--success-gradient);
+}
+
+.badge-gradient-danger {
+    background: var(--danger-gradient);
+}
+
+.badge-gradient-warning {
+    background: var(--warning-gradient);
+}
+
+.badge-gradient-info {
+    background: var(--info-gradient);
+}
+
+/* ================================================
+   10. АНИМАЦИЯ ЗАГРУЗКИ
+   ================================================ */
+
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+.skeleton {
+    background: linear-gradient(90deg, 
+        rgba(255, 255, 255, 0.05) 25%, 
+        rgba(255, 255, 255, 0.15) 50%, 
+        rgba(255, 255, 255, 0.05) 75%);
+    background-size: 1000px 100%;
+    animation: shimmer 2s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .skeleton {
+        animation: none;
+    }
+}
+
+/* ================================================
+   11. МОДАЛЬНЫЕ ОКНА
+   ================================================ */
+
+.modal-content.glass-effect {
+    background: linear-gradient(135deg, rgba(30, 30, 40, 0.98) 0%, rgba(20, 20, 30, 0.98) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+}
+
+.modal-header.glass-effect {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: var(--spacing-2xl);
+}
+
+.modal-title {
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: var(--font-weight-bold);
+}
+
+/* ================================================
+   12. DROPDOWN МЕНЮ
+   ================================================ */
+
+.dropdown-menu.glass-effect {
+    background: rgba(30, 30, 40, 0.98);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-sm);
+    box-shadow: var(--shadow-lg);
+}
+
+.dropdown-item {
+    border-radius: var(--radius-sm);
+    padding: var(--spacing-md);
+    transition: all var(--transition-fast);
+    margin: var(--spacing-xs) 0;
+}
+
+.dropdown-item:hover {
+    background: var(--md-primary-container);
+    transform: translateX(var(--spacing-xs));
+}
+
+/* ================================================
+   13. SCROLLBAR СТИЛИЗАЦИЯ
+   ================================================ */
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-gradient);
+    border-radius: 10px;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, var(--md-primary) 0%, var(--md-secondary) 100%);
+}
+
+/* ================================================
+   14. АЛЕРТЫ
+   ================================================ */
+
+.alert {
+    border: none;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    padding: var(--spacing-md) var(--spacing-lg);
+}
+
+.alert-success {
+    background: linear-gradient(135deg, rgba(0, 106, 106, 0.2) 0%, rgba(56, 239, 125, 0.2) 100%);
+    border-left: 4px solid var(--md-success);
+}
+
+.alert-danger {
+    background: linear-gradient(135deg, rgba(186, 26, 26, 0.2) 0%, rgba(255, 106, 0, 0.2) 100%);
+    border-left: 4px solid var(--md-error);
+}
+
+.alert-warning {
+    background: linear-gradient(135deg, rgba(124, 45, 18, 0.2) 0%, rgba(245, 87, 108, 0.2) 100%);
+    border-left: 4px solid var(--md-warning);
+}
+
+.alert-info {
+    background: linear-gradient(135deg, rgba(79, 172, 254, 0.2) 0%, rgba(0, 242, 254, 0.2) 100%);
+    border-left: 4px solid #4facfe;
+}
+
+/* ================================================
+   15. BREADCRUMBS
+   ================================================ */
+
+.breadcrumb.glass-effect {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-full);
+    padding: var(--spacing-md) var(--spacing-lg);
+}
+
+.breadcrumb-item {
+    transition: all var(--transition-fast);
+}
+
+.breadcrumb-item:hover {
+    transform: translateX(var(--spacing-xs));
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    content: '→';
+    color: var(--md-outline);
+}
+
+/* ================================================
+   16. PROGRESS BARS
+   ================================================ */
+
+.progress {
+    height: 12px;
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.1);
+    overflow: visible;
+}
+
+.progress-bar {
+    background: var(--primary-gradient);
+    border-radius: var(--radius-sm);
+    box-shadow: 0 0 10px rgba(103, 80, 164, 0.5);
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.3), 
+        transparent);
+    animation: shimmer 2s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .progress-bar::after {
+        animation: none;
+    }
+}
+
+/* ================================================
+   17. SWITCHER (темы)
+   ================================================ */
+
+.switcher-wrapper.glass-effect {
+    background: linear-gradient(135deg, rgba(30, 30, 40, 0.98) 0%, rgba(20, 20, 30, 0.98) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-xl) 0 0 var(--radius-xl);
+    box-shadow: -4px 0 30px rgba(0, 0, 0, 0.3);
+}
+
+.switcher-btn {
+    background: var(--primary-gradient);
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-base);
+}
+
+.switcher-btn:hover {
+    transform: translateX(-10px) scale(1.1);
+    box-shadow: var(--shadow-lg);
+}
+
+.switcher ul.switcher li {
+    border-radius: var(--radius-md);
+    transition: all var(--transition-base);
+    border: 2px solid transparent;
+}
+
+.switcher ul.switcher li:hover {
+    transform: scale(1.1);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: var(--shadow-md);
+}
+
+/* ================================================
+   18. МИКРОАНИМАЦИИ
+   ================================================ */
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.float-animation {
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes glow {
+    0%, 100% {
+        box-shadow: 0 0 5px rgba(103, 80, 164, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(103, 80, 164, 0.6);
+    }
+}
+
+.glow-animation {
+    animation: glow 2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .float-animation,
+    .glow-animation {
+        animation: none;
+    }
+}
+
+/* ================================================
+   19. ИКОНКИ
+   ================================================ */
+
+.bx {
+    transition: all var(--transition-base);
+}
+
+a:hover .bx,
+button:hover .bx {
+    transform: scale(1.2) rotate(5deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .bx {
+        transition: none;
+    }
+    
+    a:hover .bx,
+    button:hover .bx {
+        transform: none;
+    }
+}
+
+/* ================================================
+   20. АНИМАЦИЯ ПОЯВЛЕНИЯ
+   ================================================ */
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.6s var(--transition-base);
+}
+
+/* Задержка для последовательного появления */
+.fade-in-up:nth-child(1) { animation-delay: 0.1s; }
+.fade-in-up:nth-child(2) { animation-delay: 0.2s; }
+.fade-in-up:nth-child(3) { animation-delay: 0.3s; }
+.fade-in-up:nth-child(4) { animation-delay: 0.4s; }
+.fade-in-up:nth-child(5) { animation-delay: 0.5s; }
+
+@media (prefers-reduced-motion: reduce) {
+    .fade-in-up {
+        animation: none;
+    }
+}
+
+/* ================================================
+   21. УЛУЧШЕННАЯ ТИПОГРАФИКА
+   ================================================ */
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: var(--font-weight-bold);
+    letter-spacing: -0.5px;
+    line-height: var(--line-height-tight);
+}
+
+h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+}
+
+h2 {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+p {
+    line-height: var(--line-height-relaxed);
+    color: var(--md-on-surface-container);
+}
+
+/* ================================================
+   22. DARK MODE ОПТИМИЗАЦИЯ
+   ================================================ */
+
+.bg-theme2 {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    background-attachment: fixed;
+}
+
+/* Animated background */
+.bg-theme2::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(103, 80, 164, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(98, 91, 113, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* ================================================
+   23. ACCESSIBILITY УЛУЧШЕНИЯ
+   ================================================ */
+
+*:focus-visible {
+    outline: var(--focus-ring-width) solid var(--focus-ring-color);
+    outline-offset: var(--focus-ring-offset);
+    border-radius: var(--radius-sm);
+}
+
+/* ================================================
+   24. ПЕЧАТЬ
+   ================================================ */
+
+@media print {
+    .sidebar-wrapper,
+    .topbar,
+    .switcher-wrapper,
+    .btn {
+        display: none;
+    }
+    
+    .card {
+        box-shadow: none;
+        border: 1px solid #000;
+    }
+}
+
+/* ================================================
+   25. ПЕРФОМАНС ОПТИМИЗАЦИЯ
+   ================================================ */
+
+/* Убираем will-change для лучшей производительности */
+/* Используем только для активно анимируемых элементов */
+
+.card.glass-effect,
+.btn-gradient,
+.action-btn {
+    will-change: transform, box-shadow;
+}
+
+/* ---- modern-cards.css ---- */
+/**
+ * Modern Cards - Специфичные стили для карточек документов
+ * Использует токены из design-tokens.css
+ * Оптимизировано для мобильных устройств (95% трафика)
+ */
+
+/* ================================================
+   1. КАРТОЧКИ ДОКУМЕНТОВ
+   ================================================ */
+
+.waybill-card,
+.writeoff-card {
+  background: var(--md-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: all var(--transition-base);
+  border: 1px solid var(--md-outline-variant);
+}
+
+.waybill-card:hover,
+.writeoff-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* ================================================
+   2. ЗАГОЛОВОК КАРТОЧКИ
+   ================================================ */
+
+.waybill-card .card-header,
+.writeoff-card .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: var(--spacing-lg) var(--spacing-md) var(--spacing-md);
+  background: linear-gradient(135deg, var(--md-primary-container) 0%, var(--md-surface-container-high) 100%);
+  border-bottom: 1px solid var(--md-outline-variant);
+}
+
+.waybill-id,
+.writeoff-id {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--md-on-surface);
+  letter-spacing: -0.5px;
+}
+
+.waybill-id::before,
+.writeoff-id::before {
+  content: "#";
+  color: var(--md-primary);
+  margin-right: var(--spacing-xs);
+}
+
+/* ================================================
+   3. СТАТУСЫ
+   ================================================ */
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  box-shadow: var(--shadow-sm);
+}
+
+.status-created {
+  background-color: var(--md-primary-container);
+  color: var(--md-on-primary-container);
+}
+
+.status-sent {
+  background-color: var(--md-success-container);
+  color: var(--md-on-success-container);
+}
+
+.status-denied {
+  background-color: var(--md-error-container);
+  color: var(--md-on-error-container);
+}
+
+.status-cancelled {
+  background-color: var(--md-surface-container-high);
+  color: var(--md-on-surface-container);
+}
+
+/* ================================================
+   4. ТЕЛО КАРТОЧКИ
+   ================================================ */
+
+.waybill-card .card-body,
+.writeoff-card .card-body {
+  padding: 0;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-lg) var(--spacing-md);
+  border-bottom: 1px solid var(--md-outline-variant);
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  font-size: var(--font-size-sm);
+  color: var(--md-outline);
+  font-weight: var(--font-weight-medium);
+  flex: 1;
+}
+
+.info-value {
+  font-size: var(--font-size-base);
+  color: var(--md-on-surface);
+  font-weight: var(--font-weight-semibold);
+  flex: 1;
+  text-align: right;
+}
+
+/* ================================================
+   5. ПОДВАЛ КАРТОЧКИ
+   ================================================ */
+
+.waybill-card .card-footer,
+.writeoff-card .card-footer {
+  padding: var(--spacing-md);
+  background-color: var(--md-surface-container);
+  border-top: 1px solid var(--md-outline-variant);
+}
+
+.date-time {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  color: var(--md-outline);
+  padding: var(--spacing-md) 0;
+  background: var(--md-surface);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.date-time i {
+  margin-right: var(--spacing-sm);
+  color: var(--md-outline);
+}
+
+/* ================================================
+   6. КНОПКИ ДЕЙСТВИЙ
+   ================================================ */
+
+.actions {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  min-height: 52px;
+  border-radius: var(--radius-md);
+  background-color: var(--md-surface);
+  color: var(--md-outline);
+  border: 1px solid var(--md-outline-variant);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-base);
+  box-shadow: var(--shadow-sm);
+  text-decoration: none;
+}
+
+.action-btn i {
+  margin-right: var(--spacing-sm);
+  font-size: var(--font-size-lg);
+}
+
+.action-btn.view {
+  color: var(--md-primary);
+  border-color: var(--md-primary);
+}
+
+.action-btn.view:hover {
+  background: var(--md-primary-container);
+  color: var(--md-on-primary-container);
+}
+
+.action-btn.edit {
+  color: var(--md-secondary);
+  border-color: var(--md-secondary);
+}
+
+.action-btn.edit:hover {
+  background: var(--md-secondary-container);
+  color: var(--md-on-secondary-container);
+}
+
+.action-btn.confirm {
+  color: var(--md-success);
+  border-color: var(--md-success);
+}
+
+.action-btn.confirm:hover {
+  background: var(--md-success-container);
+  color: var(--md-on-success-container);
+}
+
+.action-btn.deny,
+.action-btn.cancel {
+  color: var(--md-error);
+  border-color: var(--md-error);
+}
+
+.action-btn.deny:hover,
+.action-btn.cancel:hover {
+  background: var(--md-error-container);
+  color: var(--md-on-error-container);
+}
+
+.action-btn.copy {
+  color: var(--md-warning);
+  border-color: var(--md-warning);
+}
+
+.action-btn.copy:hover {
+  background: var(--md-warning-container);
+  color: var(--md-on-warning-container);
+}
+
+.action-btn:active {
+  transform: scale(0.98);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ================================================
+   7. КОНТЕЙНЕР ДЛЯ КАРТОЧЕК
+   ================================================ */
+
+.cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+}
+
+/* ================================================
+   8. ПАГИНАЦИЯ В СТИЛЕ КАРТОЧЕК
+   ================================================ */
+
+.pagination {
+  display: flex;
+  list-style: none;
+  gap: var(--spacing-sm);
+  justify-content: center;
+  margin: var(--spacing-2xl) 0;
+}
+
+.page-item {
+  display: flex;
+}
+
+.page-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  background: var(--md-surface);
+  color: var(--md-outline);
+  text-decoration: none;
+  font-weight: var(--font-weight-semibold);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--md-outline-variant);
+  transition: all var(--transition-fast);
+}
+
+.page-link:hover {
+  background: var(--md-primary);
+  color: var(--md-on-primary);
+  border-color: var(--md-primary);
+}
+
+.page-item.active .page-link {
+  background: var(--md-primary);
+  color: var(--md-on-primary);
+  border-color: var(--md-primary);
+  box-shadow: 0 4px 12px rgba(103, 80, 164, 0.3);
+}
+
+.page-item.disabled .page-link {
+  background: var(--md-surface-container);
+  color: var(--md-outline-variant);
+  border-color: var(--md-outline-variant);
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ================================================
+   9. АНИМАЦИИ
+   ================================================ */
+
+@keyframes tapAnimation {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.97); }
+  100% { transform: scale(1); }
+}
+
+.action-btn.tap-animation {
+  animation: tapAnimation 0.2s ease;
+}
+
+/* ================================================
+   10. ТЕМНАЯ ТЕМА
+   ================================================ */
+
+.bg-theme2 .waybill-card,
+.bg-theme2 .writeoff-card {
+  background: var(--md-surface-container);
+  border-color: var(--md-outline-variant);
+}
+
+.bg-theme2 .waybill-card .card-header,
+.bg-theme2 .writeoff-card .card-header {
+  background: linear-gradient(135deg, var(--md-primary-container) 0%, var(--md-surface-container-high) 100%);
+  border-bottom-color: var(--md-outline-variant);
+}
+
+.bg-theme2 .waybill-id,
+.bg-theme2 .writeoff-id {
+  color: var(--md-on-surface-container);
+}
+
+.bg-theme2 .info-label {
+  color: var(--md-outline);
+}
+
+.bg-theme2 .info-value {
+  color: var(--md-on-surface-container);
+}
+
+.bg-theme2 .waybill-card .card-footer,
+.bg-theme2 .writeoff-card .card-footer {
+  background-color: var(--md-surface-container-high);
+  border-top-color: var(--md-outline-variant);
+}
+
+.bg-theme2 .date-time {
+  background: var(--md-surface-container);
+  color: var(--md-outline);
+}
+
+.bg-theme2 .action-btn {
+  background: var(--md-surface-container);
+  border-color: var(--md-outline-variant);
+  color: var(--md-on-surface-container);
+}
+
+.bg-theme2 .page-link {
+  background: var(--md-surface-container);
+  border-color: var(--md-outline-variant);
+  color: var(--md-on-surface-container);
+}
+
+/* ================================================
+   11. REDUCED MOTION
+   ================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .waybill-card,
+  .writeoff-card,
+  .action-btn,
+  .page-link {
+    transition: none;
+  }
+  
+  .waybill-card:hover,
+  .writeoff-card:hover,
+  .action-btn:active {
+    transform: none;
+  }
+  
+  .action-btn.tap-animation {
+    animation: none;
+  }
+}
+
+/* ---- enhanced-lists.css ---- */
+/**
+ * Улучшенный дизайн списков списаний и накладных
+ * Оптимизировано для мобильных устройств (95% трафика)
+ * Material Design 3 принципы
+ */
+
+/* ================================================
+   1. ОБЩИЕ СТИЛИ ДЛЯ ТАБЛИЦ
+   ================================================ */
+
+.table {
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.table thead th {
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef) !important;
+  border: none !important;
+  padding: 16px 12px !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  color: #495057 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 10 !important;
+}
+
+.table tbody tr {
+  transition: all 0.3s ease !important;
+  border-bottom: 1px solid #e9ecef !important;
+}
+
+.table tbody tr:hover {
+  background: linear-gradient(135deg, #f8f9fa, #ffffff) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+.table tbody td {
+  padding: 16px 12px !important;
+  vertical-align: middle !important;
+  border: none !important;
+  font-size: 14px !important;
+}
+
+/* ================================================
+   2. СТИЛИ ДЛЯ СТРОК ДОКУМЕНТОВ
+   ================================================ */
+
+.table tbody tr[id^="waybill_row_"],
+.table tbody tr[id^="writeoff_row_"] {
+  background: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+}
+
+.table tbody tr[id^="waybill_row_"]:hover,
+.table tbody tr[id^="writeoff_row_"]:hover {
+  background: linear-gradient(135deg, #f8f9fa, #ffffff) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* ================================================
+   3. СТИЛИ ДЛЯ НОМЕРОВ ДОКУМЕНТОВ
+   ================================================ */
+
+.table tbody th[scope="row"] {
+  background: linear-gradient(135deg, #1976d2, #1565c0) !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  font-size: 16px !important;
+  border-radius: 6px !important;
+  padding: 12px 16px !important;
+  text-align: center !important;
+  min-width: 80px !important;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.3) !important;
+}
+
+/* ================================================
+   4. СТИЛИ ДЛЯ СТАТУСОВ
+   ================================================ */
+
+.status-badge {
+  display: inline-block !important;
+  padding: 8px 16px !important;
+  border-radius: 20px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+.status-created {
+  background: linear-gradient(135deg, #ff9800, #f57c00) !important;
+  color: #ffffff !important;
+}
+
+.status-sent {
+  background: linear-gradient(135deg, #4caf50, #388e3c) !important;
+  color: #ffffff !important;
+}
+
+.status-denied {
+  background: linear-gradient(135deg, #f44336, #d32f2f) !important;
+  color: #ffffff !important;
+}
+
+.status-cancelled {
+  background: linear-gradient(135deg, #9e9e9e, #757575) !important;
+  color: #ffffff !important;
+}
+
+/* ================================================
+   5. СТИЛИ ДЛЯ ДЕЙСТВИЙ
+   ================================================ */
+
+.order-actions {
+  display: flex !important;
+  gap: 8px !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.order-actions a {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50% !important;
+  text-decoration: none !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.order-actions a:hover {
+  transform: scale(1.1) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+}
+
+.order-actions a i {
+  font-size: 18px !important;
+  color: #ffffff !important;
+}
+
+/* Цвета для разных действий */
+.order-actions a[aria-label="Просмотреть"] {
+  background: linear-gradient(135deg, #2196f3, #1976d2) !important;
+}
+
+.order-actions a[aria-label="Просмотреть"]:hover {
+  background: linear-gradient(135deg, #1976d2, #1565c0) !important;
+}
+
+.order-actions a[id*="confirm"] {
+  background: linear-gradient(135deg, #4caf50, #388e3c) !important;
+}
+
+.order-actions a[id*="confirm"]:hover {
+  background: linear-gradient(135deg, #388e3c, #2e7d32) !important;
+}
+
+.order-actions a[id*="deny"],
+.order-actions a[id*="cancel"] {
+  background: linear-gradient(135deg, #f44336, #d32f2f) !important;
+}
+
+.order-actions a[id*="deny"]:hover,
+.order-actions a[id*="cancel"]:hover {
+  background: linear-gradient(135deg, #d32f2f, #c62828) !important;
+}
+
+.order-actions a[id*="edit"] {
+  background: linear-gradient(135deg, #ff9800, #f57c00) !important;
+}
+
+.order-actions a[id*="edit"]:hover {
+  background: linear-gradient(135deg, #f57c00, #ef6c00) !important;
+}
+
+.order-actions a[id*="copy"] {
+  background: linear-gradient(135deg, #9c27b0, #7b1fa2) !important;
+}
+
+.order-actions a[id*="copy"]:hover {
+  background: linear-gradient(135deg, #7b1fa2, #6a1b9a) !important;
+}
+
+/* ================================================
+   6. МОБИЛЬНАЯ ВЕРСИЯ (КАРТОЧКИ)
+   ================================================ */
+
+@media (max-width: 768px) {
+  .table-responsive {
+    border: none !important;
+  }
+  
+  .table,
+  .table thead,
+  .table tbody,
+  .table th,
+  .table td,
+  .table tr {
+    display: block !important;
+  }
+  
+  .table thead tr {
+    position: absolute !important;
+    top: -9999px !important;
+    left: -9999px !important;
+  }
+  
+  .table tbody tr {
+    background: #ffffff !important;
+    border: 1px solid #e9ecef !important;
+    border-radius: 12px !important;
+    margin-bottom: 16px !important;
+    padding: 20px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+    position: relative !important;
+  }
+  
+  .table tbody tr:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+  }
+  
+  .table tbody td {
+    border: none !important;
+    padding: 12px 0 !important;
+    position: relative !important;
+    padding-left: 50% !important;
+    text-align: left !important;
+  }
+  
+  .table tbody td:before {
+    content: attr(data-label) !important;
+    position: absolute !important;
+    left: 6px !important;
+    width: 45% !important;
+    padding-right: 10px !important;
+    white-space: nowrap !important;
+    font-weight: 600 !important;
+    color: #6c757d !important;
+    font-size: 12px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+  }
+  
+  .table tbody th[scope="row"] {
+    background: linear-gradient(135deg, #1976d2, #1565c0) !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    font-size: 18px !important;
+    border-radius: 8px !important;
+    padding: 16px !important;
+    text-align: center !important;
+    margin-bottom: 16px !important;
+    box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3) !important;
+    position: relative !important;
+    padding-left: 16px !important;
+  }
+  
+  .table tbody th[scope="row"]:before {
+    content: "Номер документа" !important;
+    position: absolute !important;
+    left: 16px !important;
+    top: -8px !important;
+    background: #1976d2 !important;
+    color: #ffffff !important;
+    padding: 4px 8px !important;
+    border-radius: 4px !important;
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+  }
+  
+  .order-actions {
+    justify-content: center !important;
+    margin-top: 16px !important;
+    padding-top: 16px !important;
+    border-top: 1px solid #e9ecef !important;
+  }
+  
+  .order-actions a {
+    width: 48px !important;
+    height: 48px !important;
+  }
+  
+  .order-actions a i {
+    font-size: 20px !important;
+  }
+}
+
+/* ================================================
+   7. СТИЛИ ДЛЯ ПАГИНАЦИИ
+   ================================================ */
+
+.pagination {
+  margin: 0 !important;
+  justify-content: center !important;
+}
+
+.pagination .page-item {
+  margin: 0 2px !important;
+}
+
+.pagination .page-link {
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 12px 16px !important;
+  margin: 0 2px !important;
+  background: #ffffff !important;
+  color: #6c757d !important;
+  font-weight: 500 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.3s ease !important;
+}
+
+.pagination .page-link:hover {
+  background: linear-gradient(135deg, #1976d2, #1565c0) !important;
+  color: #ffffff !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3) !important;
+}
+
+.pagination .page-item.active .page-link {
+  background: linear-gradient(135deg, #1976d2, #1565c0) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3) !important;
+}
+
+.pagination .page-item.disabled .page-link {
+  background: #f8f9fa !important;
+  color: #6c757d !important;
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+}
+
+/* ================================================
+   8. СТИЛИ ДЛЯ ПОИСКА И ФИЛЬТРОВ
+   ================================================ */
+
+.input-group {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+}
+
+.input-group .form-control {
+  border: none !important;
+  padding: 16px 20px !important;
+  font-size: 16px !important;
+  background: #ffffff !important;
+}
+
+.input-group .form-control:focus {
+  box-shadow: none !important;
+  background: #f8f9fa !important;
+}
+
+.input-group .btn {
+  border: none !important;
+  padding: 16px 20px !important;
+  background: linear-gradient(135deg, #1976d2, #1565c0) !important;
+  color: #ffffff !important;
+  font-size: 18px !important;
+}
+
+.input-group .btn:hover {
+  background: linear-gradient(135deg, #1565c0, #0d47a1) !important;
+}
+
+/* ================================================
+   9. АНИМАЦИИ И ПЕРЕХОДЫ
+   ================================================ */
+
+/* Анимации отключены для стабильности верстки */
+
+/* ================================================
+   10. ТЕМНАЯ ТЕМА
+   ================================================ */
+
+.bg-theme2 .table thead th {
+  background: linear-gradient(135deg, #2d3748, #4a5568) !important;
+  color: #e2e8f0 !important;
+}
+
+.bg-theme2 .table tbody tr {
+  background: #2d3748 !important;
+  border-color: #4a5568 !important;
+}
+
+.bg-theme2 .table tbody tr:hover {
+  background: linear-gradient(135deg, #4a5568, #2d3748) !important;
+}
+
+.bg-theme2 .table tbody td {
+  color: #e2e8f0 !important;
+}
+
+.bg-theme2 .table tbody td:before {
+  color: #a0aec0 !important;
+}
+
+.bg-theme2 .pagination .page-link {
+  background: #2d3748 !important;
+  color: #e2e8f0 !important;
+}
+
+.bg-theme2 .pagination .page-link:hover {
+  background: linear-gradient(135deg, #1976d2, #1565c0) !important;
+  color: #ffffff !important;
+}
+
+/* ---- compact-forms.css ---- */
+/* Компактные формы создания накладных и списаний - МАКСИМАЛЬНО КОМПАКТНЫЕ */
+.form-compact {
+    /* Убираем лишние отступы */
+}
+
+.form-compact .input-group {
+    margin-bottom: 0.25rem !important; /* Было 0.5rem, стало еще меньше */
+}
+
+.form-compact .form-control {
+    margin-bottom: 0.25rem !important; /* Было 0.5rem */
+}
+
+.form-compact .form-select {
+    margin-bottom: 0.25rem !important;
+}
+
+/* Компактные заголовки секций */
+.form-compact h6 {
+    margin-bottom: 0.25rem !important; /* Было 0.5rem */
+    margin-top: 0.25rem !important; /* Было 0.5rem */
+}
+
+.form-compact h6:first-child {
+    margin-top: 0 !important;
+}
+
+/* Компактные отступы между секциями */
+.form-compact hr {
+    margin: 0.5rem 0 !important; /* Было 0.75rem */
+}
+
+/* Компактная кнопка добавления позиции */
+.form-compact .waybill_item td {
+    padding: 0.125rem 0 !important; /* Было 0.25rem */
+}
+
+.form-compact .plus {
+    margin: 0.125rem 0 !important; /* Было 0.25rem */
+    padding: 0.25rem 0.5rem !important; /* Было 0.375rem 0.75rem */
+    font-size: 0.8rem !important; /* Было 0.875rem */
+}
+
+/* Компактные поля в input-group */
+.form-compact .input-group .form-control {
+    margin-bottom: 0 !important;
+}
+
+/* Компактная кнопка отправки */
+.form-compact .btn-lg {
+    padding: 0.375rem 0.75rem !important; /* Было 0.5rem 1rem */
+    font-size: 0.9rem !important; /* Было 1rem */
+    margin-top: 0.5rem !important; /* Было 0.75rem */
+}
+
+/* Компактные сообщения об ошибках */
+.form-compact .invalid-feedback {
+    margin-top: 0.0625rem !important; /* Было 0.125rem */
+    font-size: 0.75rem !important; /* Было 0.8rem */
+}
+
+/* Компактные сообщения об успехе/ошибке */
+.form-compact .error_message,
+.form-compact .success_message {
+    margin: 0.25rem 0 !important; /* Было 0.5rem */
+    padding: 0.25rem !important; /* Было 0.5rem */
+}
+
+/* Убираем лишние отступы в карточке */
+.form-compact .card-body {
+    padding: 0.75rem !important; /* Было 1rem */
+}
+
+.form-compact .border {
+    padding: 0.5rem !important; /* Было 0.75rem */
+}
+
+/* Компактная таблица товаров */
+.form-compact .waybill_items {
+    margin-bottom: 0 !important;
+}
+
+.form-compact .waybill_items tr {
+    border: none !important;
+}
+
+.form-compact .waybill_items td {
+    padding: 0.125rem !important; /* Было 0.25rem */
+    border: none !important;
+}
+
+/* Компактные поля формы */
+.form-compact .form-control,
+.form-compact .form-select {
+    padding: 0.375rem 0.5rem !important; /* Было стандартные */
+    font-size: 0.875rem !important;
+}
+
+/* Компактные заголовки полей */
+.form-compact .col h6 {
+    margin-bottom: 0.125rem !important;
+    font-size: 0.8rem !important;
+    font-weight: 600 !important;
+}
+
+/* Мобильная оптимизация - ЕЩЕ КОМПАКТНЕЕ */
+@media (max-width: 768px) {
+    .form-compact .input-group {
+        margin-bottom: 0.125rem !important; /* Было 0.25rem */
+    }
+    
+    .form-compact .form-control {
+        margin-bottom: 0.125rem !important;
+    }
+    
+    .form-compact h6 {
+        margin-bottom: 0.125rem !important;
+        margin-top: 0.125rem !important;
+    }
+    
+    .form-compact hr {
+        margin: 0.25rem 0 !important; /* Было 0.5rem */
+    }
+    
+    .form-compact .card-body {
+        padding: 0.5rem !important; /* Было 0.75rem */
+    }
+    
+    .form-compact .border {
+        padding: 0.25rem !important; /* Было 0.5rem */
+    }
+    
+    .form-compact .form-control,
+    .form-compact .form-select {
+        padding: 0.25rem 0.375rem !important;
+        font-size: 0.8rem !important;
+    }
+    
+    .form-compact .plus {
+        padding: 0.1875rem 0.375rem !important;
+        font-size: 0.75rem !important;
+    }
+    
+    .form-compact .btn-lg {
+        padding: 0.25rem 0.5rem !important;
+        font-size: 0.8rem !important;
+    }
+}
+
+/* Темная тема */
+.bg-theme2 .form-compact .invalid-feedback {
+    color: #ff6b6b;
+    background: rgba(255, 107, 107, 0.08);
+    padding: 0.125rem 0.25rem;
+    border-radius: 0.125rem;
+    margin-top: 0.0625rem;
+}
+
+/* Анимация для плавности */
+.form-compact .input-group {
+    transition: margin-bottom 0.15s ease;
+}
+
+.form-compact .form-control {
+    transition: margin-bottom 0.15s ease;
+}
+
+/* Дополнительная компактность для таблицы товаров */
+.form-compact .waybill_items .input-group {
+    margin-bottom: 0.125rem !important;
+}
+
+.form-compact .waybill_items .input-group .form-control {
+    padding: 0.25rem 0.375rem !important;
+    font-size: 0.8rem !important;
+}
+
+/* Компактные кнопки удаления */
+.form-compact .minus {
+    padding: 0.1875rem 0.375rem !important;
+    font-size: 0.75rem !important;
+}
+
+/* СУПЕР компактные строки таблицы товаров */
+.form-compact .waybill_items tr {
+    margin-bottom: 2px !important; /* Было 16px */
+}
+
+.form-compact .waybill_items tr td {
+    padding: 1px !important; /* Было 12px */
+}
+
+/* Дополнительная компактность для всех tr в форме */
+.form-compact tr {
+    margin-bottom: 4px !important;
+}
+
+.form-compact tr td {
+    padding: 1px !important;
+}
+
+/* Мобильная версия - еще компактнее */
+@media (max-width: 768px) {
+    .form-compact .waybill_items tr {
+        margin-bottom: 2px !important;
+    }
+    
+    .form-compact .waybill_items tr td {
+        padding: 2px !important;
+    }
+    
+    .form-compact tr {
+        margin-bottom: 2px !important;
+    }
+    
+    .form-compact tr td {
+        padding: 2px !important;
+    }
+}
+
+/* ---- form-autosave.css ---- */
+/**
+ * Form Autosave Indicator Styles
+ */
+
+.autosave-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+    color: #155724;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-right: 12px;
+    box-shadow: 0 2px 8px rgba(21, 87, 36, 0.15);
+    width: fit-content;
+    max-width: 250px;
+    white-space: nowrap;
+}
+
+.autosave-indicator.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.autosave-indicator i {
+    font-size: 1.2em;
+    color: #28a745;
+}
+
+/* Анимация при сохранении */
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.autosave-indicator.show {
+    animation: pulse 0.5s ease-in-out;
+}
+
+/* Dark mode */
+.bg-theme2 .autosave-indicator {
+    background: linear-gradient(135deg, rgba(40, 167, 69, 0.2) 0%, rgba(40, 167, 69, 0.15) 100%);
+    color: #6ce587;
+    box-shadow: 0 2px 12px rgba(40, 167, 69, 0.3);
+}
+
+.bg-theme2 .autosave-indicator i {
+    color: #6ce587;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .autosave-indicator {
+        font-size: 0.85rem;
+        padding: 6px 12px;
+    }
+    
+    .autosave-indicator span {
+        display: none;
+    }
+    
+    .autosave-indicator i {
+        margin: 0;
+    }
+}
+
+/* Позиционирование */
+.autosave-indicator {
+    position: relative;
+    z-index: 1;
+}
+
+/* Для мобильных - компактный индикатор */
+@media (max-width: 576px) {
+    .autosave-indicator {
+        position: fixed;
+        bottom: 80px;
+        right: 20px;
+        left: auto;
+        width: auto;
+        max-width: 48px;
+        height: 48px;
+        padding: 12px;
+        border-radius: 50%;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .autosave-indicator span {
+        display: none !important;
+    }
+    
+    .autosave-indicator i {
+        font-size: 24px;
+        margin: 0;
+    }
+}
+
+
+/* ---- responsive-tables.css ---- */
+/**
+ * Responsive Tables - Таблицы с единым дизайном для всех устройств
+ */
+
+/* Улучшенная читаемость для всех размеров */
+.responsive-table {
+    font-size: 0.95rem;
+}
+
+.responsive-table th {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+/* Анимации */
+.responsive-table tbody tr {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.responsive-table tbody tr:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+
+/* ---- toast-notifications.css ---- */
+/**
+ * Toast Notifications Styles
+ * Современный дизайн уведомлений с анимациями
+ */
+
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 400px;
+    pointer-events: none;
+}
+
+.toast {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    transform: translateX(calc(100% + 40px));
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+    opacity: 0;
+    pointer-events: all;
+    min-width: 300px;
+    border-left: 4px solid;
+}
+
+.toast.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.toast.hide {
+    transform: translateX(calc(100% + 40px));
+    opacity: 0;
+}
+
+.toast-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+}
+
+.toast-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.toast-message {
+    color: #2d3748;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+.toast-close {
+    background: none;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    color: #718096;
+    transition: color 0.2s ease, transform 0.2s ease;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.toast-close:hover {
+    color: #2d3748;
+    background: rgba(0, 0, 0, 0.05);
+    transform: scale(1.1);
+}
+
+.toast-close i {
+    font-size: 20px;
+}
+
+/* Success Toast */
+.toast-success {
+    border-left-color: #48bb78;
+    background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+}
+
+.toast-success .toast-icon {
+    color: #48bb78;
+}
+
+/* Error Toast */
+.toast-error {
+    border-left-color: #f56565;
+    background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
+}
+
+.toast-error .toast-icon {
+    color: #f56565;
+}
+
+/* Warning Toast */
+.toast-warning {
+    border-left-color: #ed8936;
+    background: linear-gradient(135deg, #fffaf0 0%, #feebc8 100%);
+}
+
+.toast-warning .toast-icon {
+    color: #ed8936;
+}
+
+/* Info Toast */
+.toast-info {
+    border-left-color: #4299e1;
+    background: linear-gradient(135deg, #ebf8ff 0%, #bee3f8 100%);
+}
+
+.toast-info .toast-icon {
+    color: #4299e1;
+}
+
+/* Dark Theme Support */
+.bg-theme2 .toast {
+    background: rgba(30, 30, 40, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.bg-theme2 .toast-message {
+    color: #e2e8f0;
+}
+
+.bg-theme2 .toast-close {
+    color: #a0aec0;
+}
+
+.bg-theme2 .toast-close:hover {
+    color: #e2e8f0;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.bg-theme2 .toast-success {
+    background: linear-gradient(135deg, rgba(72, 187, 120, 0.2) 0%, rgba(72, 187, 120, 0.1) 100%);
+    border-left-color: #68d391;
+}
+
+.bg-theme2 .toast-success .toast-icon {
+    color: #68d391;
+}
+
+.bg-theme2 .toast-error {
+    background: linear-gradient(135deg, rgba(245, 101, 101, 0.2) 0%, rgba(245, 101, 101, 0.1) 100%);
+    border-left-color: #fc8181;
+}
+
+.bg-theme2 .toast-error .toast-icon {
+    color: #fc8181;
+}
+
+.bg-theme2 .toast-warning {
+    background: linear-gradient(135deg, rgba(237, 137, 54, 0.2) 0%, rgba(237, 137, 54, 0.1) 100%);
+    border-left-color: #f6ad55;
+}
+
+.bg-theme2 .toast-warning .toast-icon {
+    color: #f6ad55;
+}
+
+.bg-theme2 .toast-info {
+    background: linear-gradient(135deg, rgba(66, 153, 225, 0.2) 0%, rgba(66, 153, 225, 0.1) 100%);
+    border-left-color: #63b3ed;
+}
+
+.bg-theme2 .toast-info .toast-icon {
+    color: #63b3ed;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .toast-container {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+    }
+
+    .toast {
+        min-width: auto;
+    }
+
+    .toast-message {
+        font-size: 13px;
+    }
+}
+
+/* Animation для множественных toast'ов */
+.toast:nth-child(1) { animation-delay: 0ms; }
+.toast:nth-child(2) { animation-delay: 50ms; }
+.toast:nth-child(3) { animation-delay: 100ms; }
+.toast:nth-child(4) { animation-delay: 150ms; }
+.toast:nth-child(5) { animation-delay: 200ms; }
+
+/* Ограничение количества видимых toast'ов */
+.toast-container .toast:nth-child(n+6) {
+    display: none;
+}
+
+
+/* ---- modal-viewer.css ---- */
+/**
+ * Modal Viewer - Модальные окна для просмотра документов
+ * Красивые, современные модальные окна для накладных и списаний
+ */
+
+/* ================================================
+   1. OVERLAY - ЗАТЕМНЕНИЕ
+   ================================================ */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    z-index: 9998;
+    opacity: 0;
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* ================================================
+   2. MODAL CONTAINER
+   ================================================ */
+
+.modal-viewer {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    max-width: 900px;
+    width: 90%;
+    max-height: 90vh;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    backdrop-filter: blur(20px);
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    z-index: 9999;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-viewer.active {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    pointer-events: all;
+}
+
+/* ================================================
+   3. MODAL HEADER
+   ================================================ */
+
+.modal-viewer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 32px;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    flex-shrink: 0;
+}
+
+.modal-viewer-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.modal-viewer-title i {
+    font-size: 28px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.modal-viewer-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.modal-viewer-actions button {
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    color: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 20px;
+}
+
+.modal-viewer-actions button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.modal-viewer-actions button:active {
+    transform: scale(0.95);
+}
+
+.modal-viewer-close {
+    background: rgba(220, 53, 69, 0.2) !important;
+    border-color: rgba(220, 53, 69, 0.3) !important;
+}
+
+.modal-viewer-close:hover {
+    background: rgba(220, 53, 69, 0.3) !important;
+}
+
+/* ================================================
+   4. MODAL BODY
+   ================================================ */
+
+.modal-viewer-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 32px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(102, 126, 234, 0.5) rgba(255, 255, 255, 0.1);
+}
+
+.modal-viewer-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-viewer-body::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+.modal-viewer-body::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 4px;
+}
+
+.modal-viewer-body::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+/* ================================================
+   5. DOCUMENT INFO - ИНФОРМАЦИЯ О ДОКУМЕНТЕ
+   ================================================ */
+
+.document-info {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+.document-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.document-field-label {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: rgba(255, 255, 255, 0.6);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.document-field-label::before {
+    content: '•';
+    color: #667eea;
+    font-size: 18px;
+}
+
+.document-field-value {
+    background: rgba(255, 255, 255, 0.08);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 14px 18px;
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.9);
+    transition: all 0.3s ease;
+}
+
+.document-field-value:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(102, 126, 234, 0.3);
+}
+
+/* Статус badge */
+.document-field-value.status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    width: fit-content;
+    padding: 10px 20px;
+    font-weight: 600;
+    border-radius: 20px;
+}
+
+.document-field-value.status::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+.document-field-value.status.created {
+    background: rgba(255, 193, 7, 0.2);
+    border-color: rgba(255, 193, 7, 0.4);
+    color: #ffc107;
+}
+
+.document-field-value.status.created::before {
+    background: #ffc107;
+    box-shadow: 0 0 8px #ffc107;
+}
+
+.document-field-value.status.sent {
+    background: rgba(40, 167, 69, 0.2);
+    border-color: rgba(40, 167, 69, 0.4);
+    color: #28a745;
+}
+
+.document-field-value.status.sent::before {
+    background: #28a745;
+    box-shadow: 0 0 8px #28a745;
+}
+
+.document-field-value.status.denied,
+.document-field-value.status.cancelled {
+    background: rgba(220, 53, 69, 0.2);
+    border-color: rgba(220, 53, 69, 0.4);
+    color: #dc3545;
+}
+
+.document-field-value.status.denied::before,
+.document-field-value.status.cancelled::before {
+    background: #dc3545;
+    box-shadow: 0 0 8px #dc3545;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* ================================================
+   6. DOCUMENT ITEMS - ТАБЛИЦА ТОВАРОВ
+   ================================================ */
+
+.document-items {
+    margin-top: 32px;
+}
+
+.document-items-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.document-items-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    overflow: hidden;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.document-items-table thead {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+}
+
+.document-items-table thead th {
+    padding: 16px;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: rgba(255, 255, 255, 0.8);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.document-items-table tbody tr {
+    transition: all 0.3s ease;
+}
+
+.document-items-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.document-items-table tbody td {
+    padding: 14px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.document-items-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* ================================================
+   7. LOADING STATE
+   ================================================ */
+
+.modal-viewer.loading .modal-viewer-body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+}
+
+.modal-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.modal-loading-spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid rgba(255, 255, 255, 0.1);
+    border-top-color: #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.modal-loading-text {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* ================================================
+   8. MOBILE RESPONSIVE
+   ================================================ */
+
+@media (max-width: 768px) {
+    .modal-viewer {
+        width: 100%;
+        max-width: 100%;
+        max-height: 100vh;
+        height: 100vh;
+        border-radius: 0;
+        top: 0;
+        left: 0;
+        transform: translateY(100%);
+    }
+    
+    .modal-viewer.active {
+        transform: translateY(0);
+    }
+    
+    .modal-viewer-header {
+        padding: 16px 20px;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+    
+    .modal-viewer-title {
+        font-size: 18px;
+        flex: 1 1 100%;
+    }
+    
+    .modal-viewer-title i {
+        font-size: 22px;
+    }
+    
+    /* Разделяем кнопки на группы */
+    .modal-viewer-actions {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+    
+    /* Кнопка закрытия отдельно справа */
+    .modal-viewer-close {
+        order: 999;
+        margin-left: auto;
+        min-width: 56px !important;
+        min-height: 56px !important;
+        background: rgba(220, 53, 69, 0.3) !important;
+        border: 3px solid rgba(220, 53, 69, 0.5) !important;
+    }
+    
+    /* Кнопки действий слева */
+    .modal-action-btn {
+        min-width: 56px !important;
+        min-height: 56px !important;
+        font-size: 22px !important;
+        flex: 1;
+        max-width: calc(33.333% - 6px);
+    }
+    
+    .modal-viewer-body {
+        padding: 20px;
+    }
+    
+    .document-info {
+        gap: 16px;
+    }
+    
+    .document-field-value {
+        font-size: 15px;
+        padding: 14px 18px;
+    }
+    
+    /* Таблица товаров → карточки */
+    .document-items-table {
+        font-size: 14px;
+        border: none;
+        background: transparent;
+    }
+    
+    .document-items-table thead {
+        display: none;
+    }
+    
+    .document-items-table tbody {
+        display: block;
+    }
+    
+    .document-items-table tbody tr {
+        display: block;
+        margin-bottom: 12px;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 12px;
+        padding: 14px;
+        border: 2px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .document-items-table tbody tr:hover {
+        background: rgba(255, 255, 255, 0.12);
+    }
+    
+    .document-items-table tbody td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        border: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        font-size: 15px;
+    }
+    
+    .document-items-table tbody td:last-child {
+        border-bottom: none;
+    }
+    
+    .document-items-table tbody td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.6);
+        text-transform: uppercase;
+        font-size: 12px;
+        letter-spacing: 0.5px;
+        flex-shrink: 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .modal-viewer-header {
+        padding: 14px 16px;
+    }
+    
+    .modal-viewer-title {
+        font-size: 16px;
+    }
+    
+    .modal-viewer-title i {
+        font-size: 20px;
+    }
+    
+    .modal-viewer-body {
+        padding: 16px;
+    }
+    
+    .document-field-value {
+        font-size: 14px;
+        padding: 12px 16px;
+    }
+    
+    .document-items-table tbody tr {
+        padding: 12px;
+    }
+    
+    .document-items-table tbody td {
+        padding: 8px 0;
+        font-size: 14px;
+    }
+    
+    .document-items-table tbody td::before {
+        font-size: 11px;
+    }
+}
+
+/* ================================================
+   9. DARK MODE
+   ================================================ */
+
+.bg-theme2 .modal-viewer {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.3) 100%);
+}
+
+.bg-theme2 .document-field-value {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.bg-theme2 .document-items-table {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+/* ================================================
+   10. ANIMATIONS
+   ================================================ */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translate(-50%, -45%) scale(0.95);
+        opacity: 0;
+    }
+    to {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+}
+
+.modal-viewer.active {
+    animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+

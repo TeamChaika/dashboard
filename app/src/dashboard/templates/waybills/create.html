@@ -4,9 +4,6 @@
     Панель накладных
 {% endblock title %}
 {% block css %}
-    <!-- Компактные формы -->
-    <link href="{% static 'compact-forms.css' %}" rel="stylesheet"/>
-    
     <style>
     .error_message {
         padding: 0px 0px 0px 0px;
@@ -385,8 +382,6 @@
     </div>
 {% endblock content %}
 {% block js %}
-    <!-- Form Autosave (только на этой странице) -->
-    <link href="{% static 'form-autosave.css' %}" rel="stylesheet"/>
     <script src="{% static 'form-autosave.js' %}"></script>
     
     <script>

@@ -24,23 +24,10 @@
     <link href="{% static 'assets/css/app.css' %}" rel="stylesheet" />
     <link href="{% static 'assets/css/icons.css' %}" rel="stylesheet" />
     
-    <!-- Дизайн-система (правильный порядок подключения) -->
-    <!-- 1. Токены (основа дизайн-системы) -->
-    <link href="{% static 'design-tokens.css' %}" rel="stylesheet"/>
-    <!-- 2. Material Design 3 компоненты -->
-    <link href="{% static 'material-design-3.css' %}" rel="stylesheet"/>
-    <!-- 3. Специфичные компоненты -->
-    <!-- 4. Опциональные декоративные эффекты -->
-    <link href="{% static 'design-improvements.css' %}" rel="stylesheet"/>
-    <!-- 5. Темная тема -->
-    <link href="{% static 'dark-mode-improvements.css' %}" rel="stylesheet"/>
-    
-    <!-- Остальные стили -->
-    <link href="{% static 'dashboard.css' %}" rel="stylesheet"/>
-    <link href="{% static 'modern-cards.css' %}" rel="stylesheet"/>
-    <link href="{% static 'toast-notifications.css' %}" rel="stylesheet"/>
-    <link href="{% static 'responsive-tables.css' %}" rel="stylesheet"/>
-    <link href="{% static 'mobile-fab.css' %}" rel="stylesheet"/>
+    <!-- Стили приложения -->
+    <link href="{% static 'main.css' %}" rel="stylesheet"/>
+    <link href="{% static 'mobile.css' %}" rel="stylesheet"/>
+    <link href="{% static 'dark.css' %}" rel="stylesheet"/>
     {% block css %}{% endblock css %}
     <style>
         .bd-placeholder-img {

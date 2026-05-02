@@ -1,0 +1,2302 @@
+/* ============================================================
+   mobile.css — consolidated mobile & responsive styles
+   Sources: mobile-forms, mobile-forms-improvements, mobile-fab,
+            list-pages-mobile, mobile-search-filters
+   ============================================================ */
+
+/* ---- mobile-forms.css ---- */
+/**
+ * Mobile Forms Optimization
+ * Оптимизация форм для мобильных устройств
+ */
+
+/* ================================================
+   1. БАЗОВЫЕ УЛУЧШЕНИЯ ДЛЯ МОБИЛЬНЫХ
+   ================================================ */
+
+@media (max-width: 768px) {
+    /* Увеличиваем размер всех интерактивных элементов */
+    .form-control,
+    .form-select,
+    .btn {
+        min-height: 48px; /* Apple рекомендует минимум 44px */
+        font-size: 16px; /* Предотвращает зум на iOS */
+        padding: 12px 16px;
+    }
+    
+    /* Увеличиваем кнопки */
+    .btn {
+        min-height: 48px;
+        padding: 12px 24px;
+        font-size: 16px;
+        font-weight: 600;
+    }
+    
+    /* Кнопки в полную ширину на мобильных */
+    .btn-primary,
+    .btn-success,
+    .btn-danger {
+        width: 100%;
+        margin-bottom: 12px;
+    }
+}
+
+/* ================================================
+   2. ПЛАВАЮЩИЕ LABELS (Material Design)
+   ================================================ */
+
+@media (max-width: 768px) {
+    .form-floating {
+        position: relative;
+        margin-bottom: 1.5rem;
+    }
+    
+    .form-floating > .form-control,
+    .form-floating > .form-select {
+        height: 56px;
+        padding: 16px 12px 8px;
+        border-radius: 12px;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        transition: all 0.3s ease;
+    }
+    
+    .form-floating > label {
+        position: absolute;
+        top: 16px;
+        left: 12px;
+        padding: 0 4px;
+        color: rgba(255, 255, 255, 0.6);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        pointer-events: none;
+        font-size: 16px;
+    }
+    
+    /* Состояние фокуса */
+    .form-floating > .form-control:focus,
+    .form-floating > .form-select:focus {
+        border-color: #64b5f6;
+        box-shadow: 0 0 0 3px rgba(100, 181, 246, 0.2);
+        outline: none;
+    }
+    
+    /* Label поднимается при фокусе или заполнении */
+    .form-floating > .form-control:focus ~ label,
+    .form-floating > .form-control:not(:placeholder-shown) ~ label,
+    .form-floating > .form-select:focus ~ label,
+    .form-floating > .form-select:not([value=""]) ~ label {
+        top: -8px;
+        left: 8px;
+        font-size: 12px;
+        background: linear-gradient(180deg, transparent 50%, rgba(30, 30, 30, 0.9) 50%);
+        color: #64b5f6;
+        font-weight: 600;
+    }
+}
+
+/* ================================================
+   3. STICKY КНОПКА ОТПРАВКИ
+   ================================================ */
+
+@media (max-width: 768px) {
+    .mobile-sticky-actions {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(180deg, transparent 0%, rgba(20, 20, 20, 0.98) 20%);
+        backdrop-filter: blur(10px);
+        padding: 16px;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+        z-index: 1000;
+        transform: translateY(100%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .mobile-sticky-actions.visible {
+        transform: translateY(0);
+    }
+    
+    .mobile-sticky-actions .btn {
+        width: 100%;
+        height: 56px;
+        font-size: 18px;
+        font-weight: 700;
+        border-radius: 28px;
+        box-shadow: 0 4px 12px rgba(33, 150, 243, 0.4);
+    }
+    
+    /* Отступ снизу для контента чтобы не перекрывалось кнопкой */
+    .page-content {
+        padding-bottom: 100px !important;
+    }
+}
+
+/* ================================================
+   4. УЛУЧШЕННЫЕ INPUT GROUPS (товары)
+   ================================================ */
+
+@media (max-width: 768px) {
+    .input-group {
+        flex-direction: column;
+        gap: 12px;
+        background: rgba(255, 255, 255, 0.05);
+        padding: 16px;
+        border-radius: 16px;
+        margin-bottom: 3rem; /* Место для ошибок */
+        position: relative;
+    }
+    
+    .input-group .form-control {
+        width: 100% !important;
+        flex: none;
+    }
+    
+    /* Кнопка удаления */
+    .input-group .minus {
+        width: 100%;
+        height: 44px;
+        border-radius: 12px;
+        font-size: 18px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+    
+    .input-group .minus::before {
+        content: '🗑️';
+        font-size: 20px;
+    }
+}
+
+/* ================================================
+   5. FLOATING ACTION BUTTON (FAB)
+   ================================================ */
+
+@media (max-width: 768px) {
+    .fab-add-item {
+        position: fixed;
+        bottom: 90px; /* Над sticky кнопкой */
+        right: 20px;
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
+        box-shadow: 0 6px 20px rgba(76, 175, 80, 0.5);
+        border: none;
+        color: white;
+        font-size: 32px;
+        font-weight: 300;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 999;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: pointer;
+    }
+    
+    .fab-add-item:active {
+        transform: scale(0.9);
+        box-shadow: 0 3px 10px rgba(76, 175, 80, 0.5);
+    }
+    
+    .fab-add-item:hover {
+        transform: scale(1.1) rotate(90deg);
+    }
+}
+
+/* ================================================
+   6. СВАЙП ДЛЯ УДАЛЕНИЯ
+   ================================================ */
+
+@media (max-width: 768px) {
+    .swipeable-item {
+        position: relative;
+        overflow: hidden;
+        touch-action: pan-y;
+        user-select: none;
+    }
+    
+    .swipeable-item .delete-background {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 80px;
+        background: linear-gradient(90deg, transparent, #F44336);
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding-right: 20px;
+        color: white;
+        font-size: 24px;
+        z-index: -1;
+    }
+    
+    .swipeable-item.swiping {
+        transition: none;
+    }
+    
+    .swipeable-item.deleting {
+        animation: slideOut 0.3s ease-out forwards;
+    }
+    
+    @keyframes slideOut {
+        to {
+            transform: translateX(-100%);
+            opacity: 0;
+        }
+    }
+}
+
+/* ================================================
+   7. АВТОФОКУС ИНДИКАТОР
+   ================================================ */
+
+@media (max-width: 768px) {
+    .form-control:focus {
+        animation: pulseBlue 0.5s ease-out;
+    }
+    
+    @keyframes pulseBlue {
+        0% {
+            box-shadow: 0 0 0 0 rgba(100, 181, 246, 0.7);
+        }
+        100% {
+            box-shadow: 0 0 0 10px rgba(100, 181, 246, 0);
+        }
+    }
+}
+
+/* ================================================
+   8. КОМПАКТНЫЕ КАРТОЧКИ
+   ================================================ */
+
+@media (max-width: 576px) {
+    .card {
+        border-radius: 16px;
+        margin-bottom: 16px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+    }
+    
+    .card-header,
+    .card-body {
+        padding: 16px;
+    }
+    
+    .card-title {
+        font-size: 18px;
+        font-weight: 700;
+        margin-bottom: 12px;
+    }
+}
+
+/* ================================================
+   9. УЛУЧШЕННЫЙ DATALIST DROPDOWN
+   ================================================ */
+
+@media (max-width: 768px) {
+    /* Увеличиваем область клика для datalist */
+    input[list] {
+        cursor: pointer;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2364b5f6' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 12px center;
+        background-size: 24px;
+        padding-right: 48px;
+    }
+}
+
+/* ================================================
+   10. HAPTIC FEEDBACK (визуальный)
+   ================================================ */
+
+@media (max-width: 768px) {
+    .btn:active,
+    .form-control:active,
+    .input-group .minus:active {
+        transform: scale(0.98);
+        transition: transform 0.1s;
+    }
+    
+    /* Ripple effect */
+    .btn-ripple {
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .btn-ripple::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.5);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+    }
+    
+    .btn-ripple:active::after {
+        width: 300px;
+        height: 300px;
+    }
+}
+
+/* ================================================
+   11. TOAST NOTIFICATIONS (mobile)
+   ================================================ */
+
+@media (max-width: 768px) {
+    .toast-container {
+        top: auto;
+        bottom: 110px; /* Над sticky кнопкой */
+        left: 50%;
+        transform: translateX(-50%);
+        width: calc(100% - 32px);
+        max-width: 400px;
+    }
+    
+    .toast {
+        width: 100%;
+        min-width: auto;
+        border-radius: 16px;
+        padding: 16px 20px;
+        font-size: 15px;
+    }
+}
+
+/* ================================================
+   12. AUTOSAVE INDICATOR (mobile)
+   ================================================ */
+
+@media (max-width: 768px) {
+    .autosave-indicator {
+        position: fixed !important;
+        top: 16px !important;
+        right: 16px !important;
+        left: auto !important;
+        width: fit-content !important;
+        max-width: 200px !important;
+        margin: 0 !important;
+        border-radius: 12px !important;
+        z-index: 1001 !important;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+    }
+}
+
+/* На маленьких экранах - круглый индикатор */
+@media (max-width: 576px) {
+    .autosave-indicator {
+        width: 48px !important;
+        height: 48px !important;
+        max-width: 48px !important;
+        min-width: 48px !important;
+        padding: 12px !important;
+        border-radius: 50% !important;
+        top: auto !important;
+        bottom: 80px !important;
+        right: 20px !important;
+        left: auto !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    
+    .autosave-indicator span {
+        display: none !important;
+    }
+    
+    .autosave-indicator i {
+        font-size: 24px !important;
+        margin: 0 !important;
+    }
+}
+
+/* ================================================
+   13. KEYBOARD AVOIDING
+   ================================================ */
+
+@media (max-width: 768px) {
+    /* Когда клавиатура открыта, прокручиваем к фокусу */
+    .form-control:focus,
+    .form-select:focus {
+        scroll-margin-top: 100px;
+        scroll-margin-bottom: 100px;
+    }
+}
+
+/* ================================================
+   14. УЛУЧШЕННЫЕ ПЕРЕХОДЫ
+   ================================================ */
+
+@media (max-width: 768px) {
+    * {
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    .form-control,
+    .btn,
+    .input-group {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+}
+
+/* ================================================
+   15. ACCESSIBILITY НА МОБИЛЬНЫХ
+   ================================================ */
+
+@media (max-width: 768px) {
+    /* Увеличиваем размер для лучшей читаемости */
+    label {
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        display: block;
+    }
+    
+    /* Контрастные placeholder */
+    .form-control::placeholder {
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 14px;
+    }
+}
+
+/* ================================================
+   16. ТЕМНАЯ ТЕМА ДЛЯ МОБИЛЬНЫХ
+   ================================================ */
+
+.bg-theme2 {
+    @media (max-width: 768px) {
+        .input-group {
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .mobile-sticky-actions {
+            background: linear-gradient(180deg, transparent 0%, rgba(10, 10, 10, 0.98) 20%);
+        }
+        
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.1);
+        }
+    }
+}
+
+/* ================================================
+   17. АНИМАЦИЯ ДОБАВЛЕНИЯ СТРОКИ
+   ================================================ */
+
+@media (max-width: 768px) {
+    @keyframes slideInFromRight {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+    
+    .item-row-new {
+        animation: slideInFromRight 0.3s ease-out;
+    }
+}
+
+/* ================================================
+   18. PULL TO REFRESH HINT
+   ================================================ */
+
+@media (max-width: 768px) {
+    .pull-to-refresh-hint {
+        position: fixed;
+        top: -50px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(100, 181, 246, 0.9);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 0 0 16px 16px;
+        font-size: 14px;
+        font-weight: 600;
+        transition: top 0.3s ease;
+        z-index: 1002;
+    }
+    
+    .pull-to-refresh-hint.visible {
+        top: 0;
+    }
+}
+
+
+/* ---- mobile-forms-improvements.css ---- */
+/**
+ * Mobile Forms UI/UX Improvements
+ * Улучшения дизайна форм для мобильных устройств
+ */
+
+/* ================================================
+   1. УЛУЧШЕННЫЕ ПОЛЯ ВВОДА
+   ================================================ */
+
+@media (max-width: 768px) {
+    .form-control,
+    .form-select {
+        min-height: 56px !important;
+        padding: 16px 20px !important;
+        font-size: 16px !important;
+        border-radius: 16px !important;
+        border: 2px solid rgba(255, 255, 255, 0.15) !important;
+        background: rgba(255, 255, 255, 0.08) !important;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+    
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #667eea !important;
+        background: rgba(255, 255, 255, 0.12) !important;
+        transform: scale(1.02) !important;
+        box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.2) !important;
+    }
+    
+    /* Autocomplete подсказка */
+    input[list] {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24' fill='none' stroke='%2364b5f6' stroke-width='2.5'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cpath d='m21 21-4.35-4.35'%3E%3C/path%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 16px center;
+        background-size: 24px;
+        padding-right: 56px !important;
+    }
+    
+    /* Placeholder */
+    .form-control::placeholder {
+        color: rgba(255, 255, 255, 0.5) !important;
+        font-style: italic;
+        font-size: 15px;
+    }
+}
+
+/* ================================================
+   2. КАРТОЧКИ ТОВАРОВ
+   ================================================ */
+
+@media (max-width: 768px) {
+    .input-group {
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%) !important;
+        border: 2px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 20px !important;
+        padding: 20px !important;
+        margin-bottom: 20px !important;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+        position: relative !important;
+        backdrop-filter: blur(10px) !important;
+    }
+    
+    /* Номер позиции */
+    .input-group::before {
+        content: attr(data-index);
+        position: absolute;
+        top: -12px;
+        left: 16px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        font-size: 12px;
+        font-weight: 700;
+        padding: 4px 12px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+    }
+    
+    /* Hover эффект */
+    .input-group:active {
+        transform: scale(0.98);
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2) !important;
+    }
+}
+
+/* ================================================
+   3. УЛУЧШЕННАЯ КНОПКА УДАЛЕНИЯ
+   ================================================ */
+
+@media (max-width: 768px) {
+    .input-group .minus {
+        width: 100% !important;
+        min-height: 52px !important;
+        border-radius: 16px !important;
+        font-size: 18px !important;
+        font-weight: 700 !important;
+        background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%) !important;
+        border: none !important;
+        color: white !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        margin-top: 12px !important;
+        box-shadow: 0 4px 15px rgba(238, 9, 121, 0.3) !important;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+    
+    .input-group .minus::before {
+        content: '🗑️';
+        font-size: 20px;
+    }
+    
+    .input-group .minus::after {
+        content: 'Удалить';
+        font-size: 16px;
+    }
+    
+    .input-group .minus:active {
+        transform: scale(0.95);
+        box-shadow: 0 2px 10px rgba(238, 9, 121, 0.4) !important;
+    }
+}
+
+/* ================================================
+   4. КНОПКА "ДОБАВИТЬ ПОЗИЦИЮ"
+   ================================================ */
+
+@media (max-width: 768px) {
+    .plus {
+        display: none !important;
+    }
+}
+
+/* FAB уже есть в mobile-forms.js */
+
+/* ================================================
+   5. СЧЁТЧИК ТОВАРОВ
+   ================================================ */
+
+@media (max-width: 768px) {
+    .products-counter {
+        position: fixed;
+        top: 70px;
+        right: 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 700;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        z-index: 999;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .products-counter::before {
+        content: '📦';
+        font-size: 16px;
+    }
+}
+
+/* ================================================
+   6. РАЗДЕЛИТЕЛИ МЕЖДУ СЕКЦИЯМИ
+   ================================================ */
+
+@media (max-width: 768px) {
+    .card {
+        margin-bottom: 24px !important;
+        border-radius: 20px !important;
+        border: 2px solid rgba(255, 255, 255, 0.1) !important;
+    }
+    
+    .card-header {
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%) !important;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 20px 20px 0 0 !important;
+        padding: 20px !important;
+    }
+    
+    .card-title {
+        font-size: 20px !important;
+        font-weight: 700 !important;
+        margin: 0 !important;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+}
+
+/* ================================================
+   7. УЛУЧШЕННЫЕ LABELS
+   ================================================ */
+
+@media (max-width: 768px) {
+    label {
+        font-size: 15px !important;
+        font-weight: 600 !important;
+        color: rgba(255, 255, 255, 0.9) !important;
+        margin-bottom: 10px !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+    }
+    
+    label::before {
+        content: '•';
+        color: #667eea;
+        font-size: 20px;
+    }
+}
+
+/* ================================================
+   8. STICKY HEADER OFFSET
+   ================================================ */
+
+@media (max-width: 768px) {
+    .page-content {
+        padding-top: 80px !important;
+    }
+}
+
+/* ================================================
+   9. ПУСТОЕ СОСТОЯНИЕ
+   ================================================ */
+
+@media (max-width: 768px) {
+    .empty-products-state {
+        text-align: center;
+        padding: 40px 20px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 20px;
+        border: 2px dashed rgba(255, 255, 255, 0.2);
+        margin: 20px 0;
+    }
+    
+    .empty-products-state::before {
+        content: '📦';
+        font-size: 64px;
+        display: block;
+        margin-bottom: 16px;
+    }
+    
+    .empty-products-state p {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 16px;
+        margin: 0;
+    }
+}
+
+/* ================================================
+   10. АНИМАЦИЯ ДОБАВЛЕНИЯ/УДАЛЕНИЯ
+   ================================================ */
+
+@media (max-width: 768px) {
+    @keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+    
+    @keyframes slideOutDown {
+        from {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        to {
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+        }
+    }
+    
+    .input-group {
+        animation: slideInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .input-group.removing {
+        animation: slideOutDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+}
+
+/* ================================================
+   11. ПРОГРЕСС БАР ЗАПОЛНЕНИЯ
+   ================================================ */
+
+@media (max-width: 768px) {
+    .form-progress {
+        position: fixed;
+        top: 60px;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: rgba(255, 255, 255, 0.1);
+        z-index: 1000;
+        overflow: hidden;
+    }
+    
+    .form-progress-bar {
+        height: 100%;
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
+    }
+}
+
+/* ================================================
+   12. TOOLTIP ДЛЯ AUTOCOMPLETE
+   ================================================ */
+
+@media (max-width: 768px) {
+    .autocomplete-hint {
+        position: absolute;
+        top: -30px;
+        right: 0;
+        background: rgba(100, 181, 246, 0.9);
+        color: white;
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: 600;
+        opacity: 0;
+        transition: opacity 0.3s;
+        pointer-events: none;
+    }
+    
+    .form-control:focus + .autocomplete-hint {
+        opacity: 1;
+    }
+    
+    .autocomplete-hint::before {
+        content: '💡';
+        margin-right: 4px;
+    }
+}
+
+/* ================================================
+   13. УЛУЧШЕННЫЕ ТАБЛИЦЫ
+   ================================================ */
+
+@media (max-width: 768px) {
+    .table {
+        border-radius: 20px !important;
+        overflow: hidden !important;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+    }
+    
+    .table tbody tr {
+        border-radius: 16px !important;
+        margin-bottom: 12px !important;
+        overflow: hidden !important;
+    }
+}
+
+/* ================================================
+   14. ACCESSIBILITY IMPROVEMENTS
+   ================================================ */
+
+@media (max-width: 768px) {
+    /* Увеличиваем touch targets */
+    button,
+    a,
+    input,
+    select {
+        min-height: 48px;
+        min-width: 48px;
+    }
+    
+    /* Улучшаем focus visibility */
+    *:focus-visible {
+        outline: 3px solid rgba(102, 126, 234, 0.6) !important;
+        outline-offset: 4px !important;
+        border-radius: 8px !important;
+    }
+}
+
+/* ================================================
+   15. LOADING STATE
+   ================================================ */
+
+@media (max-width: 768px) {
+    .form-control.loading {
+        background-image: linear-gradient(90deg,
+            rgba(255, 255, 255, 0.05) 25%,
+            rgba(255, 255, 255, 0.15) 50%,
+            rgba(255, 255, 255, 0.05) 75%);
+        background-size: 200% 100%;
+        animation: shimmer 2s infinite;
+    }
+    
+    @keyframes shimmer {
+        0% {
+            background-position: -200% 0;
+        }
+        100% {
+            background-position: 200% 0;
+        }
+    }
+}
+
+
+/* ---- mobile-fab.css ---- */
+/**
+ * Mobile FAB (Floating Action Button)
+ * Оптимизировано для 95% мобильного трафика
+ * Material Design 3 compliant
+ */
+
+/* ================================================
+   0. БАЗОВЫЕ СТИЛИ (БЕЗ MEDIA QUERIES)
+   ================================================ */
+
+.mobile-fab {
+  position: fixed !important;
+  bottom: 20px !important;
+  right: 20px !important;
+  width: 64px !important;
+  height: 64px !important;
+  border-radius: 32px !important;
+  background: linear-gradient(135deg, #ff6b35, #f7931e) !important;
+  color: #ffffff !important;
+  border: 3px solid #ffffff !important;
+  box-shadow: 
+    0 8px 20px rgba(255, 107, 53, 0.4),
+    0 4px 10px rgba(0, 0, 0, 0.2),
+    0 2px 25px rgba(255, 107, 53, 0.3) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 28px !important;
+  cursor: pointer !important;
+  z-index: 1000 !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  user-select: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+  animation: fab-pulse-attention 2s infinite !important;
+}
+
+.mobile-fab:hover {
+  transform: scale(1.1) !important;
+  box-shadow: 
+    0 12px 25px rgba(255, 107, 53, 0.5),
+    0 6px 15px rgba(0, 0, 0, 0.3),
+    0 3px 30px rgba(255, 107, 53, 0.4) !important;
+  animation: fab-bounce 0.6s ease-in-out !important;
+}
+
+.mobile-fab:active {
+  transform: scale(0.9) !important;
+  box-shadow: 
+    0 4px 8px rgba(255, 107, 53, 0.3),
+    0 2px 4px rgba(0, 0, 0, 0.2) !important;
+}
+
+.mobile-fab i {
+  font-size: 30px !important;
+  line-height: 1 !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* FAB Menu */
+.mobile-fab-menu {
+  position: fixed !important;
+  bottom: 90px !important;
+  right: 20px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  transform: scale(0.8) !important;
+  transform-origin: bottom right !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  z-index: 999 !important;
+}
+
+.mobile-fab-menu.show {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: scale(1) !important;
+}
+
+.mobile-fab-menu-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  background: linear-gradient(135deg, #ffffff, #f8f9fa) !important;
+  padding: 16px 24px !important;
+  border-radius: 28px !important;
+  color: #1976d2 !important;
+  text-decoration: none !important;
+  box-shadow: 
+    0 6px 15px rgba(0, 0, 0, 0.2),
+    0 3px 8px rgba(0, 0, 0, 0.15),
+    0 1px 20px rgba(25, 118, 210, 0.1) !important;
+  min-width: 220px !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  border: 2px solid rgba(25, 118, 210, 0.1) !important;
+}
+
+.mobile-fab-menu-item i {
+  font-size: 22px !important;
+  width: 22px !important;
+  text-align: center !important;
+  color: #ff6b35 !important;
+}
+
+.mobile-fab-menu-item:active {
+  transform: scale(0.95) !important;
+  background: linear-gradient(135deg, #e3f2fd, #f5f5f5) !important;
+  box-shadow: 
+    0 4px 10px rgba(0, 0, 0, 0.15),
+    0 2px 5px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* FAB Overlay */
+.mobile-fab-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  background: rgba(0, 0, 0, 0.4) !important;
+  backdrop-filter: blur(2px) !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  z-index: 998 !important;
+  transition: all 0.3s ease !important;
+}
+
+.mobile-fab-overlay.show {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* ================================================
+   АНИМАЦИИ ДЛЯ ПРИВЛЕЧЕНИЯ ВНИМАНИЯ
+   ================================================ */
+
+@keyframes fab-pulse-attention {
+  0% {
+    box-shadow: 
+      0 8px 20px rgba(255, 107, 53, 0.4),
+      0 4px 10px rgba(0, 0, 0, 0.2),
+      0 2px 25px rgba(255, 107, 53, 0.3);
+  }
+  50% {
+    box-shadow: 
+      0 8px 20px rgba(255, 107, 53, 0.6),
+      0 4px 10px rgba(0, 0, 0, 0.2),
+      0 2px 25px rgba(255, 107, 53, 0.5),
+      0 0 0 15px rgba(255, 107, 53, 0.1);
+  }
+  100% {
+    box-shadow: 
+      0 8px 20px rgba(255, 107, 53, 0.4),
+      0 4px 10px rgba(0, 0, 0, 0.2),
+      0 2px 25px rgba(255, 107, 53, 0.3);
+  }
+}
+
+@keyframes fab-bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: scale(1.1) translateY(0);
+  }
+  40% {
+    transform: scale(1.1) translateY(-10px);
+  }
+  60% {
+    transform: scale(1.1) translateY(-5px);
+  }
+}
+
+@keyframes fab-shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-5px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(5px);
+  }
+}
+
+@keyframes fab-glow {
+  0% {
+    box-shadow: 
+      0 8px 20px rgba(255, 107, 53, 0.4),
+      0 4px 10px rgba(0, 0, 0, 0.2),
+      0 2px 25px rgba(255, 107, 53, 0.3);
+  }
+  50% {
+    box-shadow: 
+      0 8px 20px rgba(255, 107, 53, 0.8),
+      0 4px 10px rgba(0, 0, 0, 0.2),
+      0 2px 25px rgba(255, 107, 53, 0.7),
+      0 0 0 20px rgba(255, 107, 53, 0.2);
+  }
+  100% {
+    box-shadow: 
+      0 8px 20px rgba(255, 107, 53, 0.4),
+      0 4px 10px rgba(0, 0, 0, 0.2),
+      0 2px 25px rgba(255, 107, 53, 0.3);
+  }
+}
+
+/* Дополнительные эффекты для привлечения внимания */
+.mobile-fab.attention {
+  animation: fab-glow 1.5s infinite !important;
+}
+
+.mobile-fab.shake {
+  animation: fab-shake 0.5s ease-in-out !important;
+}
+
+.mobile-fab.bounce {
+  animation: fab-bounce 0.6s ease-in-out !important;
+}
+
+/* ================================================
+   1. FAB БАЗОВЫЕ СТИЛИ
+   ================================================ */
+
+@media (max-width: 768px) {
+  .mobile-fab {
+    position: fixed;
+    bottom: 80px; /* Выше bottom navigation */
+    right: 20px;
+    width: 56px;
+    height: 56px;
+    border-radius: 28px;
+    background: #1976d2 !important;
+    color: #ffffff !important;
+    border: none;
+    box-shadow: 
+      0 6px 10px rgba(0, 0, 0, 0.14),
+      0 3px 5px rgba(0, 0, 0, 0.12),
+      0 1px 18px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 1000;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .mobile-fab:hover {
+    box-shadow: 
+      0 10px 14px rgba(0, 0, 0, 0.14),
+      0 5px 7px rgba(0, 0, 0, 0.12),
+      0 2px 24px rgba(0, 0, 0, 0.08);
+  }
+  
+  .mobile-fab:active {
+    transform: scale(0.95);
+    box-shadow: 
+      0 4px 6px rgba(0, 0, 0, 0.14),
+      0 2px 3px rgba(0, 0, 0, 0.12),
+      0 1px 12px rgba(0, 0, 0, 0.08);
+  }
+  
+  .mobile-fab i {
+    font-size: 24px;
+    line-height: 1;
+  }
+}
+
+/* ================================================
+   2. FAB МЕНЮ ДЕЙСТВИЙ
+   ================================================ */
+
+@media (max-width: 768px) {
+  .mobile-fab-menu {
+    position: fixed;
+    bottom: 156px; /* Над основной FAB */
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.8);
+    transform-origin: bottom right;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 999;
+  }
+  
+  .mobile-fab-menu.show {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+  }
+  
+  .mobile-fab-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #ffffff !important;
+    padding: 12px 20px;
+    border-radius: 24px;
+    color: #1976d2 !important;
+    text-decoration: none;
+    box-shadow: 
+      0 3px 8px rgba(0, 0, 0, 0.15),
+      0 1px 3px rgba(0, 0, 0, 0.10);
+    min-width: 200px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 16px;
+    font-weight: 500;
+  }
+  
+  .mobile-fab-menu-item i {
+    font-size: 20px;
+    width: 20px;
+    text-align: center;
+  }
+  
+  .mobile-fab-menu-item:active {
+    transform: scale(0.95);
+    background: #f5f5f5 !important;
+  }
+}
+
+/* ================================================
+   3. FAB OVERLAY (ФОН)
+   ================================================ */
+
+@media (max-width: 768px) {
+  .mobile-fab-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
+    opacity: 0;
+    visibility: hidden;
+    z-index: 998;
+    transition: all 0.3s ease;
+  }
+  
+  .mobile-fab-overlay.show {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+/* ================================================
+   4. FAB РАЗМЕРЫ (Material Design 3)
+   ================================================ */
+
+@media (max-width: 768px) {
+  /* Standard FAB */
+  .mobile-fab {
+    width: 56px;
+    height: 56px;
+    border-radius: 28px;
+  }
+  
+  /* Small FAB */
+  .mobile-fab.small {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+  }
+  
+  .mobile-fab.small i {
+    font-size: 18px;
+  }
+  
+  /* Large FAB */
+  .mobile-fab.large {
+    width: 72px;
+    height: 72px;
+    border-radius: 36px;
+  }
+  
+  .mobile-fab.large i {
+    font-size: 30px;
+  }
+  
+  /* Extended FAB (с текстом) */
+  .mobile-fab.extended {
+    width: auto;
+    padding: 0 20px;
+    border-radius: 28px;
+  }
+  
+  .mobile-fab.extended .fab-label {
+    margin-left: 12px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+}
+
+/* ================================================
+   5. FAB ВАРИАНТЫ (Material Design 3)
+   ================================================ */
+
+@media (max-width: 768px) {
+  /* Surface FAB */
+  .mobile-fab.surface {
+    background: #f5f5f5 !important;
+    color: #1976d2 !important;
+  }
+  
+  /* Primary FAB (default) */
+  .mobile-fab.primary {
+    background: #1976d2 !important;
+    color: #ffffff !important;
+  }
+  
+  /* Secondary FAB */
+  .mobile-fab.secondary {
+    background: #26a69a !important;
+    color: #ffffff !important;
+  }
+  
+  /* Tertiary FAB */
+  .mobile-fab.tertiary {
+    background: #ff7043 !important;
+    color: #ffffff !important;
+  }
+  
+  /* Lowered FAB (без elevation) */
+  .mobile-fab.lowered {
+    box-shadow: 
+      0 2px 4px rgba(0, 0, 0, 0.1),
+      0 1px 2px rgba(0, 0, 0, 0.08);
+  }
+}
+
+/* ================================================
+   6. FAB АНИМАЦИИ
+   ================================================ */
+
+@media (max-width: 768px) {
+  /* Pulse animation */
+  @keyframes fab-pulse {
+    0% {
+      box-shadow: 
+        0 6px 10px rgba(0, 0, 0, 0.14),
+        0 3px 5px rgba(0, 0, 0, 0.12),
+        0 0 0 0 rgba(103, 80, 164, 0.4);
+    }
+    50% {
+      box-shadow: 
+        0 6px 10px rgba(0, 0, 0, 0.14),
+        0 3px 5px rgba(0, 0, 0, 0.12),
+        0 0 0 10px rgba(103, 80, 164, 0);
+    }
+    100% {
+      box-shadow: 
+        0 6px 10px rgba(0, 0, 0, 0.14),
+        0 3px 5px rgba(0, 0, 0, 0.12),
+        0 0 0 0 rgba(103, 80, 164, 0);
+    }
+  }
+  
+  .mobile-fab.pulse {
+    animation: fab-pulse 2s infinite;
+  }
+  
+  /* Rotate animation */
+  @keyframes fab-rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(180deg);
+    }
+  }
+  
+  .mobile-fab.rotating {
+    animation: fab-rotate 0.3s ease-in-out;
+  }
+}
+
+/* ================================================
+   7. ACCESSIBILITY
+   ================================================ */
+
+@media (max-width: 768px) {
+  /* Focus states */
+  .mobile-fab:focus-visible {
+    outline: 2px solid var(--md-sys-color-primary);
+    outline-offset: 2px;
+  }
+  
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-fab,
+    .mobile-fab-menu-item {
+      transition: none;
+    }
+    
+    .mobile-fab:active {
+      transform: none;
+    }
+    
+    .mobile-fab.pulse {
+      animation: none;
+    }
+    
+    .mobile-fab.rotating {
+      animation: none;
+    }
+  }
+  
+  /* High contrast mode */
+  @media (prefers-contrast: high) {
+    .mobile-fab {
+      border: 2px solid currentColor;
+    }
+  }
+}
+
+/* ================================================
+   8. DARK MODE
+   ================================================ */
+
+@media (max-width: 768px) {
+  .bg-theme2 .mobile-fab-menu-item {
+    background: rgba(0, 0, 0, 0.3);
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  .bg-theme2 .mobile-fab-overlay {
+    background: rgba(0, 0, 0, 0.6);
+  }
+}
+
+/* ================================================
+   9. TABLET ОПТИМИЗАЦИИ
+   ================================================ */
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .mobile-fab {
+    bottom: 24px;
+    right: 24px;
+  }
+  
+  .mobile-fab-menu {
+    bottom: 100px;
+    right: 24px;
+  }
+}
+
+/* ---- list-pages-mobile.css ---- */
+/**
+ * List Pages Mobile Optimization
+ * Исправления для страниц списков накладных/списаний
+ */
+
+/* ================================================
+   1. HEADER - ЗАГОЛОВОК И ФИЛЬТРЫ
+   ================================================ */
+
+@media (max-width: 768px) {
+    /* Основной заголовок */
+    .card-title {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 16px !important;
+    }
+    
+    .card-title > div:first-child {
+        width: 100% !important;
+    }
+    
+    /* Контейнер с поиском и фильтрами */
+    .card-title .col-8,
+    .card-title .col-9 {
+        width: 100% !important;
+        flex-direction: column !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    /* Форма поиска */
+    .card-title form {
+        width: 100% !important;
+        margin: 0 0 12px 0 !important;
+    }
+    
+    .card-title .input-group {
+        width: 100% !important;
+    }
+    
+    /* Фильтры (pagination как tabs) */
+    .card-title .pagination {
+        width: 100% !important;
+        justify-content: flex-start !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 4px !important;
+        margin: 0 !important;
+    }
+    
+    .card-title .pagination::-webkit-scrollbar {
+        height: 2px;
+    }
+    
+    .card-title .pagination::-webkit-scrollbar-thumb {
+        background: rgba(102, 126, 234, 0.5);
+        border-radius: 4px;
+    }
+    
+    /* Кнопки фильтров */
+    .card-title .pagination .page-item {
+        flex-shrink: 0;
+    }
+    
+    .card-title .pagination .page-link {
+        white-space: nowrap;
+        padding: 8px 16px !important;
+        font-size: 14px !important;
+        border-radius: 12px !important;
+        background: rgba(255, 255, 255, 0.08) !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        color: rgba(255, 255, 255, 0.8) !important;
+        margin: 0 4px !important;
+    }
+    
+    .card-title .pagination .page-item.active .page-link {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        border-color: transparent !important;
+        color: white !important;
+        box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+    }
+    
+    /* Отступы */
+    .card-title .flex-grow-1,
+    .card-title .flex-shrink-1 {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+}
+
+/* ================================================
+   2. ТАБЛИЦА - ПРЕВРАЩАЕМ В КАРТОЧКИ
+   ================================================ */
+
+@media (max-width: 768px) {
+    /* Добавляем класс автоматически через JS */
+    .table-responsive table {
+        border: 0;
+    }
+    
+    /* Скрываем thead */
+    .table-responsive thead {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+    
+    /* Строки как карточки */
+    .table-responsive tbody {
+        display: block;
+    }
+    
+    .table-responsive tbody tr {
+        display: block;
+        margin-bottom: 20px;
+        border-radius: 16px;
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        padding: 16px;
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    /* Градиентная полоса сверху */
+    .table-responsive tbody tr::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    /* Номер документа - крупно вверху */
+    .table-responsive tbody tr th {
+        display: block;
+        text-align: center;
+        font-size: 24px !important;
+        font-weight: 700 !important;
+        padding: 12px 0 16px !important;
+        border: none !important;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    /* Ячейки - две колонки (label: value) */
+    .table-responsive tbody td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0 !important;
+        border: none !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+        text-align: right;
+    }
+    
+    .table-responsive tbody td:last-child {
+        border-bottom: none !important;
+        padding-top: 16px !important;
+    }
+    
+    /* Labels (data-label) */
+    .table-responsive tbody td::before {
+        content: attr(data-label);
+        float: left;
+        font-weight: 600;
+        text-align: left;
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    /* Действия - центрируем и увеличиваем */
+    .table-responsive tbody td .order-actions {
+        width: 100%;
+        justify-content: center !important;
+        gap: 16px !important;
+    }
+    
+    .table-responsive tbody td .order-actions a {
+        min-width: 44px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .table-responsive tbody td .order-actions a i {
+        font-size: 20px;
+    }
+    
+    .table-responsive tbody td .order-actions a:active {
+        transform: scale(0.95);
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    }
+    
+    /* Пустое состояние */
+    .table-responsive tbody tr td[colspan] {
+        display: block;
+        text-align: center;
+        padding: 40px 20px !important;
+        font-size: 16px;
+        color: rgba(255, 255, 255, 0.5);
+    }
+    
+    .table-responsive tbody tr td[colspan]::before {
+        content: '📦';
+        display: block;
+        font-size: 48px;
+        margin-bottom: 12px;
+    }
+}
+
+/* ================================================
+   3. ПАГИНАЦИЯ
+   ================================================ */
+
+@media (max-width: 768px) {
+    /* Компактная пагинация */
+    .d-flex.justify-content-center .pagination {
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+    }
+    
+    .d-flex.justify-content-center .pagination .page-item {
+        margin: 0 !important;
+    }
+    
+    .d-flex.justify-content-center .pagination .page-link {
+        min-width: 44px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px !important;
+        padding: 8px 12px !important;
+        font-size: 14px !important;
+        background: rgba(255, 255, 255, 0.08) !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        color: rgba(255, 255, 255, 0.8) !important;
+    }
+    
+    .d-flex.justify-content-center .pagination .page-item.active .page-link {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        border-color: transparent !important;
+        color: white !important;
+        box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+    }
+    
+    .d-flex.justify-content-center .pagination .page-item.disabled .page-link {
+        opacity: 0.3;
+        background: rgba(255, 255, 255, 0.03) !important;
+    }
+}
+
+/* ================================================
+   4. СТАТУСЫ - BADGES
+   ================================================ */
+
+@media (max-width: 768px) {
+    /* Делаем статусы красивыми badge */
+    .table-responsive tbody td:nth-child(4)::after,
+    .table-responsive tbody td:nth-child(3)::after {
+        /* Для разных таблиц статус в разных колонках */
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 600;
+        margin-left: 8px;
+    }
+}
+
+/* ================================================
+   5. BREADCRUMB - СКРЫВАЕМ НА МОБИЛЬНЫХ
+   ================================================ */
+
+@media (max-width: 576px) {
+    .page-breadcrumb {
+        display: none !important;
+    }
+}
+
+/* ================================================
+   6. АНИМАЦИИ
+   ================================================ */
+
+@media (max-width: 768px) {
+    .table-responsive tbody tr {
+        animation: slideInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    @keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .table-responsive tbody tr:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
+    }
+}
+
+/* ================================================
+   7. DARK MODE
+   ================================================ */
+
+@media (max-width: 768px) {
+    .bg-theme2 .table-responsive tbody tr {
+        background: linear-gradient(135deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.2) 100%);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .bg-theme2 .card-title .pagination .page-link {
+        background: rgba(0, 0, 0, 0.3) !important;
+        border-color: rgba(255, 255, 255, 0.1) !important;
+    }
+    
+    .bg-theme2 .d-flex.justify-content-center .pagination .page-link {
+        background: rgba(0, 0, 0, 0.3) !important;
+    }
+}
+
+/* ================================================
+   8. КОМПАКТНЫЙ РЕЖИМ ДЛЯ ОЧЕНЬ МАЛЕНЬКИХ ЭКРАНОВ
+   ================================================ */
+
+@media (max-width: 576px) {
+    .table-responsive tbody tr {
+        padding: 12px;
+        margin-bottom: 16px;
+        border-radius: 12px;
+    }
+    
+    .table-responsive tbody tr th {
+        font-size: 20px !important;
+        padding: 8px 0 12px !important;
+    }
+    
+    .table-responsive tbody td {
+        padding: 10px 0 !important;
+        font-size: 14px;
+    }
+    
+    .table-responsive tbody td::before {
+        font-size: 12px;
+    }
+    
+    .table-responsive tbody td .order-actions a {
+        min-width: 40px;
+        min-height: 40px;
+    }
+    
+    .table-responsive tbody td .order-actions a i {
+        font-size: 18px;
+    }
+}
+
+/* ================================================
+   9. ACCESSIBILITY
+   ================================================ */
+
+@media (max-width: 768px) {
+    /* Увеличиваем touch targets */
+    .table-responsive tbody td .order-actions a {
+        -webkit-tap-highlight-color: rgba(102, 126, 234, 0.3);
+    }
+    
+    /* Focus states */
+    .table-responsive tbody td .order-actions a:focus-visible {
+        outline: 3px solid rgba(102, 126, 234, 0.6);
+        outline-offset: 2px;
+    }
+}
+
+/* ================================================
+   10. LOADING STATE
+   ================================================ */
+
+@media (max-width: 768px) {
+    .table-responsive.loading tbody tr {
+        opacity: 0.6;
+        pointer-events: none;
+    }
+    
+    .table-responsive.loading tbody tr::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(90deg,
+            rgba(255, 255, 255, 0.05) 25%,
+            rgba(255, 255, 255, 0.15) 50%,
+            rgba(255, 255, 255, 0.05) 75%);
+        background-size: 200% 100%;
+        animation: shimmer 2s infinite;
+    }
+    
+    @keyframes shimmer {
+        0% {
+            background-position: -200% 0;
+        }
+        100% {
+            background-position: 200% 0;
+        }
+    }
+}
+
+/* ================================================
+   11. СПИСАНИЯ - КОРРЕКТИРОВКА ДЛЯ 5 КОЛОНОК
+   ================================================ */
+
+/* Списания работают через responsive-tables.js который добавляет data-label */
+/* Дополнительных правил не требуется - JS автоматически обработает */
+
+
+/* ---- mobile-search-filters.css ---- */
+/**
+ * МОБИЛЬНЫЙ ДИЗАЙН ПОИСКА И ФИЛЬТРОВ
+ * Оптимизировано для мобильных устройств (95% трафика)
+ * Основано на структуре waybills/index.html
+ */
+
+/* ================================================
+   1. ОСНОВНОЙ КОНТЕЙНЕР СТРАНИЦЫ
+   ================================================ */
+
+/* ================================================
+   1a. КОНТЕЙНЕР КАРТОЧКИ
+   ================================================ */
+
+.card.radius-10 {
+  overflow: hidden !important;
+}
+
+.card-body.p-4 {
+  overflow-x: hidden !important;
+  max-width: 100% !important;
+}
+
+.card-title {
+  overflow: visible !important;
+  max-width: 100% !important;
+}
+
+/* ================================================
+   2. ХЛЕБНЫЕ КРОШКИ
+   ================================================ */
+
+/* ================================================
+   3. ЗАГОЛОВОК СТРАНИЦЫ
+   ================================================ */
+
+.card-title h5 {
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  color: #1e293b !important;
+  margin: 0 !important;
+}
+
+.card-title i {
+  margin-right: 10px !important;
+  color: #3b82f6 !important;
+  font-size: 26px !important;
+}
+
+/* ================================================
+   4. КАРТОЧКА ПОИСКА И ФИЛЬТРОВ
+   ================================================ */
+
+/* ================================================
+   5. ПОИСКОВАЯ ФОРМА
+   ================================================ */
+
+.input-group {
+  width: 100% !important;
+  margin-bottom: 0 !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+}
+
+.form-control {
+  padding: 14px 16px !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 12px 0 0 12px !important;
+  font-size: 16px !important;
+  background: #f8fafc !important;
+  height: auto !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.form-control:focus {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+}
+
+.btn-light {
+  background: #3b82f6 !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 0 12px 12px 0 !important;
+  padding: 14px 18px !important;
+  height: auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.btn-light:hover {
+  background: #2563eb !important;
+  color: white !important;
+}
+
+.btn-light i {
+  font-size: 18px !important;
+  margin: 0 !important;
+}
+
+/* ================================================
+   6. ФИЛЬТРЫ (ВКЛАДКИ)
+   ================================================ */
+
+.pagination {
+  display: flex !important;
+  list-style: none !important;
+  gap: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+
+.page-item {
+  display: flex !important;
+  flex: 1 !important;
+}
+
+.page-link {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 14px 12px !important;
+  white-space: nowrap !important;
+  border-radius: 0 !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  background: #f1f5f9 !important;
+  color: #64748b !important;
+  text-decoration: none !important;
+  border: none !important;
+  transition: all 0.2s ease !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+/* Первая вкладка */
+.page-item:first-child .page-link {
+  border-radius: 12px 0 0 12px !important;
+}
+
+/* Последняя вкладка */
+.page-item:last-child .page-link {
+  border-radius: 0 12px 12px 0 !important;
+}
+
+/* Единственная вкладка */
+.page-item:only-child .page-link {
+  border-radius: 12px !important;
+}
+
+.page-link:hover {
+  background: #3b82f6 !important;
+  color: white !important;
+  transform: translateY(-1px) !important;
+}
+
+.page-item.active .page-link {
+  background: #3b82f6 !important;
+  color: white !important;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3) !important;
+  border-radius: 0 !important;
+}
+
+.page-item.active:first-child .page-link {
+  border-radius: 12px 0 0 12px !important;
+}
+
+.page-item.active:last-child .page-link {
+  border-radius: 0 12px 12px 0 !important;
+}
+
+.page-item.active:only-child .page-link {
+  border-radius: 12px !important;
+}
+
+/* ================================================
+   7. РАЗДЕЛИТЕЛЬ
+   ================================================ */
+
+hr {
+  margin: 20px 0 !important;
+  border: none !important;
+  height: 1px !important;
+  background: #e2e8f0 !important;
+}
+
+/* ================================================
+   8. КОНТЕЙНЕР КАРТОЧЕК
+   ================================================ */
+
+.cards-container {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 16px !important;
+  padding: 0 !important;
+}
+
+/* ================================================
+   9. СОСТОЯНИЕ ПУСТОГО СПИСКА
+   ================================================ */
+
+.text-center.py-5 {
+  text-align: center !important;
+  padding: 40px 20px !important;
+}
+
+.text-center.py-5 i {
+  font-size: 64px !important;
+  color: #cbd5e1 !important;
+  margin-bottom: 16px !important;
+}
+
+.text-center.py-5 p {
+  color: #64748b !important;
+  font-size: 16px !important;
+  margin: 0 !important;
+}
+
+/* ================================================
+   10. ПАГИНАЦИЯ ВНИЗУ СТРАНИЦЫ
+   ================================================ */
+
+.d-flex.justify-content-center {
+  margin-top: 24px !important;
+}
+
+.d-flex.justify-content-center .pagination {
+  gap: 6px !important;
+}
+
+.d-flex.justify-content-center .page-link {
+  width: 44px !important;
+  height: 44px !important;
+  padding: 0 !important;
+  border-radius: 12px !important;
+  background: white !important;
+  color: #64748b !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+  min-width: 44px !important;
+}
+
+.d-flex.justify-content-center .page-link:hover {
+  background: #3b82f6 !important;
+  color: white !important;
+  border-color: #3b82f6 !important;
+}
+
+.d-flex.justify-content-center .page-item.active .page-link {
+  background: #3b82f6 !important;
+  color: white !important;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3) !important;
+}
+
+.d-flex.justify-content-center .page-item.disabled .page-link {
+  background: #f8fafc !important;
+  color: #cbd5e1 !important;
+  border-color: #f1f5f9 !important;
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+}
+
+/* ================================================
+   11. ТЕМНАЯ ТЕМА
+   ================================================ */
+
+.bg-theme2 .card-title h5 {
+  color: #f1f5f9 !important;
+}
+
+.bg-theme2 .form-control {
+  background: #334155 !important;
+  border-color: #475569 !important;
+  color: #f1f5f9 !important;
+}
+
+.bg-theme2 .form-control:focus {
+  border-color: #3b82f6 !important;
+  background: #475569 !important;
+}
+
+.bg-theme2 .btn-light {
+  background: #3b82f6 !important;
+}
+
+.bg-theme2 .page-link {
+  background: #334155 !important;
+  color: #cbd5e1 !important;
+  border-color: #475569 !important;
+}
+
+.bg-theme2 .page-link:hover {
+  background: #3b82f6 !important;
+  color: white !important;
+}
+
+.bg-theme2 .page-item.active .page-link {
+  background: #3b82f6 !important;
+  color: white !important;
+}
+
+.bg-theme2 .d-flex.justify-content-center .page-link {
+  background: #334155 !important;
+  color: #cbd5e1 !important;
+  border-color: #475569 !important;
+}
+
+.bg-theme2 .d-flex.justify-content-center .page-link:hover {
+  background: #3b82f6 !important;
+  color: white !important;
+}
+
+.bg-theme2 .d-flex.justify-content-center .page-item.active .page-link {
+  background: #3b82f6 !important;
+  color: white !important;
+}
+
+/* ================================================
+   15. ПЛАВНАЯ ПРОКРУТКА
+   ================================================ */
+
+html {
+  scroll-behavior: smooth !important;
+}
+
+/* ================================================
+   16. АНИМАЦИИ ДЛЯ ИНТЕРАКТИВНОСТИ
+   ================================================ */
+
+.page-link {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.form-control {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.btn-light {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* ================================================
+   17. ФОКУС ДЛЯ ДОСТУПНОСТИ
+   ================================================ */
+
+.form-control:focus,
+.btn-light:focus,
+.page-link:focus {
+  outline: 2px solid #3b82f6 !important;
+  outline-offset: 2px !important;
+}
